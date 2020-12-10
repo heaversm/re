@@ -68,6 +68,10 @@ a {
     width: 250px;
     height: 250px;
     background-color: #0000fe;
+    display: none;
+    @include breakpoint(tablet){
+      display: block;
+    }
   }
   &__content {
     flex-grow: 1;
@@ -86,7 +90,9 @@ a {
     background-color: black;
     text-transform: uppercase;
     padding: 10px;
+    font-size: 20px;
     display: inline-block;
+    margin: 0;
   }
 }
 
@@ -118,18 +124,30 @@ a {
 
 .main {
   display: flex;
+  flex-wrap: wrap;
+  @include breakpoint(tablet){
+    flex-wrap: nowrap;
+  }
   &__col {
     &.left {
-      width: 250px;
       background-color: gray;
       padding: 20px;
-      min-height: calc(100vh - 250px);
+      width: 100%;
+      @include breakpoint(tablet){
+        width: 250px;
+        min-height: calc(100vh - 250px);
+      }
     }
     &.right {
       background-color: black;
-      padding: 60px 20px 60px 0;
+      padding: 60px 0px;
       flex-grow: 1;
       position: relative;
+      @include breakpoint(tablet){
+        width: 250px;
+        min-height: calc(100vh - 250px);
+        padding: 60px 20px 60px 0;
+      }
     }
   }
 }
@@ -143,6 +161,7 @@ a {
 .square-grid {
   display: flex;
   flex-wrap: wrap;
+
   &__square {
     width: calc(33.333% - 20px);
     margin-left: 20px;
@@ -170,15 +189,20 @@ a {
   &__red-square {
     background-color: red;
     position: relative;
-    position: absolute;
-    top: 60px;
-    right: 20px;
     width: 50%;
     &:before {
       display: block;
       content: "";
       width: 100%;
       padding-top: (1 / 1) * 100%;
+    }
+    @include breakpoint(mobile_only){
+      margin-top: 20px;
+    }
+    @include breakpoint(tablet){
+      position: absolute;
+      top: 60px;
+      right: 20px;
     }
   }
 }
@@ -203,16 +227,47 @@ a {
   }
 }
 
-#collection {
-  [data-id="collection"]{
+#show {
+  .nav-main__item[data-id="show"]{
     .nav-main__link {
       background-color: red;
     }
   }
+  .col-left {
+    &__content {
+      height: 100%;
+      padding: 10px;
+      background-color: white;
+      color: black;
+      p {
+        margin-top: 20px;
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}
+
+#collection {
+  .nav-main__item[data-id="collection"]{
+    .nav-main__link {
+      background-color: red;
+    }
+  }
+  
+}
+#show, #collection {
   .square-grid {
     position: relative;
     z-index: 2;
-    width: 55%;
+    width: 100%;
+    @include breakpoint(mobile_only){
+      padding-right: 20px;
+    }
+    @include breakpoint(tablet){
+      width: 55%;
+    }
     &__square {
       width: calc(50% - 20px);
       margin-left: 20px;
@@ -226,6 +281,9 @@ a {
     }
     &__red-square {
       z-index: 1;
+      @include breakpoint(mobile_only){
+        width: 100%;
+      }
     }
     &__red-square-outer {
       position: absolute;
@@ -234,11 +292,14 @@ a {
       height: 100%;
     }
     &__red-square-content {
-      padding: 20px 20px 20px 15%;
       position: relative;
       color: black;
       display: flex;
       height: 100%;
+      padding: 20px;
+      @include breakpoint(tablet){
+        padding: 20px 20px 20px 15%;
+      }
     }
     &__red-square-inner {
       background-color: white;
@@ -247,5 +308,4 @@ a {
       overflow: auto;
     }
   }
-
 }

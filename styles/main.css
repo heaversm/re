@@ -68,6 +68,12 @@ a {
   width: 250px;
   height: 250px;
   background-color: #0000fe;
+  display: none;
+}
+@media (min-width: 48rem) {
+  .header-main__square {
+    display: block;
+  }
 }
 .header-main__content {
   flex-grow: 1;
@@ -86,7 +92,9 @@ a {
   background-color: black;
   text-transform: uppercase;
   padding: 10px;
+  font-size: 20px;
   display: inline-block;
+  margin: 0;
 }
 
 .nav-main {
@@ -115,18 +123,36 @@ a {
 
 .main {
   display: flex;
+  flex-wrap: wrap;
+}
+@media (min-width: 48rem) {
+  .main {
+    flex-wrap: nowrap;
+  }
 }
 .main__col.left {
-  width: 250px;
   background-color: gray;
   padding: 20px;
-  min-height: calc(100vh - 250px);
+  width: 100%;
+}
+@media (min-width: 48rem) {
+  .main__col.left {
+    width: 250px;
+    min-height: calc(100vh - 250px);
+  }
 }
 .main__col.right {
   background-color: black;
-  padding: 60px 20px 60px 0;
+  padding: 60px 0px;
   flex-grow: 1;
   position: relative;
+}
+@media (min-width: 48rem) {
+  .main__col.right {
+    width: 250px;
+    min-height: calc(100vh - 250px);
+    padding: 60px 20px 60px 0;
+  }
 }
 
 .intro {
@@ -166,9 +192,6 @@ a {
 .square-grid__red-square {
   background-color: red;
   position: relative;
-  position: absolute;
-  top: 60px;
-  right: 20px;
   width: 50%;
 }
 .square-grid__red-square:before {
@@ -176,6 +199,18 @@ a {
   content: "";
   width: 100%;
   padding-top: 100%;
+}
+@media (min-width: 0rem) and (max-width: 47.9rem) {
+  .square-grid__red-square {
+    margin-top: 20px;
+  }
+}
+@media (min-width: 48rem) {
+  .square-grid__red-square {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+  }
 }
 
 .collection__nav {
@@ -196,15 +231,42 @@ a {
   color: black;
 }
 
-#collection [data-id=collection] .nav-main__link {
+#show .nav-main__item[data-id=show] .nav-main__link {
   background-color: red;
 }
-#collection .square-grid {
+#show .col-left__content {
+  height: 100%;
+  padding: 10px;
+  background-color: white;
+  color: black;
+}
+#show .col-left__content p {
+  margin-top: 20px;
+}
+#show .col-left__content p:first-child {
+  margin-top: 0;
+}
+
+#collection .nav-main__item[data-id=collection] .nav-main__link {
+  background-color: red;
+}
+
+#show .square-grid, #collection .square-grid {
   position: relative;
   z-index: 2;
-  width: 55%;
+  width: 100%;
 }
-#collection .square-grid__square {
+@media (min-width: 0rem) and (max-width: 47.9rem) {
+  #show .square-grid, #collection .square-grid {
+    padding-right: 20px;
+  }
+}
+@media (min-width: 48rem) {
+  #show .square-grid, #collection .square-grid {
+    width: 55%;
+  }
+}
+#show .square-grid__square, #collection .square-grid__square {
   width: calc(50% - 20px);
   margin-left: 20px;
   margin-top: 20px;
@@ -212,26 +274,36 @@ a {
   position: relative;
   flex-grow: 0;
 }
-#collection .square-grid__square:nth-child(-n+2) {
+#show .square-grid__square:nth-child(-n+2), #collection .square-grid__square:nth-child(-n+2) {
   margin-top: 0;
 }
-#collection .square-grid__red-square {
+#show .square-grid__red-square, #collection .square-grid__red-square {
   z-index: 1;
 }
-#collection .square-grid__red-square-outer {
+@media (min-width: 0rem) and (max-width: 47.9rem) {
+  #show .square-grid__red-square, #collection .square-grid__red-square {
+    width: 100%;
+  }
+}
+#show .square-grid__red-square-outer, #collection .square-grid__red-square-outer {
   position: absolute;
   left: 0;
   top: 0;
   height: 100%;
 }
-#collection .square-grid__red-square-content {
-  padding: 20px 20px 20px 15%;
+#show .square-grid__red-square-content, #collection .square-grid__red-square-content {
   position: relative;
   color: black;
   display: flex;
   height: 100%;
+  padding: 20px;
 }
-#collection .square-grid__red-square-inner {
+@media (min-width: 48rem) {
+  #show .square-grid__red-square-content, #collection .square-grid__red-square-content {
+    padding: 20px 20px 20px 15%;
+  }
+}
+#show .square-grid__red-square-inner, #collection .square-grid__red-square-inner {
   background-color: white;
   color: black;
   padding: 10px;
