@@ -54,16 +54,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar {
-  display: none;
   background-color: gray;
   width: 16vw;
   min-height: 100vh;
-}
-@media (min-width: 48rem) {
-  .sidebar {
-    display: block;
-    flex-grow: 0;
-  }
 }
 
 .header-main {
@@ -73,12 +66,6 @@ h1, h2, h3, h4, h5, h6 {
   width: 16vw;
   height: 16vw;
   background-color: #0000fe;
-  display: none;
-}
-@media (min-width: 48rem) {
-  .header-main__square {
-    display: block;
-  }
 }
 .header-main__content {
   flex-grow: 1;
@@ -87,7 +74,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .header-main__title-container {
   background-color: white;
-  padding: 30px;
+  padding: 1.5625vw;
   flex-grow: 1;
   display: flex;
   align-items: center;
@@ -108,7 +95,7 @@ h1, h2, h3, h4, h5, h6 {
   background-color: black;
 }
 .nav-main__items {
-  padding: 30px;
+  padding: 1.5625vw;
 }
 .nav-main__item {
   display: block;
@@ -133,34 +120,20 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-wrap: wrap;
 }
-@media (min-width: 48rem) {
-  .main {
-    flex-wrap: nowrap;
-  }
-}
 .main__col.left {
   background-color: gray;
-  padding: 30px;
-  width: 100%;
-}
-@media (min-width: 48rem) {
-  .main__col.left {
-    width: 16vw;
-    min-height: calc(100vh - 16vw);
-  }
+  padding: 1.5625vw;
+  width: 16vw;
+  min-height: calc(100vh - 16vw);
 }
 .main__col.right {
   background-color: black;
   padding: 60px 0px;
   flex-grow: 1;
   position: relative;
-}
-@media (min-width: 48rem) {
-  .main__col.right {
-    width: 16vw;
-    min-height: calc(100vh - 16vw);
-    padding: 60px 30px 60px 0;
-  }
+  width: 16vw;
+  min-height: calc(100vh - 16vw);
+  padding: 60px 1.5625vw 60px 0;
 }
 
 .intro {
@@ -177,8 +150,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 .square-grid__square {
   width: 16vw;
-  margin-left: 20px;
-  margin-top: 20px;
+  margin-left: 1.5625vw;
+  margin-top: 1.5625vw;
   background-color: blue;
   position: relative;
   flex-grow: 0;
@@ -203,24 +176,15 @@ h1, h2, h3, h4, h5, h6 {
   background-color: red;
   position: relative;
   width: 33.61vw;
+  position: absolute;
+  top: 60px;
+  right: 1.5625vw;
 }
 .square-grid__red-square:before {
   display: block;
   content: "";
   width: 100%;
   padding-top: 100%;
-}
-@media (min-width: 0rem) and (max-width: 47.9rem) {
-  .square-grid__red-square {
-    margin-top: 30px;
-  }
-}
-@media (min-width: 48rem) {
-  .square-grid__red-square {
-    position: absolute;
-    top: 60px;
-    right: 30px;
-  }
 }
 
 .collection__nav {
@@ -247,7 +211,7 @@ h1, h2, h3, h4, h5, h6 {
   color: black;
 }
 #show .col-left__content p {
-  margin-top: 20px;
+  margin-top: 1.5625vw;
 }
 #show .col-left__content p:first-child {
   margin-top: 0;
@@ -260,22 +224,12 @@ h1, h2, h3, h4, h5, h6 {
 #show .square-grid, #collection .square-grid {
   position: relative;
   z-index: 2;
-  width: 100%;
-}
-@media (min-width: 0rem) and (max-width: 47.9rem) {
-  #show .square-grid, #collection .square-grid {
-    padding-right: 30px;
-  }
-}
-@media (min-width: 48rem) {
-  #show .square-grid, #collection .square-grid {
-    width: 55%;
-  }
+  width: 55%;
 }
 #show .square-grid__square, #collection .square-grid__square {
   width: 16vw;
-  margin-left: 30px;
-  margin-top: 30px;
+  margin-left: 1.5625vw;
+  margin-top: 1.5625vw;
   background-color: blue;
   position: relative;
   flex-grow: 0;
@@ -285,11 +239,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 #show .square-grid__red-square, #collection .square-grid__red-square {
   z-index: 1;
-}
-@media (min-width: 0rem) and (max-width: 47.9rem) {
-  #show .square-grid__red-square, #collection .square-grid__red-square {
-    width: 100%;
-  }
 }
 #show .square-grid__red-square-outer, #collection .square-grid__red-square-outer {
   position: absolute;
@@ -302,12 +251,7 @@ h1, h2, h3, h4, h5, h6 {
   color: black;
   display: flex;
   height: 100%;
-  padding: 30px;
-}
-@media (min-width: 48rem) {
-  #show .square-grid__red-square-content, #collection .square-grid__red-square-content {
-    padding: 30px 30px 30px 15%;
-  }
+  padding: 1.5625vw;
 }
 #show .square-grid__red-square-inner, #collection .square-grid__red-square-inner {
   background-color: white;
@@ -346,7 +290,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .modal__container {
   background-color: gray;
-  padding: 30px;
+  padding: 1.5625vw;
   max-width: 100vw;
   max-height: 100vh;
   overflow-y: auto;
@@ -354,7 +298,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .modal__content {
   background-color: white;
-  padding: 20px;
+  padding: 1.5625vw;
   color: black;
 }
 .modal__content-item, .modal__image {
