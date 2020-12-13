@@ -163,10 +163,12 @@ h1, h2, h3, h4, h5, h6 {
   min-height: calc(100vh - 32vw);
   width: calc(100vw - 32vw);
   padding: 60px 1.5625vw 60px 0;
+  flex: 1;
 }
 @media (min-width: 48rem) {
   .main__col.right {
     min-height: calc(100vh - 16vw);
+    width: calc(100vw - 32vw);
   }
 }
 
@@ -267,7 +269,7 @@ h1, h2, h3, h4, h5, h6 {
 #show .square-grid, #collection .square-grid {
   position: relative;
   z-index: 2;
-  width: 55%;
+  width: 36vw;
 }
 #show .square-grid__square, #collection .square-grid__square {
   width: 16vw;
@@ -325,7 +327,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 @media (min-width: 48rem) {
   #show .square-grid__red-square-content, #collection .square-grid__red-square-content {
-    padding-left: calc(5% + 1.5625vw);
+    padding-left: 5vw;
   }
 }
 #show .square-grid__red-square-inner, #collection .square-grid__red-square-inner {

@@ -161,8 +161,11 @@ h1,h2,h3,h4,h5,h6 {
       min-height: calc(100vh - 32vw);
       width: calc(100vw - 32vw);
       padding: 60px 1.5625vw 60px 0;
+      flex: 1;
       @include breakpoint(tablet){
         min-height: calc(100vh - 16vw);
+        width: calc(100vw - 32vw);
+        
       }
     }
   }
@@ -284,7 +287,7 @@ h1,h2,h3,h4,h5,h6 {
   .square-grid {
     position: relative;
     z-index: 2;
-    width: 55%;
+    width: 36vw;
 
     &__square {
       width: 16vw;
@@ -334,7 +337,7 @@ h1,h2,h3,h4,h5,h6 {
       height: 100%;
       padding: 1.5625vw;
       @include breakpoint(tablet){
-        padding-left: calc(5% + 1.5625vw);
+        padding-left: 5vw;
       }
     }
     &__red-square-inner {
