@@ -13,8 +13,8 @@
 body {
   background-color: black;
   color: white;
-  //font-family: 'pixelArial',Arial, Helvetica, sans-serif;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'pixelArial',Arial, Helvetica, sans-serif;
+  //font-family: Arial, Helvetica, sans-serif;
   font-smooth: never;
   -webkit-font-smoothing: none;
   margin: 0;
@@ -269,7 +269,7 @@ h1,h2,h3,h4,h5,h6 {
   .col-left {
     &__content {
       height: 100%;
-      padding: 10px;
+      padding: 1.5625vw;
       background-color: white;
       color: black;
       p {
@@ -344,13 +344,13 @@ h1,h2,h3,h4,h5,h6 {
       height: 100%;
       padding: 1.5625vw;
       @include breakpoint(tablet){
-        padding-left: 5vw;
+        padding-left: 4vw;
       }
     }
     &__red-square-inner {
       background-color: white;
       color: black;
-      padding: 10px;
+      padding: 1.5625vw;
       overflow: auto;
     }
   }
