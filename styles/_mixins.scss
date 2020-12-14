@@ -20,5 +20,8 @@
   @if $point == mobile_only {
      @media (min-width: 0rem) and (max-width: $bp-tablet - .1rem) { @content ; }
   }
+  @if $point == mobile_sm {
+   @media (min-width: $bp-mobile) and (max-width: $bp-mobile-lg) { @content ; }
+}
 
 }
