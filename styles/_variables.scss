@@ -3,4 +3,18 @@ $bp-desktop-lg: 90rem; //1440
 $bp-desktop: 64rem; //1024
 $bp-tablet: 48rem; //768
 $bp-mobile: 20rem; //320
-$bp-mobile-lg: 23rem //368
+$bp-mobile-lg: 23rem; //368
+
+//LAYOUT
+$space-std: 1.5625vw;
+$col-left-w: 16vw;
+$col-right: $col-left-w;
+
+//COLORS
+$c-gray: gray;
+$c-gray--lt: #ccc;
+$c-blue: #0000fe;
+$c-black: black;
+$c-white: white;
+$c-red: red;
+$c-yellow: yellow;

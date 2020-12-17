@@ -9,22 +9,6 @@
 	],
 "creatorBuild": "33081",
 "files": {
-	"/assets/fonts/pixelArial.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/assets/fonts/pixelArial.ttf",
-		"oF": 0
-		},
-	"/assets/fonts/pixelArialBold.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/assets/fonts/pixelArialBold.ttf",
-		"oF": 0
-		},
 	"/assets/images/arkids-thumb.gif": {
 		"ft": 4194304,
 		"iS": 20357,
@@ -58,6 +42,19 @@
 		"q": 100,
 		"rq": 75
 		},
+	"/assets/images/door.png": {
+		"ft": 32768,
+		"iS": 1787,
+		"oA": 0,
+		"oAP": "/assets/images/door.png",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 0,
+		"oT": 1,
+		"ou": "lpckwebp-none",
+		"q": 100,
+		"rq": 75
+		},
 	"/assets/images/gathering-thumb.gif": {
 		"ft": 4194304,
 		"iS": 18592,
@@ -77,6 +74,32 @@
 		"oF": 0,
 		"oIPL": 0,
 		"opt": 0,
+		"ou": "lpckwebp-none",
+		"q": 100,
+		"rq": 75
+		},
+	"/assets/images/p1.png": {
+		"ft": 32768,
+		"iS": 6171,
+		"oA": 0,
+		"oAP": "/assets/images/p1.png",
+		"oF": 0,
+		"oIPL": 1,
+		"opt": 1,
+		"oT": 1,
+		"ou": "lpckwebp-none",
+		"q": 100,
+		"rq": 75
+		},
+	"/assets/images/p2.png": {
+		"ft": 32768,
+		"iS": 6923,
+		"oA": 0,
+		"oAP": "/assets/images/p2.png",
+		"oF": 0,
+		"oIPL": 1,
+		"opt": 1,
+		"oT": 1,
 		"ou": "lpckwebp-none",
 		"q": 100,
 		"rq": 75
@@ -182,6 +205,25 @@
 		"oA": 0,
 		"oAP": "/index.html",
 		"oF": 0
+		},
+	"/README.md": {
+		"cB": 0,
+		"cS": 0,
+		"eF": 1,
+		"eL": 1,
+		"ema": 1,
+		"eSQ": 1,
+		"ft": 4096,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/README.html",
+		"oF": 0,
+		"oFM": 0,
+		"oS": 0,
+		"pHT": 0,
+		"pME": 1,
+		"rFN": 0,
+		"uCM": 0
 		},
 	"/scripts/lib/micromodal.min.js": {
 		"bF": 0,
