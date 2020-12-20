@@ -2,8 +2,8 @@
 @import "mixins";
 
 @font-face {
-  font-family: 'pixelArial';
-  src: url('/assets/fonts/pixelArial.ttf');
+  font-family: "pixelArial";
+  src: url("/assets/fonts/pixelArial.ttf");
 }
 
 * {
@@ -47,7 +47,12 @@ a {
   color: $c-white;
 }
 
-h1,h2,h3,h4,h5,h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: normal;
   margin: 0;
 }
@@ -64,10 +69,10 @@ h1,h2,h3,h4,h5,h6 {
 
 .sidebar {
   background-color: $c-gray;
-  width: 16vw;
-  min-height: 100vh;
+  width: $sidebar-w;
+  min-height: calc(100vh - #{$footer-height});
   display: none;
-  @include breakpoint(tablet){
+  @include breakpoint(tablet) {
     display: block;
   }
 }
@@ -76,10 +81,10 @@ h1,h2,h3,h4,h5,h6 {
   display: flex;
   &__square {
     width: 32vw;
-    background-color:$c-blue;
-    @include breakpoint(tablet){
-      width: 16vw;
-      min-height: 16vw;
+    background-color: $c-blue;
+    @include breakpoint(tablet) {
+      width: $col-left-w;
+      min-height: $col-left-w;
     }
     a {
       width: 100%;
@@ -111,9 +116,12 @@ h1,h2,h3,h4,h5,h6 {
     display: inline-block;
     margin: 0;
     font-weight: normal;
-    @include breakpoint(tablet){
+    @include breakpoint(tablet) {
       font-size: 30px;
       letter-spacing: 5px;
+    }
+    @include breakpoint(mobile_sm) {
+      font-size: 18px;
     }
   }
 }
@@ -129,7 +137,7 @@ h1,h2,h3,h4,h5,h6 {
     align-items: center;
     &:nth-child(even) {
       .nav-main__link {
-        background-color:$c-gray--lt;
+        background-color: $c-gray--lt;
       }
     }
   }
@@ -140,7 +148,7 @@ h1,h2,h3,h4,h5,h6 {
     padding: 5px 10px;
     display: block;
     letter-spacing: 2px;
-    @include breakpoint(tablet){
+    @include breakpoint(tablet) {
       font-size: 20px;
     }
   }
@@ -156,24 +164,22 @@ h1,h2,h3,h4,h5,h6 {
       padding: $space-std;
       padding-bottom: 0;
       width: 32vw;
-      min-height: calc(100vh - 32vw);
-      @include breakpoint(tablet){
-        width: 16vw;
-        min-height: calc(100vh - 16vw);
+      min-height: calc(100vh - #{$col-left-w * 2} - #{$footer-height});
+      @include breakpoint(tablet) {
+        width: $col-left-w;
+        min-height: calc(100vh - #{$col-left-w} - #{$footer-height});
       }
     }
     &.right {
       background-color: $c-black;
-      padding: 60px 0px;
       flex-grow: 1;
       position: relative;
-      min-height: calc(100vh - 32vw);
-      width: calc(100vw - 32vw);
-      padding: 60px 1.5625vw 60px 0;
+      width: calc(100vw - #{$col-left-w} - #{$sidebar-w});
+      padding: $right-v-pad $space-std $right-v-pad 0;
       flex: 1;
-      @include breakpoint(tablet){
-        min-height: calc(100vh - 16vw);
-        width: calc(100vw - 32vw);
+      @include breakpoint(tablet) {
+        min-height: calc(100vh - #{$col-left-w} - #{$footer-height});
+        width: calc(100vw - #{$col-left-w} - #{$sidebar-w});
       }
     }
     &-container {
@@ -194,9 +200,9 @@ h1,h2,h3,h4,h5,h6 {
 
 .square-grid {
   &__red-square {
-    width: 33.61vw;
+    width: calc(#{$square-grid-w * 2} + #{$space-std});
     position: absolute;
-    top: 60px;
+    top: $right-v-pad;
     right: $space-std;
     background-color: $c-red;
     &:before {
@@ -205,13 +211,12 @@ h1,h2,h3,h4,h5,h6 {
       width: 100%;
       padding-top: (1 / 1) * 100%;
     }
-    
   }
 
   &__text-container {
     margin-right: $space-std;
     margin-top: $space-std;
-    @include breakpoint(mobile_only){
+    @include breakpoint(mobile_only) {
       margin: 0;
       padding: $space-std;
       background-color: $c-red;
@@ -223,10 +228,9 @@ h1,h2,h3,h4,h5,h6 {
     padding: $space-std;
   }
 
-
   &__square {
-    width: 16vw;
-    height: 16vw;
+    width: $square-grid-w;
+    height: $square-grid-w;
     margin-left: $space-std;
     margin-top: $space-std;
     background-color: $c-blue;
@@ -266,10 +270,10 @@ h1,h2,h3,h4,h5,h6 {
     color: $c-black;
     text-transform: uppercase;
     font-size: 14px;
-    @include breakpoint(desktop){
+    @include breakpoint(desktop) {
       font-size: 16px;
     }
-    @include breakpoint(mobile_sm){
+    @include breakpoint(mobile_sm) {
       font-size: 12px;
     }
   }
@@ -284,7 +288,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 #show {
-  .nav-main__item[data-id="show"]{
+  .nav-main__item[data-id="show"] {
     .nav-main__link {
       background-color: $c-red;
     }
@@ -301,7 +305,7 @@ h1,h2,h3,h4,h5,h6 {
           margin-top: 0;
         }
       }
-      @include breakpoint(mobile_sm){
+      @include breakpoint(mobile_sm) {
         font-size: 12px;
       }
     }
@@ -309,22 +313,22 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 #collection {
-  .nav-main__item[data-id="collection"]{
+  .nav-main__item[data-id="collection"] {
     .nav-main__link {
       background-color: $c-red;
     }
   }
-  
 }
-#show, #collection {
+#show,
+#collection {
   .main__col {
     &.right {
-      @include breakpoint(mobile_only){
+      @include breakpoint(mobile_only) {
         padding-left: $space-std;
       }
     }
     &-container {
-      @include breakpoint(mobile_only){
+      @include breakpoint(mobile_only) {
         display: block;
       }
     }
@@ -332,7 +336,7 @@ h1,h2,h3,h4,h5,h6 {
   .square-grid {
     position: relative;
     z-index: 2;
-    @include breakpoint(mobile_only){
+    @include breakpoint(mobile_only) {
       width: 55%;
     }
 
@@ -342,13 +346,13 @@ h1,h2,h3,h4,h5,h6 {
     }
 
     &__text-container {
-      @include breakpoint(mobile_only){
+      @include breakpoint(mobile_only) {
         margin-top: $space-std;
       }
     }
 
     &__square {
-      width: 16vw;
+      width: $square-grid-w;
       margin-left: $space-std;
       margin-top: $space-std;
       background-color: $c-blue;
@@ -360,13 +364,13 @@ h1,h2,h3,h4,h5,h6 {
     }
     &__red-square {
       z-index: 1;
-      @include breakpoint(mobile_only){
+      @include breakpoint(mobile_only) {
         display: none;
       }
-      @include breakpoint(tablet){
-        width: 33.61vw;
+      @include breakpoint(tablet) {
+        width: calc(#{$square-grid-w * 2} + #{$space-std});
         position: absolute;
-        top: 60px;
+        top: $right-v-pad;
         right: $space-std;
         &:before {
           display: block;
@@ -401,13 +405,13 @@ h1,h2,h3,h4,h5,h6 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 900;
   }
-  
+
   &__container {
     background-color: $c-gray;
     padding: $space-std;
@@ -416,14 +420,15 @@ h1,h2,h3,h4,h5,h6 {
     overflow-y: auto;
     box-sizing: border-box;
   }
-  
+
   &__content {
     background-color: $c-white;
     padding: $space-std;
     color: $c-black;
   }
 
-  &__content-item, &__image {
+  &__content-item,
+  &__image {
     display: none;
     &.active {
       display: block;
@@ -432,7 +437,6 @@ h1,h2,h3,h4,h5,h6 {
   &__image {
     width: 100%;
   }
-  
 }
 
 .footer {
@@ -462,7 +466,7 @@ h1,h2,h3,h4,h5,h6 {
     height: 8vw;
     width: auto;
     position: absolute;
-    @include breakpoint(mobile_only){
+    @include breakpoint(mobile_only) {
       display: none;
     }
   }

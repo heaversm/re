@@ -42,7 +42,12 @@ a {
   color: white;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: normal;
   margin: 0;
 }
@@ -60,7 +65,7 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar {
   background-color: gray;
   width: 16vw;
-  min-height: 100vh;
+  min-height: calc(100vh - 7.8vw);
   display: none;
 }
 @media (min-width: 48rem) {
@@ -118,6 +123,11 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: 5px;
   }
 }
+@media (min-width: 20rem) and (max-width: 23rem) {
+  .header-main__title {
+    font-size: 18px;
+  }
+}
 
 .nav-main {
   background-color: black;
@@ -156,28 +166,26 @@ h1, h2, h3, h4, h5, h6 {
   padding: 1.5625vw;
   padding-bottom: 0;
   width: 32vw;
-  min-height: calc(100vh - 32vw);
+  min-height: calc(100vh - 32vw - 7.8vw);
 }
 @media (min-width: 48rem) {
   .main__col.left {
     width: 16vw;
-    min-height: calc(100vh - 16vw);
+    min-height: calc(100vh - 16vw - 7.8vw);
   }
 }
 .main__col.right {
   background-color: black;
-  padding: 60px 0px;
   flex-grow: 1;
   position: relative;
-  min-height: calc(100vh - 32vw);
-  width: calc(100vw - 32vw);
-  padding: 60px 1.5625vw 60px 0;
+  width: calc(100vw - 16vw - 16vw);
+  padding: 1.5625vw 1.5625vw 1.5625vw 0;
   flex: 1;
 }
 @media (min-width: 48rem) {
   .main__col.right {
-    min-height: calc(100vh - 16vw);
-    width: calc(100vw - 32vw);
+    min-height: calc(100vh - 16vw - 7.8vw);
+    width: calc(100vw - 16vw - 16vw);
   }
 }
 .main__col-container {
@@ -195,9 +203,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .square-grid__red-square {
-  width: 33.61vw;
+  width: calc(32vw + 1.5625vw);
   position: absolute;
-  top: 60px;
+  top: 1.5625vw;
   right: 1.5625vw;
   background-color: red;
 }
@@ -306,34 +314,41 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (min-width: 0rem) and (max-width: 47.9rem) {
-  #show .main__col.right, #collection .main__col.right {
+  #show .main__col.right,
+#collection .main__col.right {
     padding-left: 1.5625vw;
   }
 }
 @media (min-width: 0rem) and (max-width: 47.9rem) {
-  #show .main__col-container, #collection .main__col-container {
+  #show .main__col-container,
+#collection .main__col-container {
     display: block;
   }
 }
-#show .square-grid, #collection .square-grid {
+#show .square-grid,
+#collection .square-grid {
   position: relative;
   z-index: 2;
 }
 @media (min-width: 0rem) and (max-width: 47.9rem) {
-  #show .square-grid, #collection .square-grid {
+  #show .square-grid,
+#collection .square-grid {
     width: 55%;
   }
 }
-#show .square-grid__inner, #collection .square-grid__inner {
+#show .square-grid__inner,
+#collection .square-grid__inner {
   display: flex;
   flex-wrap: wrap;
 }
 @media (min-width: 0rem) and (max-width: 47.9rem) {
-  #show .square-grid__text-container, #collection .square-grid__text-container {
+  #show .square-grid__text-container,
+#collection .square-grid__text-container {
     margin-top: 1.5625vw;
   }
 }
-#show .square-grid__square, #collection .square-grid__square {
+#show .square-grid__square,
+#collection .square-grid__square {
   width: 16vw;
   margin-left: 1.5625vw;
   margin-top: 1.5625vw;
@@ -341,25 +356,30 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   flex-grow: 0;
 }
-#show .square-grid__square:nth-child(-n+2), #collection .square-grid__square:nth-child(-n+2) {
+#show .square-grid__square:nth-child(-n+2),
+#collection .square-grid__square:nth-child(-n+2) {
   margin-top: 0;
 }
-#show .square-grid__red-square, #collection .square-grid__red-square {
+#show .square-grid__red-square,
+#collection .square-grid__red-square {
   z-index: 1;
 }
 @media (min-width: 0rem) and (max-width: 47.9rem) {
-  #show .square-grid__red-square, #collection .square-grid__red-square {
+  #show .square-grid__red-square,
+#collection .square-grid__red-square {
     display: none;
   }
 }
 @media (min-width: 48rem) {
-  #show .square-grid__red-square, #collection .square-grid__red-square {
-    width: 33.61vw;
+  #show .square-grid__red-square,
+#collection .square-grid__red-square {
+    width: calc(32vw + 1.5625vw);
     position: absolute;
-    top: 60px;
+    top: 1.5625vw;
     right: 1.5625vw;
   }
-  #show .square-grid__red-square:before, #collection .square-grid__red-square:before {
+  #show .square-grid__red-square:before,
+#collection .square-grid__red-square:before {
     display: block;
     content: "";
     width: 100%;

@@ -8,7 +8,11 @@ $bp-mobile-lg: 23rem; //368
 //LAYOUT
 $space-std: 1.5625vw;
 $col-left-w: 16vw;
+$square-grid-w: $col-left-w;
 $col-right: $col-left-w;
+$sidebar-w: $col-left-w;
+$footer-height: 7.8vw;
+$right-v-pad: $space-std;
 
 //COLORS
 $c-gray: gray;
