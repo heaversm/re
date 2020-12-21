@@ -12,7 +12,13 @@ $square-grid-w: $col-left-w;
 $col-right: $col-left-w;
 $sidebar-w: $col-left-w;
 $footer-height: 7.8vw;
+$footer-height-out: 15vw; //distance to translate footer on transition from home to irl / online
 $right-v-pad: $space-std;
+
+$z-red-square: 1;
+$z-main: 10;
+$z-red-square-active: 20;
+$z-footer: 30;
 
 //COLORS
 $c-gray: gray;

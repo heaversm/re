@@ -13,27 +13,10 @@
 body {
   background-color: $c-black;
   color: $c-white;
-  //font-family: 'pixelArial',Arial, Helvetica, sans-serif;
   font-family: Arial, Helvetica, sans-serif;
   font-smooth: never;
   -webkit-font-smoothing: none;
   margin: 0;
-  /*
-  //CRISPY TEXT
-  text-shadow:
-    0 0 0px, 
-    0 0 0px,
-    0 0 0px, 
-    0 0 0px, 
-    0 0 0px, 
-    0 0 0px, 
-    0 0 0px, 
-    0 0 0px, 
-    0 0 0px, 
-    0 0 0px, 
-    0 0 0px, 
-    0 0 0px;
-    */
 }
 
 ul {
@@ -147,7 +130,7 @@ h6 {
     background-color: $c-white;
     padding: 5px 10px;
     display: block;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     @include breakpoint(tablet) {
       font-size: 20px;
     }
@@ -164,11 +147,9 @@ h6 {
       padding: $space-std;
       padding-bottom: 0;
       width: 32vw;
-      min-height: calc(100vh - #{$col-left-w * 2} - #{$footer-height});
-
+      min-height: calc(100vh - #{$col-left-w});
       @include breakpoint(tablet) {
         width: $col-left-w;
-        min-height: calc(100vh - #{$col-left-w} - #{$footer-height});
       }
     }
     &.right {
@@ -176,10 +157,11 @@ h6 {
       flex-grow: 1;
       position: relative;
       width: calc(100vw - #{$col-left-w} - #{$sidebar-w});
+      min-height: calc(100vh - #{$col-left-w});
       padding: $right-v-pad $space-std $right-v-pad 0;
       flex: 1;
+
       @include breakpoint(tablet) {
-        min-height: calc(100vh - #{$col-left-w} - #{$footer-height});
         width: calc(100vw - #{$col-left-w} - #{$sidebar-w});
       }
       @include breakpoint(mobile_only) {
@@ -188,7 +170,7 @@ h6 {
     }
     &-container {
       position: relative;
-      z-index: 1;
+      z-index: $z-main;
       display: grid;
       grid-template-columns: 55% auto;
       @include breakpoint(mobile_only) {
@@ -221,10 +203,8 @@ h6 {
     top: $right-v-pad;
     right: $space-std;
     background-color: $c-red;
-    z-index: 1;
-    @include breakpoint(mobile_only) {
-      display: none;
-    }
+    z-index: $z-red-square;
+
     @include breakpoint(tablet) {
       width: calc(#{$square-grid-w * 2} + #{$space-std});
       position: absolute;
@@ -259,6 +239,10 @@ h6 {
     background-color: $c-white;
     color: $c-black;
     padding: $space-std;
+    font-size: 12px;
+  }
+  &__exhibit-content {
+    display: none;
   }
 
   &__square {
@@ -286,6 +270,7 @@ h6 {
     height: 100%;
     left: 0;
     top: 0;
+    display: none;
   }
 }
 
@@ -311,131 +296,6 @@ h6 {
     }
   }
 }
-
-body.irl {
-  .nav-main__item[data-id="irl"] {
-    .nav-main__link {
-      background-color: $c-red;
-    }
-  }
-}
-
-body.online {
-  .nav-main__item[data-id="online"] {
-    .nav-main__link {
-      background-color: $c-red;
-    }
-  }
-}
-
-#home {
-  // .square-grid {
-  //   width: 36vw;
-  //   display: flex;
-  //   flex-wrap: wrap;
-  // }
-}
-
-/*
-#show {
-  .nav-main__item[data-id="show"] {
-    .nav-main__link {
-      background-color: $c-red;
-    }
-  }
-  .col-left {
-    &__content {
-      height: 100%;
-      padding: $space-std;
-      background-color: $c-white;
-      color: $c-black;
-      p {
-        margin-top: $space-std;
-        &:first-child {
-          margin-top: 0;
-        }
-      }
-      @include breakpoint(mobile_sm) {
-        font-size: 12px;
-      }
-    }
-  }
-}
-*/
-
-/*
-#collection {
-  .nav-main__item[data-id="collection"] {
-    .nav-main__link {
-      background-color: $c-red;
-    }
-  }
-}
-#show,
-#collection {
-  .main__col {
-    &.right {
-      @include breakpoint(mobile_only) {
-        padding-left: $space-std;
-      }
-    }
-    &-container {
-      @include breakpoint(mobile_only) {
-        display: block;
-      }
-    }
-  }
-  .square-grid {
-    position: relative;
-    z-index: 2;
-    @include breakpoint(mobile_only) {
-      width: 55%;
-    }
-
-    &__inner {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    &__text-container {
-      @include breakpoint(mobile_only) {
-        margin-top: $space-std;
-      }
-    }
-
-    &__square {
-      width: $square-grid-w;
-      margin-left: $space-std;
-      margin-top: $space-std;
-      background-color: $c-blue;
-      position: relative;
-      flex-grow: 0;
-      &:nth-child(-n + 2) {
-        margin-top: 0;
-      }
-    }
-    &__red-square {
-      z-index: 1;
-      @include breakpoint(mobile_only) {
-        display: none;
-      }
-      @include breakpoint(tablet) {
-        width: calc(#{$square-grid-w * 2} + #{$space-std});
-        position: absolute;
-        top: $right-v-pad;
-        right: $space-std;
-        &:before {
-          display: block;
-          content: "";
-          width: 100%;
-          padding-top: (1 / 1) * 100%;
-        }
-      }
-    }
-  }
-}
-
-*/
 
 .modal {
   display: none;
@@ -490,10 +350,16 @@ body.online {
 }
 
 .footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
   height: 7.8vw;
+  z-index: $z-footer;
   background-color: $c-gray;
   display: flex;
   justify-content: center;
+  transition: transform 0.5s ease-in;
   &__people {
     position: relative;
     width: 100%;
@@ -518,6 +384,61 @@ body.online {
     position: absolute;
     @include breakpoint(mobile_only) {
       display: none;
+    }
+  }
+}
+
+//STATE LOGIC
+
+body[data-page="home"] {
+  .square-grid {
+    &__text-container {
+      display: none;
+    }
+    &__red-square {
+      z-index: $z-red-square-active; //position red square above blues
+    }
+    &__square:nth-child(n + 5) {
+      //hide all but first 4 squares
+      display: none;
+    }
+  }
+}
+
+body[data-page="irl"] {
+  .nav-main__item[data-id="irl"] {
+    .nav-main__link {
+      background-color: $c-red;
+    }
+  }
+  .square-grid__image[data-page="irl"],
+  .square-grid__exhibit-content[data-page="irl"] {
+    display: block;
+  }
+}
+
+body[data-page="online"] {
+  .nav-main__item[data-id="online"] {
+    .nav-main__link {
+      background-color: $c-red;
+    }
+  }
+  .square-grid__image[data-page="online"],
+  .square-grid__exhibit-content[data-page="online"] {
+    display: block;
+  }
+}
+
+body[data-page="irl"],
+body[data-page="online"] {
+  .footer {
+    transform: translateY($footer-height-out);
+  }
+  .square-grid {
+    &__red-square {
+      @include breakpoint(mobile_only) {
+        display: none;
+      }
     }
   }
 }
