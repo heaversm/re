@@ -280,6 +280,7 @@ h6 {
     color: $c-black;
     padding: 5px;
     height: 100%;
+    display: none;
   }
   &__item {
     margin-top: 10px;
@@ -346,6 +347,32 @@ h6 {
   }
   &__image {
     width: 100%;
+  }
+  &#modal-2 {
+    position: absolute;
+    width: 100%;
+    height: calc(100vh - #{$col-left-w} - #{$footer-height});
+    top: 0;
+    left: 0;
+    .modal {
+      &__container {
+        padding: 0;
+        max-width: 100%;
+        max-height: 100%;
+        width: 100%;
+        height: 100%;
+      }
+      &__images {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      &__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
   }
 }
 
@@ -415,6 +442,16 @@ body[data-page="irl"] {
   .square-grid__exhibit-content[data-page="irl"] {
     display: block;
   }
+  .footer {
+    transform: translateY($footer-height-out);
+  }
+  .square-grid {
+    &__red-square {
+      @include breakpoint(mobile_only) {
+        display: none;
+      }
+    }
+  }
 }
 
 body[data-page="online"] {
@@ -427,18 +464,16 @@ body[data-page="online"] {
   .square-grid__exhibit-content[data-page="online"] {
     display: block;
   }
-}
-
-body[data-page="irl"],
-body[data-page="online"] {
-  .footer {
-    transform: translateY($footer-height-out);
-  }
   .square-grid {
-    &__red-square {
-      @include breakpoint(mobile_only) {
-        display: none;
-      }
+    display: none;
+    &__red-square,
+    &__text-container {
+      display: none;
+    }
+  }
+  .collection {
+    &__nav {
+      display: block;
     }
   }
 }

@@ -31,7 +31,33 @@
       </header>
       <main class="main">
         <div class="main__col left">
-          <div class="intro"></div>
+          <div class="intro">
+            <nav class="collection__nav">
+              <ul class="collection__list">
+                <li class="collection__item">
+                  <a href="#" class="collection__link" data-id="black-square" data-micromodal-trigger="modal-2">Black Square</a>
+                </li>
+                <li class="collection__item">
+                  <a href="#" class="collection__link" data-id="gathering" data-micromodal-trigger="modal-2">A Gathering of Two</a>
+                </li>
+                <li class="collection__item">
+                  <a href="#" class="collection__link">Replicating Nine</a>
+                </li>
+                <li class="collection__item">
+                  <a href="#" class="collection__link">AR Kids</a>
+                </li>
+                <li class="collection__item">
+                  <a href="#" class="collection__link">People</a>
+                </li>
+                <li class="collection__item">
+                  <a href="#" class="collection__link">Grid For You</a>
+                </li>
+                <li class="collection__item">
+                  <a href="#" class="collection__link">Square For You</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
         <div class="main__col right">
           <div class="square-grid__red-square"></div>
@@ -77,6 +103,14 @@
               </div>
             </div>
           </div>
+          <div id="modal-2" class="modal" aria-hidden="true">
+              <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-2-title">
+                <div class="modal__images">
+                  <img class="modal__image" src="assets/images/online1.gif" alt="Black Square" data-id="black-square">
+                  <img class="modal__image" src="assets/images/online2.gif" alt="Black Square" data-id="gathering">
+                </div>
+              </div>
+          </div>
         </div>
       </main>
     </section>
@@ -114,6 +148,6 @@
     </div>
   </div>
   <script src="scripts/lib/micromodal.min.js"></script>
-  <script src="/scripts/main.js"></script>
+  <script src="scripts/main.js"></script>
 </body>
 </html>

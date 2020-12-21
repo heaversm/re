@@ -78,6 +78,26 @@
 		"q": 100,
 		"rq": 75
 		},
+	"/assets/images/online1.gif": {
+		"ft": 4194304,
+		"iS": 469471,
+		"oA": 0,
+		"oAP": "/assets/images/online1.gif",
+		"oF": 0,
+		"opt": 0,
+		"ou": "lpckwebp-none",
+		"rq": 75
+		},
+	"/assets/images/online2.gif": {
+		"ft": 4194304,
+		"iS": 1564312,
+		"oA": 0,
+		"oAP": "/assets/images/online2.gif",
+		"oF": 0,
+		"opt": 0,
+		"ou": "lpckwebp-none",
+		"rq": 75
+		},
 	"/assets/images/p1.png": {
 		"ft": 32768,
 		"iS": 6171,
@@ -166,22 +186,6 @@
 		"q": 100,
 		"rq": 75
 		},
-	"/collection.html": {
-		"cB": 1,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/collection.html",
-		"oF": 0
-		},
-	"/collection.kit": {
-		"cB": 0,
-		"ft": 2048,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/collection.html",
-		"oF": 0
-		},
 	"/includes/header.html": {
 		"cB": 0,
 		"ft": 8192,
@@ -257,22 +261,6 @@
 		"oF": 0,
 		"sC": 0,
 		"tS": 0
-		},
-	"/show.html": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/show.html",
-		"oF": 0
-		},
-	"/show.kit": {
-		"cB": 0,
-		"ft": 2048,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/show.html",
-		"oF": 0
 		},
 	"/styles/_mixins.scss": {
 		"aP": 0,
