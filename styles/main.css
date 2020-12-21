@@ -188,11 +188,21 @@ h6 {
     width: calc(100vw - 16vw - 16vw);
   }
 }
+@media (min-width: 0rem) and (max-width: 47.9rem) {
+  .main__col.right {
+    padding-left: 1.5625vw;
+  }
+}
 .main__col-container {
   position: relative;
   z-index: 1;
   display: grid;
   grid-template-columns: 55% auto;
+}
+@media (min-width: 0rem) and (max-width: 47.9rem) {
+  .main__col-container {
+    display: block;
+  }
 }
 
 .intro {
@@ -202,12 +212,45 @@ h6 {
   height: 100%;
 }
 
+.square-grid {
+  position: relative;
+  z-index: 2;
+}
+@media (min-width: 0rem) and (max-width: 47.9rem) {
+  .square-grid {
+    width: 55%;
+  }
+}
+.square-grid__inner {
+  display: flex;
+  flex-wrap: wrap;
+}
 .square-grid__red-square {
   width: calc(32vw + 1.5625vw);
   position: absolute;
   top: 1.5625vw;
   right: 1.5625vw;
   background-color: red;
+  z-index: 1;
+}
+@media (min-width: 0rem) and (max-width: 47.9rem) {
+  .square-grid__red-square {
+    display: none;
+  }
+}
+@media (min-width: 48rem) {
+  .square-grid__red-square {
+    width: calc(32vw + 1.5625vw);
+    position: absolute;
+    top: 1.5625vw;
+    right: 1.5625vw;
+  }
+  .square-grid__red-square:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: 100%;
+  }
 }
 .square-grid__red-square:before {
   display: block;
@@ -222,6 +265,7 @@ h6 {
 @media (min-width: 0rem) and (max-width: 47.9rem) {
   .square-grid__text-container {
     margin: 0;
+    margin-top: 1.5625vw;
     padding: 1.5625vw;
     background-color: red;
   }
@@ -282,114 +326,113 @@ h6 {
   }
 }
 
-#home .square-grid {
-  width: 36vw;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-#show .nav-main__item[data-id=show] .nav-main__link {
-  background-color: red;
-}
-#show .col-left__content {
-  height: 100%;
-  padding: 1.5625vw;
-  background-color: white;
-  color: black;
-}
-#show .col-left__content p {
-  margin-top: 1.5625vw;
-}
-#show .col-left__content p:first-child {
-  margin-top: 0;
-}
-@media (min-width: 20rem) and (max-width: 23rem) {
-  #show .col-left__content {
-    font-size: 12px;
-  }
-}
-
-#collection .nav-main__item[data-id=collection] .nav-main__link {
+body.irl .nav-main__item[data-id=irl] .nav-main__link {
   background-color: red;
 }
 
-@media (min-width: 0rem) and (max-width: 47.9rem) {
-  #show .main__col.right,
-#collection .main__col.right {
-    padding-left: 1.5625vw;
+body.online .nav-main__item[data-id=online] .nav-main__link {
+  background-color: red;
+}
+
+/*
+#show {
+  .nav-main__item[data-id="show"] {
+    .nav-main__link {
+      background-color: $c-red;
+    }
+  }
+  .col-left {
+    &__content {
+      height: 100%;
+      padding: $space-std;
+      background-color: $c-white;
+      color: $c-black;
+      p {
+        margin-top: $space-std;
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+      @include breakpoint(mobile_sm) {
+        font-size: 12px;
+      }
+    }
   }
 }
-@media (min-width: 0rem) and (max-width: 47.9rem) {
-  #show .main__col-container,
-#collection .main__col-container {
-    display: block;
+*/
+/*
+#collection {
+  .nav-main__item[data-id="collection"] {
+    .nav-main__link {
+      background-color: $c-red;
+    }
   }
 }
-#show .square-grid,
-#collection .square-grid {
-  position: relative;
-  z-index: 2;
-}
-@media (min-width: 0rem) and (max-width: 47.9rem) {
-  #show .square-grid,
-#collection .square-grid {
-    width: 55%;
+#show,
+#collection {
+  .main__col {
+    &.right {
+      @include breakpoint(mobile_only) {
+        padding-left: $space-std;
+      }
+    }
+    &-container {
+      @include breakpoint(mobile_only) {
+        display: block;
+      }
+    }
   }
-}
-#show .square-grid__inner,
-#collection .square-grid__inner {
-  display: flex;
-  flex-wrap: wrap;
-}
-@media (min-width: 0rem) and (max-width: 47.9rem) {
-  #show .square-grid__text-container,
-#collection .square-grid__text-container {
-    margin-top: 1.5625vw;
-  }
-}
-#show .square-grid__square,
-#collection .square-grid__square {
-  width: 16vw;
-  margin-left: 1.5625vw;
-  margin-top: 1.5625vw;
-  background-color: #0000fe;
-  position: relative;
-  flex-grow: 0;
-}
-#show .square-grid__square:nth-child(-n+2),
-#collection .square-grid__square:nth-child(-n+2) {
-  margin-top: 0;
-}
-#show .square-grid__red-square,
-#collection .square-grid__red-square {
-  z-index: 1;
-}
-@media (min-width: 0rem) and (max-width: 47.9rem) {
-  #show .square-grid__red-square,
-#collection .square-grid__red-square {
-    display: none;
-  }
-}
-@media (min-width: 48rem) {
-  #show .square-grid__red-square,
-#collection .square-grid__red-square {
-    width: calc(32vw + 1.5625vw);
-    position: absolute;
-    top: 1.5625vw;
-    right: 1.5625vw;
-  }
-  #show .square-grid__red-square:before,
-#collection .square-grid__red-square:before {
-    display: block;
-    content: "";
-    width: 100%;
-    padding-top: 100%;
+  .square-grid {
+    position: relative;
+    z-index: 2;
+    @include breakpoint(mobile_only) {
+      width: 55%;
+    }
+
+    &__inner {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    &__text-container {
+      @include breakpoint(mobile_only) {
+        margin-top: $space-std;
+      }
+    }
+
+    &__square {
+      width: $square-grid-w;
+      margin-left: $space-std;
+      margin-top: $space-std;
+      background-color: $c-blue;
+      position: relative;
+      flex-grow: 0;
+      &:nth-child(-n + 2) {
+        margin-top: 0;
+      }
+    }
+    &__red-square {
+      z-index: 1;
+      @include breakpoint(mobile_only) {
+        display: none;
+      }
+      @include breakpoint(tablet) {
+        width: calc(32vw + 1.5625vw);
+        position: absolute;
+        top: $right-v-pad;
+        right: $space-std;
+        &:before {
+          display: block;
+          content: "";
+          width: 100%;
+          padding-top: (1 / 1) * 100%;
+        }
+      }
+    }
   }
 }
 
-/**************************\
-  Basic Modal Styles
-\**************************/
+*/
 .modal {
   display: none;
 }
