@@ -1,3 +1,5 @@
+import MicroModal from "micromodal";
+
 const re = (function () {
   const $contentItems = document.querySelectorAll(".modal__content-item");
   const $imageItems = document.querySelectorAll(".modal__image");
@@ -29,12 +31,12 @@ const re = (function () {
         });
         $targetContent.classList.add("active");
         $targetImage.classList.add("active");
-      },
+      }
     });
   };
 
   const addListeners = function () {
-    $mainNavLinks = document.querySelectorAll(".nav-main__link");
+    const $mainNavLinks = document.querySelectorAll(".nav-main__link");
     $mainNavLinks.forEach((navLink) =>
       navLink.addEventListener("click", onMainNavClick)
     );
@@ -64,7 +66,7 @@ const re = (function () {
   };
 
   return {
-    init: init,
+    init: init
   };
 })();
 
