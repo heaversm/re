@@ -194,6 +194,17 @@
 		"oAP": "/includes/header.html",
 		"oF": 0
 		},
+	"/index-min.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "/index-min-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
 	"/index.html": {
 		"cB": 0,
 		"ft": 8192,
@@ -206,11 +217,11 @@
 		"bF": 0,
 		"ft": 64,
 		"ma": 0,
-		"mi": 1,
+		"mi": 0,
 		"oA": 0,
 		"oAP": "/index-min.js",
 		"oF": 0,
-		"sC": 3,
+		"sC": 0,
 		"tS": 0
 		},
 	"/index.kit": {

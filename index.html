@@ -117,9 +117,8 @@
     <section class="sidebar"></section>
   </div>
   <footer class="footer">
+    <canvas id="renderCanvas" touch-action="none"></canvas>
     <div class="footer__people">
-      <img src="assets/images/p1.png" alt="Person 1" class="person p1">
-      <img src="assets/images/p2.png" alt="Person 2" class="person p2">
       <img src="assets/images/door.png" alt="door" class="door">
     </div>
   </footer>
@@ -148,6 +147,13 @@
     </div>
   </div>
   <script src="scripts/lib/micromodal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.babylonjs.com/ammo.js"></script>
+  <script src="https://cdn.babylonjs.com/cannon.js"></script>
+  <script src="https://cdn.babylonjs.com/Oimo.js"></script>
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylon.glTFFileLoader.js"></script>
+  <script type="module" src="index.js"></script>
   <script src="scripts/main.js"></script>
 </body>
 </html>

@@ -47,7 +47,7 @@ h6 {
 }
 
 .sidebar {
-  background-color: gray;
+  background-color: #666666;
   width: 16vw;
   min-height: calc(100vh - 7.8vw);
   display: none;
@@ -146,7 +146,7 @@ h6 {
   flex-wrap: wrap;
 }
 .main__col.left {
-  background-color: gray;
+  background-color: #666666;
   padding: 1.5625vw;
   padding-bottom: 0;
   width: 32vw;
@@ -336,7 +336,7 @@ h6 {
   z-index: 900;
 }
 .modal__container {
-  background-color: gray;
+  background-color: #666666;
   padding: 1.5625vw;
   max-width: 70vw;
   max-height: 100vh;
@@ -390,7 +390,7 @@ h6 {
   width: 100%;
   height: 7.8vw;
   z-index: 30;
-  background-color: gray;
+  background-color: #666666;
   display: flex;
   justify-content: center;
   transition: transform 0.5s ease-in;
@@ -422,6 +422,16 @@ h6 {
   .footer .door {
     display: none;
   }
+}
+.footer #renderCanvas {
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
 }
 
 body[data-page=home] .square-grid__text-container {

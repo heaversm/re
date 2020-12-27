@@ -6,10 +6,6 @@ export default async function createScene(engine) {
   const scene = new BABYLON.Scene(engine);
   const canvas = engine.getRenderingCanvas();
 
-  // scene settings
-
-  //scene.enablePhysics(new BABYLON.Vector3(0, -9, 0), new BABYLON.AmmoJSPlugin());
-  //scene.enablePhysics(new BABYLON.Vector3(0, -9, 0), new BABYLON.CannonJSPlugin());
   scene.enablePhysics(
     new BABYLON.Vector3(0, -9, 0),
     new BABYLON.OimoJSPlugin()
@@ -37,10 +33,22 @@ export default async function createScene(engine) {
     new BABYLON.Vector3(0, 1, 0),
     scene
   );
-  camera.attachControl(canvas, true);
   camera.lowerRadiusLimit = 2;
   camera.upperRadiusLimit = 4;
   camera.wheelDeltaPercentage = 0.01;
+
+  //
+  /*
+  //MH - stationary camera
+  const camera = new BABYLON.UniversalCamera(
+    "Camera",
+    new BABYLON.Vector3(0, 0, -3),
+    scene
+  );
+  camera.setTarget(BABYLON.Vector3.Zero());
+  */
+
+  camera.attachControl(canvas, true);
 
   // floor
 
@@ -81,7 +89,7 @@ export default async function createScene(engine) {
 
   meshes[0].rotation = new BABYLON.Vector3(
     BABYLON.Angle.FromDegrees(-90).radians(),
-    0,
+    BABYLON.Angle.FromDegrees(-90).radians(),
     0
   );
   meshes[0].scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
@@ -108,7 +116,8 @@ export default async function createScene(engine) {
   agentMaterial.subMaterials.push(redMaterial);
   mesh.material = agentMaterial;
 
-  skeleton.beginAnimation("Idle", true); // true means loop
+  //skeleton.beginAnimation("Idle", true); // true means loop
+  skeleton.beginAnimation("Walk", true);
 
   // ragdoll
 
@@ -211,15 +220,18 @@ export default async function createScene(engine) {
     disableBoxBoneSync
   );
 
-  // For debugging the box config:
-  // ragdoll.disableBoxBoneSync = true;
-  // ragdoll.mass = 0;
-
   ragdoll.init();
 
-  // controls
+  const toggleRagdoll = function () {
+    if (ragdoll.ragdollMode) {
+      skeleton.beginAnimation("Idle", true);
+      ragdoll.ragdollOff();
+    } else {
+      scene.stopAnimation(skeletons[0]);
+      ragdoll.ragdoll();
+    }
+  };
 
-  const gui = new dat.GUI({ closed: false });
   const controls = {
     Idle: function () {
       skeleton.beginAnimation("Idle", true);
@@ -236,14 +248,12 @@ export default async function createScene(engine) {
         ragdoll.ragdoll();
       }
     },
-    "Show Colliders": showBoxes,
   };
-  gui.add(controls, "Idle");
-  gui.add(controls, "Walk");
-  gui.add(controls, "Toggle Ragdoll");
-  gui.add(controls, "Show Colliders").onFinishChange(() => {
-    ragdoll.toggleShowBoxes();
-  });
+
+  scene.skeleton = skeleton;
+  scene.mesh = mesh;
+  scene.camera = camera;
+  scene.toggleRagdoll = toggleRagdoll;
 
   return scene;
 }
