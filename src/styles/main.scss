@@ -478,3 +478,14 @@ body[data-page="online"] {
     }
   }
 }
+
+#render-canvas {
+  background: transparent;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  touch-action: none;
+  width: 100%;
+  z-index: 100;
+}

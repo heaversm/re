@@ -1,15 +1,41 @@
 {
-  "name": "codekit-project",
+  "name": "re",
   "version": "1.0.0",
-  "description": "CodeKit created this starter package.json file. You should customize it appropriately.",
-  "scripts": {},
+  "description": "Responsive Eye gallery show site.",
+  "scripts": {
+    "start": "rollup -c -w",
+    "build": "rollup -c",
+    "build:sass": "sass src/styles/main.scss dist/styles/main.css"
+  },
   "author": "",
   "license": "UNLICENSED",
   "repository": {},
+  "browserslist": ">0.2%, last 2 versions, Firefox ESR, not dead",
   "dependencies": {
     "@babylonjs/core": "^4.2.0",
+    "@babylonjs/inspector": "^4.2.0",
     "@babylonjs/loaders": "^4.2.0",
+    "core-js": "^3.8.1",
     "micromodal": "^0.4.6",
-    "oimo": "^1.0.9"
+    "oimo": "^1.0.9",
+    "regenerator-runtime": "^0.13.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/eslint-parser": "^7.12.1",
+    "@babel/preset-env": "^7.12.11",
+    "@rollup/plugin-babel": "^5.2.2",
+    "@rollup/plugin-node-resolve": "^11.0.1",
+    "@rollup/plugin-replace": "^2.3.4",
+    "eslint": "^7.16.0",
+    "html-bust": "^0.1.1",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^2.35.1",
+    "rollup-plugin-command": "^1.1.3",
+    "rollup-plugin-copy": "^3.3.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-serve": "^1.1.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "sass": "^1.30.0"
   }
 }

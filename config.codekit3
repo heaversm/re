@@ -9,228 +9,209 @@
 	],
 "creatorBuild": "33081",
 "files": {
-	"/.gitignore": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/.gitignore",
-		"oF": 0
-		},
-	"/assets/images/arkids-thumb.gif": {
-		"ft": 4194304,
-		"iS": 20357,
-		"oA": 0,
-		"oAP": "/assets/images/arkids-thumb.gif",
-		"oF": 0,
-		"opt": 0,
-		"ou": "lpckwebp-none",
-		"rq": 75
-		},
-	"/assets/images/bs-thumb.gif": {
-		"ft": 4194304,
-		"iS": 8195,
-		"oA": 0,
-		"oAP": "/assets/images/bs-thumb.gif",
-		"oF": 0,
-		"opt": 0,
-		"ou": "lpckwebp-none",
-		"rq": 75
-		},
-	"/assets/images/bs.jpg": {
-		"ft": 16384,
-		"iS": 49332,
-		"jF": 0,
-		"oA": 0,
-		"oAP": "/assets/images/bs.jpg",
-		"oF": 0,
-		"oIPL": 0,
-		"opt": 0,
-		"ou": "lpckwebp-none",
-		"q": 100,
-		"rq": 75
-		},
-	"/assets/images/door.png": {
-		"ft": 32768,
-		"iS": 1787,
-		"oA": 0,
-		"oAP": "/assets/images/door.png",
-		"oF": 0,
-		"oIPL": 0,
-		"opt": 0,
-		"oT": 1,
-		"ou": "lpckwebp-none",
-		"q": 100,
-		"rq": 75
-		},
-	"/assets/images/gathering-thumb.gif": {
-		"ft": 4194304,
-		"iS": 18592,
-		"oA": 0,
-		"oAP": "/assets/images/gathering-thumb.gif",
-		"oF": 0,
-		"opt": 0,
-		"ou": "lpckwebp-none",
-		"rq": 75
-		},
-	"/assets/images/gathering.jpg": {
-		"ft": 16384,
-		"iS": 49288,
-		"jF": 0,
-		"oA": 0,
-		"oAP": "/assets/images/gathering.jpg",
-		"oF": 0,
-		"oIPL": 0,
-		"opt": 0,
-		"ou": "lpckwebp-none",
-		"q": 100,
-		"rq": 75
-		},
-	"/assets/images/online1.gif": {
-		"ft": 4194304,
-		"iS": 469471,
-		"oA": 0,
-		"oAP": "/assets/images/online1.gif",
-		"oF": 0,
-		"opt": 0,
-		"ou": "lpckwebp-none",
-		"rq": 75
-		},
-	"/assets/images/online2.gif": {
-		"ft": 4194304,
-		"iS": 1564312,
-		"oA": 0,
-		"oAP": "/assets/images/online2.gif",
-		"oF": 0,
-		"opt": 0,
-		"ou": "lpckwebp-none",
-		"rq": 75
-		},
-	"/assets/images/p1.png": {
-		"ft": 32768,
-		"iS": 6171,
-		"oA": 0,
-		"oAP": "/assets/images/p1.png",
-		"oF": 0,
-		"oIPL": 1,
-		"opt": 1,
-		"oT": 1,
-		"ou": "lpckwebp-none",
-		"q": 100,
-		"rq": 75
-		},
-	"/assets/images/p2.png": {
-		"ft": 32768,
-		"iS": 6923,
-		"oA": 0,
-		"oAP": "/assets/images/p2.png",
-		"oF": 0,
-		"oIPL": 1,
-		"opt": 1,
-		"oT": 1,
-		"ou": "lpckwebp-none",
-		"q": 100,
-		"rq": 75
-		},
-	"/assets/images/replicating-thumb.gif": {
-		"ft": 4194304,
-		"iS": 29407,
-		"oA": 0,
-		"oAP": "/assets/images/replicating-thumb.gif",
-		"oF": 0,
-		"opt": 0,
-		"ou": "lpckwebp-none",
-		"rq": 75
-		},
-	"/assets/images/show-01-thumb.jpg": {
-		"ft": 16384,
-		"iS": 11474,
-		"jF": 0,
-		"oA": 0,
-		"oAP": "/assets/images/show-01-thumb.jpg",
-		"oF": 0,
-		"oIPL": 0,
-		"opt": 0,
-		"ou": "lpckwebp-none",
-		"q": 100,
-		"rq": 75
-		},
-	"/assets/images/show-02-thumb.jpg": {
-		"ft": 16384,
-		"iS": 33256,
-		"jF": 0,
-		"oA": 0,
-		"oAP": "/assets/images/show-02-thumb.jpg",
-		"oF": 0,
-		"oIPL": 0,
-		"opt": 0,
-		"ou": "lpckwebp-none",
-		"q": 100,
-		"rq": 75
-		},
-	"/assets/images/show-03-thumb.jpg": {
-		"ft": 16384,
-		"iS": 29621,
-		"jF": 0,
-		"oA": 0,
-		"oAP": "/assets/images/show-03-thumb.jpg",
-		"oF": 0,
-		"oIPL": 0,
-		"opt": 0,
-		"ou": "lpckwebp-none",
-		"q": 100,
-		"rq": 75
-		},
-	"/assets/images/show-04-thumb.jpg": {
-		"ft": 16384,
-		"iS": 14212,
-		"jF": 0,
-		"oA": 0,
-		"oAP": "/assets/images/show-04-thumb.jpg",
-		"oF": 0,
-		"oIPL": 0,
-		"opt": 0,
-		"ou": "lpckwebp-none",
-		"q": 100,
-		"rq": 75
-		},
-	"/assets/models/agent0.babylon": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/assets/models/agent0.babylon",
-		"oF": 0
-		},
-	"/includes/header.html": {
+	"/.babelrc": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 1,
-		"oAP": "/includes/header.html",
-		"oF": 0
+		"oAP": "/dist/.babelrc",
+		"oF": 1
 		},
-	"/index.html": {
+	"/.eslintrc.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/.eslintrc-min.js",
+		"oF": 1,
+		"sC": 3,
+		"tS": 0
+		},
+	"/.gitignore": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
-		"oAP": "/index.html",
-		"oF": 0
+		"oA": 1,
+		"oAP": "/dist/.gitignore",
+		"oF": 1
 		},
-	"/index.kit": {
-		"cB": 0,
-		"ft": 2048,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/index.html",
+	"/dist": {
+		"ft": 65536,
+		"oA": 1,
+		"oAP": "/dist/dist",
 		"oF": 0
 		},
 	"/node_modules": {
 		"ft": 65536,
 		"oA": 2,
-		"oAP": "/build/node_modules",
+		"oAP": "/dist/node_modules",
 		"oF": 0
+		},
+	"/node_modules/@babel/core/lib/index.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/@babel/core/lib/index-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/@babel/helper-module-imports/lib/index.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/@babel/helper-module-imports/lib/index-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/@babylonjs/loaders/index.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/@babylonjs/loaders/index-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/@rollup/plugin-babel/dist/index.es.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/@rollup/plugin-babel/dist/index.es-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/@rollup/plugin-node-resolve/./dist/es/index.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/node_modules/@rollup/plugin-node-resolve/./dist/es/index-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/@rollup/plugin-replace/dist/rollup-plugin-replace.es.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/node_modules/@rollup/plugin-replace/dist/rollup-plugin-replace.es-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/@rollup/pluginutils/./dist/es/index.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/node_modules/@rollup/pluginutils/./dist/es/index-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/colorette/index.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/node_modules/colorette/index-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/deepmerge/dist/cjs.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/deepmerge/dist/cjs-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/fs-extra/./lib/index.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/node_modules/fs-extra/./lib/index-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/glob/glob.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/node_modules/glob/glob-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/html-bust/lib/index.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/node_modules/html-bust/lib/index-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/is-plain-object/index.es.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/node_modules/is-plain-object/index.es-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/livereload/./lib/livereload.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/node_modules/livereload/./lib/livereload-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/magic-string/dist/magic-string.es.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/node_modules/magic-string/dist/magic-string.es-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
 		},
 	"/node_modules/micromodal/dist/micromodal.es.js": {
 		"bF": 0,
@@ -243,10 +224,131 @@
 		"sC": 3,
 		"tS": 0
 		},
+	"/node_modules/oimo/build/oimo.module.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/oimo/build/oimo.module-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/opener/lib/opener.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/opener/lib/opener-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/picomatch/index.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/picomatch/index-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/regenerator-runtime/runtime.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/regenerator-runtime/runtime-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/resolve/index.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/resolve/index-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/rollup-plugin-command/dist/index.esm.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/node_modules/rollup-plugin-command/dist/index.esm-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/rollup-plugin-copy/dist/index.module.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/node_modules/rollup-plugin-copy/dist/index.module-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/rollup-plugin-livereload/dist/index.es.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/rollup-plugin-livereload/dist/index.es-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/rollup-plugin-serve/dist/index.es.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/rollup-plugin-serve/dist/index.es-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/rollup-plugin-terser/rollup-plugin-terser.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/rollup-plugin-terser/rollup-plugin-terser-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/node_modules/sourcemap-codec/dist/sourcemap-codec.es.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/node_modules/sourcemap-codec/dist/sourcemap-codec.es-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
 	"/package-lock.json": {
 		"ft": 524288,
 		"oA": 1,
-		"oAP": "/package-lock-min.json",
+		"oAP": "/dist/package-lock-min.json",
 		"oF": 0,
 		"oO": 0,
 		"oS": 1
@@ -254,7 +356,7 @@
 	"/package.json": {
 		"ft": 524288,
 		"oA": 1,
-		"oAP": "/package-min.json",
+		"oAP": "/dist/package-min.json",
 		"oF": 0,
 		"oO": 0,
 		"oS": 1
@@ -268,9 +370,9 @@
 		"eSQ": 1,
 		"ft": 4096,
 		"hM": 0,
-		"oA": 0,
-		"oAP": "/README.html",
-		"oF": 0,
+		"oA": 1,
+		"oAP": "/dist/README.html",
+		"oF": 1,
 		"oFM": 0,
 		"oS": 0,
 		"pHT": 0,
@@ -278,59 +380,255 @@
 		"rFN": 0,
 		"uCM": 0
 		},
-	"/scripts/dist/main.min.js": {
+	"/rollup.config.js": {
 		"bF": 0,
 		"ft": 64,
 		"ma": 0,
 		"mi": 1,
-		"oA": 0,
-		"oAP": "/scripts/dist/main.min-min.js",
-		"oF": 0,
+		"oA": 1,
+		"oAP": "/dist/rollup.config-min.js",
+		"oF": 1,
 		"sC": 3,
 		"tS": 0
 		},
-	"/scripts/dist/main.min.js.map": {
+	"/src/assets/images/arkids-thumb.gif": {
+		"ft": 4194304,
+		"iS": 20357,
+		"oA": 0,
+		"oAP": "/dist/assets/images/arkids-thumb.gif",
+		"oF": 0,
+		"opt": 1,
+		"ou": "lpckwebp-none",
+		"rq": 75
+		},
+	"/src/assets/images/bs-thumb.gif": {
+		"ft": 4194304,
+		"iS": 8195,
+		"oA": 0,
+		"oAP": "/dist/assets/images/bs-thumb.gif",
+		"oF": 0,
+		"opt": 1,
+		"ou": "lpckwebp-none",
+		"rq": 75
+		},
+	"/src/assets/images/bs.jpg": {
+		"ft": 16384,
+		"iS": 49332,
+		"jF": 0,
+		"oA": 0,
+		"oAP": "/dist/assets/images/bs.jpg",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 1,
+		"ou": "lpckwebp-none",
+		"q": 100,
+		"rq": 75
+		},
+	"/src/assets/images/door.png": {
+		"ft": 32768,
+		"iS": 1787,
+		"oA": 0,
+		"oAP": "/dist/assets/images/door.png",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 1,
+		"oT": 1,
+		"ou": "lpckwebp-none",
+		"q": 100,
+		"rq": 75
+		},
+	"/src/assets/images/gathering-thumb.gif": {
+		"ft": 4194304,
+		"iS": 18592,
+		"oA": 0,
+		"oAP": "/dist/assets/images/gathering-thumb.gif",
+		"oF": 0,
+		"opt": 1,
+		"ou": "lpckwebp-none",
+		"rq": 75
+		},
+	"/src/assets/images/gathering.jpg": {
+		"ft": 16384,
+		"iS": 49288,
+		"jF": 0,
+		"oA": 0,
+		"oAP": "/dist/assets/images/gathering.jpg",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 1,
+		"ou": "lpckwebp-none",
+		"q": 100,
+		"rq": 75
+		},
+	"/src/assets/images/online1.gif": {
+		"ft": 4194304,
+		"iS": 469471,
+		"oA": 0,
+		"oAP": "/dist/assets/images/online1.gif",
+		"oF": 0,
+		"opt": 1,
+		"ou": "lpckwebp-none",
+		"rq": 75
+		},
+	"/src/assets/images/online2.gif": {
+		"ft": 4194304,
+		"iS": 1564312,
+		"oA": 0,
+		"oAP": "/dist/assets/images/online2.gif",
+		"oF": 0,
+		"opt": 1,
+		"ou": "lpckwebp-none",
+		"rq": 75
+		},
+	"/src/assets/images/p1.png": {
+		"ft": 32768,
+		"iS": 6171,
+		"oA": 0,
+		"oAP": "/dist/assets/images/p1.png",
+		"oF": 0,
+		"oIPL": 1,
+		"opt": 1,
+		"oT": 1,
+		"ou": "lpckwebp-none",
+		"q": 100,
+		"rq": 75
+		},
+	"/src/assets/images/p2.png": {
+		"ft": 32768,
+		"iS": 6923,
+		"oA": 0,
+		"oAP": "/dist/assets/images/p2.png",
+		"oF": 0,
+		"oIPL": 1,
+		"opt": 1,
+		"oT": 1,
+		"ou": "lpckwebp-none",
+		"q": 100,
+		"rq": 75
+		},
+	"/src/assets/images/replicating-thumb.gif": {
+		"ft": 4194304,
+		"iS": 29407,
+		"oA": 0,
+		"oAP": "/dist/assets/images/replicating-thumb.gif",
+		"oF": 0,
+		"opt": 1,
+		"ou": "lpckwebp-none",
+		"rq": 75
+		},
+	"/src/assets/images/show-01-thumb.jpg": {
+		"ft": 16384,
+		"iS": 11474,
+		"jF": 0,
+		"oA": 0,
+		"oAP": "/dist/assets/images/show-01-thumb.jpg",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 1,
+		"ou": "lpckwebp-none",
+		"q": 100,
+		"rq": 75
+		},
+	"/src/assets/images/show-02-thumb.jpg": {
+		"ft": 16384,
+		"iS": 33256,
+		"jF": 0,
+		"oA": 0,
+		"oAP": "/dist/assets/images/show-02-thumb.jpg",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 1,
+		"ou": "lpckwebp-none",
+		"q": 100,
+		"rq": 75
+		},
+	"/src/assets/images/show-03-thumb.jpg": {
+		"ft": 16384,
+		"iS": 29621,
+		"jF": 0,
+		"oA": 0,
+		"oAP": "/dist/assets/images/show-03-thumb.jpg",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 1,
+		"ou": "lpckwebp-none",
+		"q": 100,
+		"rq": 75
+		},
+	"/src/assets/images/show-04-thumb.jpg": {
+		"ft": 16384,
+		"iS": 14212,
+		"jF": 0,
+		"oA": 0,
+		"oAP": "/dist/assets/images/show-04-thumb.jpg",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 1,
+		"ou": "lpckwebp-none",
+		"q": 100,
+		"rq": 75
+		},
+	"/src/assets/models/agent0.babylon": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 0,
-		"oAP": "/scripts/dist/main.min.js.map",
+		"oAP": "/dist/assets/models/agent0.babylon",
 		"oF": 0
 		},
-	"/scripts/src/3d/index.js": {
+	"/src/index.html": {
+		"cB": 1,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/index.html",
+		"oF": 0
+		},
+	"/src/scripts/3d-overlay/index.js": {
 		"bF": 0,
 		"ft": 64,
 		"ma": 0,
 		"mi": 0,
 		"oA": 1,
-		"oAP": "/scripts/src/3d/index-min.js",
+		"oAP": "/dist/scripts/3d-overlay/index-min.js",
 		"oF": 1,
 		"sC": 3,
 		"tS": 0
 		},
-	"/scripts/src/3d/scene.js": {
+	"/src/scripts/3d-overlay/ragdoll.js": {
 		"bF": 0,
 		"ft": 64,
 		"ma": 0,
 		"mi": 1,
-		"oA": 0,
-		"oAP": "/scripts/src/3d/scene-min.js",
+		"oA": 1,
+		"oAP": "/dist/scripts/3d-overlay/ragdoll-min.js",
 		"oF": 0,
 		"sC": 3,
 		"tS": 0
 		},
-	"/scripts/src/main.js": {
+	"/src/scripts/3d-overlay/scene.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/scripts/3d-overlay/scene-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/src/scripts/main.js": {
 		"bF": 4,
 		"ft": 64,
 		"ma": 1,
 		"mi": 1,
 		"oA": 0,
-		"oAP": "/scripts/dist/main.min.js",
+		"oAP": "/dist/scripts/main.min.js",
 		"oF": 2,
 		"sC": 3,
 		"tS": 1
 		},
-	"/styles/_mixins.scss": {
+	"/src/styles/_mixins.scss": {
 		"aP": 0,
 		"bl": 0,
 		"dP": 10,
@@ -338,12 +636,12 @@
 		"ft": 4,
 		"ma": 1,
 		"oA": 1,
-		"oAP": "/styles/_mixins.css",
+		"oAP": "/dist/styles/_mixins.css",
 		"oF": 0,
 		"oS": 0,
 		"sct": 0
 		},
-	"/styles/_variables.scss": {
+	"/src/styles/_variables.scss": {
 		"aP": 0,
 		"bl": 0,
 		"dP": 10,
@@ -351,30 +649,12 @@
 		"ft": 4,
 		"ma": 1,
 		"oA": 1,
-		"oAP": "/styles/_variables.css",
+		"oAP": "/dist/styles/_variables.css",
 		"oF": 0,
 		"oS": 0,
 		"sct": 0
 		},
-	"/styles/main.css": {
-		"aP": 1,
-		"bl": 0,
-		"ft": 16,
-		"ma": 0,
-		"oA": 0,
-		"oAP": "/styles/main-min.css",
-		"oF": 0,
-		"oS": 3
-		},
-	"/styles/main.css.map": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/styles/main.css.map",
-		"oF": 0
-		},
-	"/styles/main.scss": {
+	"/src/styles/main.scss": {
 		"aP": 0,
 		"bl": 0,
 		"dP": 10,
@@ -382,7 +662,7 @@
 		"ft": 4,
 		"ma": 1,
 		"oA": 0,
-		"oAP": "/styles/main.css",
+		"oAP": "/dist/styles/main.css",
 		"oF": 0,
 		"oS": 0,
 		"sct": 0
@@ -406,8 +686,8 @@
 	"animateCSSInjections": 1,
 	"autoBuildNewItems": 1,
 	"autoprefixerEnableIEGrid": 0,
-	"babel7PresetType": 1,
-	"babelAllowRCFiles": 0,
+	"babel7PresetType": 0,
+	"babelAllowRCFiles": 1,
 	"babelAuxiliaryCommentAfter": "",
 	"babelAuxiliaryCommentBefore": "",
 	"babelConfigType": 0,
@@ -691,8 +971,8 @@
 	"bowerUseExactVersion": 0,
 	"browserRefreshDelay": 0,
 	"browserslistString": ">0.2%, last 2 versions, Firefox ESR, not dead",
-	"buildFolderActive": 0,
-	"buildFolderName": "build",
+	"buildFolderActive": 1,
+	"buildFolderName": "dist",
 	"cleanBuild": 1,
 	"coffeeLintFlags2": {
 		"arrow_spacing": {
@@ -833,7 +1113,7 @@
 			}
 		},
 	"environmentVariablesString": "NODE_ENV:::production",
-	"esLintConfigFileHandlingType": 0,
+	"esLintConfigFileHandlingType": 1,
 	"esLintECMAVersion": 7,
 	"esLintEnvironmentsMask": 1,
 	"esLintRules": {
@@ -2403,10 +2683,10 @@
 	"overrideExternalServerCSS": 0,
 	"previewPathAddition": "",
 	"rollupExternals": "",
-	"rollupReplacements": "process.env.NODE_ENV:::$NODE_ENV,,,ENVIRONMENT:::$NODE_ENV",
+	"rollupReplacements": "'process.env.NODE_ENV':::$NODE_ENV,,,ENVIRONMENT:::$NODE_ENV",
 	"rollupTreeshakingEnabled": 1,
 	"skippedFoldersString": "log, _logs, logs, _cache, cache, .idea, /storage/framework/sessions, node_modules",
-	"sourceFolderName": "source",
+	"sourceFolderName": "src",
 	"susyVersion": 3,
 	"tsAllowSyntheticDefaultImports": 0,
 	"tsAllowUnreachableCode": 0,
@@ -2713,7 +2993,7 @@
 	"uglifyReservedNamesString": "$,exports,require",
 	"webpPresets": {
 		},
-	"websiteRelativeRoot": ""
+	"websiteRelativeRoot": "dist"
 	},
 "settingsFileVersion": "3"
 }
