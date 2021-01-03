@@ -1,5 +1,3 @@
-// import * as BABYLON from "@babylonjs/core/Legacy/legacy";
-
 import * as OIMO from 'oimo';
 import { Scene } from '@babylonjs/core/scene';
 import { Vector3, Color3, Color4, Angle, Axis, Matrix } from '@babylonjs/core/Maths/math';
@@ -22,11 +20,10 @@ import Recast from 'recast-detour';
 import '@babylonjs/core/Physics/physicsEngineComponent';
 import '@babylonjs/core/Loading/Plugins/babylonFileLoader';
 import '@babylonjs/loaders';
-// import "@babylonjs/core/Debug/debugLayer";
-// import "@babylonjs/inspector";
+import "@babylonjs/core/Debug/debugLayer";
+import "@babylonjs/inspector";
 
 import Ragdoll from './ragdoll';
-import { getClosestAspectRatio } from './utils';
 
 export default async function createScene(engine) {
   const scene = new Scene(engine);
@@ -48,88 +45,20 @@ export default async function createScene(engine) {
 
   // camera
 
-  // const camera = new FreeCamera('camera', new Vector3(0, 4.91, -6), scene); // PERSPECTIVE VERTICAL
-  // const camera = new FreeCamera('camera', new Vector3(0, 4.91, -18), scene); // PERSPECTIVE HORIZONTAL
-  const camera = new FreeCamera('camera', new Vector3(0, 3, 0), scene); // ORTHO HORIZONTAL
-  camera.mode = Camera.ORTHOGRAPHIC_CAMERA;
+  const camera = new FreeCamera('camera', new Vector3(0, 4.91, -18), scene); // PERSPECTIVE HORIZONTAL
   camera.fovMode = Camera.FOVMODE_HORIZONTAL_FIXED; // resize the scene based on canvas width instead of height
-  camera.rotation = new Vector3(0.3, 0, 0);
-
-  const [widthRatio, heightRatio] = getClosestAspectRatio(engine.getRenderWidth() / engine.getRenderHeight(), 20);
-  const scaleFactor = 0.5;
-  camera.orthoTop = heightRatio * scaleFactor;
-  camera.orthoBottom = -heightRatio * scaleFactor;
-  camera.orthoLeft = -widthRatio * scaleFactor;
-  camera.orthoRight = widthRatio * scaleFactor;
-
-  const startW = engine.getRenderWidth();
-  const startH = engine.getRenderHeight();
-  engine.onResizeObservable.add(function () {
-    camera.orthoTop = heightRatio * scaleFactor * (engine.getRenderHeight() / startH);
-    camera.orthoBottom = -heightRatio * scaleFactor * (engine.getRenderHeight() / startH);
-    camera.orthoLeft = -widthRatio * scaleFactor * (engine.getRenderWidth() / startW);
-    camera.orthoRight = widthRatio * scaleFactor * (engine.getRenderWidth() / startW);
-  });
 
   // floor
 
-  const floorBox = MeshBuilder.CreateGround('floor', { width: 1, height: 1 }, scene);
-  floorBox.position = new Vector3(0, -1, 0);
-  // floorBox.physicsImpostor = new PhysicsImpostor(floorBox, PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0 }, scene);
+  const floorBox = MeshBuilder.CreateGround('floor', { width: 40, height: 20 }, scene);
+  floorBox.position = new Vector3(0, 0, 0);
+  floorBox.physicsImpostor = new PhysicsImpostor(floorBox, PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0 }, scene);
 
   const floorColor = 128 / 255;
   const floorMaterial = new StandardMaterial('floorMaterial', scene);
   floorMaterial.disableLighting = true;
   floorMaterial.emissiveColor = new Color3(floorColor, 0, 0);
   floorBox.material = floorMaterial;
-
-  function resizeGround() {
-    const $footer = document.getElementById('footer');
-    const footerRect = $footer.getBoundingClientRect();
-    const footerCorners = [
-      [footerRect.left, footerRect.top],
-      [footerRect.right, footerRect.top],
-      [footerRect.left, footerRect.bottom],
-      [footerRect.right, footerRect.bottom]
-    ];
-    const [topLeft, topRight, bottomLeft, bottomRight] = footerCorners.map(([x, y]) => Vector3.Unproject(
-      new Vector3(x, y, 0.00001),
-      engine.getRenderWidth(),
-      engine.getRenderHeight(),
-      Matrix.Identity(),
-      camera.getViewMatrix(),
-      camera.getProjectionMatrix()
-    ));
-
-    // floorBox.position = new Vector3(0, -6.37, 0);
-    floorBox.scaling = new Vector3(topRight.x - topLeft.x, 1, -15.39);
-
-    floorBox.refreshBoundingInfo();
-    const floorBoundingInfo = floorBox.getBoundingInfo();
-    floorBoundingInfo.update(floorBox._worldMatrix);
-    const floorBoundingBox = floorBoundingInfo.boundingBox;
-
-    const temp = Vector3.Project(
-      new Vector3(floorBoundingBox.minimumWorld.x, floorBox.position.y, floorBoundingBox.minimumWorld.z),
-      Matrix.IdentityReadOnly,
-      camera.getTransformationMatrix(),
-      camera.viewport.toGlobal(
-        engine.getRenderWidth(),
-        engine.getRenderHeight(),
-      ),
-    );
-    const temp2 = Vector3.Project(
-      new Vector3(floorBoundingBox.minimumWorld.x, floorBox.position.y, floorBoundingBox.maximumWorld.z),
-      Matrix.IdentityReadOnly,
-      camera.getTransformationMatrix(),
-      camera.viewport.toGlobal(
-        engine.getRenderWidth(),
-        engine.getRenderHeight(),
-      ),
-    );
-  }
-  resizeGround();
-  engine.onResizeObservable.add(resizeGround);
 
   // character
 
@@ -204,69 +133,28 @@ export default async function createScene(engine) {
     detailSampleMaxError: 1,
   });
 
-  // resizing logic
-
-  // engine.onResizeObservable.add(function () {
-  //   const screenWidth = engine.getRenderWidth(true);
-  //   const screenHeight = engine.getRenderHeight(true);
-  // });
-
-  // let screenPos = new Vector3();
-  // let firstRender = true;
-  // let yDistFromBottomInPixels = -1;
-  // scene.onAfterRenderObservable.add(() => {
-  //   if (firstRender) {
-  //     screenPos = Vector3.Project(
-  //       mesh.getAbsolutePosition(),
-  //       Matrix.IdentityReadOnly,
-  //       scene.getTransformMatrix(),
-  //       camera.viewport.toGlobal(
-  //         engine.getRenderWidth(),
-  //         engine.getRenderHeight(),
-  //       ),
-  //     );
-
-  //     yDistFromBottomInPixels = engine.getRenderHeight() - screenPos.y;
-  //     console.log(yDistFromBottomInPixels);
-
-  //     screenPos = screenPos.multiply(new Vector3(1 / engine.getRenderWidth(), 1 / engine.getRenderHeight(), 1));
-
-  //     firstRender = false;
-  //   }
-  // });
-
-  const initialHeight = engine.getRenderHeight();
-  let prevHeight = initialHeight;
-  engine.onResizeObservable.add(() => {
-    if (engine.getRenderHeight() === prevHeight) {
-      return;
-    }
-
-    mesh.position = Vector3.Unproject(
-      new Vector3(engine.getRenderWidth() * 0.25, engine.getRenderHeight() - 100, 0.96), // 0.94455
-      // screenPos.multiply(new Vector3(engine.getRenderWidth(), engine.getRenderHeight(), 1)),
+  function pinGroundPlaneToFooter() {
+    const $footer = document.getElementById('footer');
+    const footerRect = $footer.getBoundingClientRect();
+    const floorBoundingBox = floorBox.getBoundingInfo().boundingBox;
+    // references:
+    // - https://stackoverflow.com/questions/13055214/mouse-canvas-x-y-to-three-js-world-x-y-z
+    // - https://forum.babylonjs.com/t/how-do-i-tie-an-object-to-the-mouse-with-playground-example/7799
+    const topCenter = Vector3.Unproject(
+      new Vector3((footerRect.right - footerRect.left) / 2, footerRect.top, 0.5),
       engine.getRenderWidth(),
       engine.getRenderHeight(),
       Matrix.Identity(),
-      scene.getViewMatrix(),
-      scene.getProjectionMatrix()
+      camera.getViewMatrix(),
+      camera.getProjectionMatrix()
     );
-
-    // floorBox.position = Vector3.Unproject(
-    //   new Vector3(engine.getRenderWidth() * 0.5, engine.getRenderHeight() - 100, 0.95),
-    //   engine.getRenderWidth(),
-    //   engine.getRenderHeight(),
-    //   Matrix.Identity(),
-    //   scene.getViewMatrix(),
-    //   scene.getProjectionMatrix()
-    // );
-
-    prevHeight = engine.getRenderHeight();
-  });
-
-  // scene.debugLayer.show({
-    // overlay: true
-  // });
+    const dir = topCenter.subtract(camera.position).normalize();
+    const distance = (floorBoundingBox.maximumWorld.z - camera.position.z) / dir.z;
+    const cameraDelta = camera.position.clone().add(dir.scale(distance));
+    camera.position.y -= cameraDelta.y;
+  }
+  pinGroundPlaneToFooter();
+  scene.onBeforeRenderObservable.add(pinGroundPlaneToFooter);
 
   return scene;
 }
