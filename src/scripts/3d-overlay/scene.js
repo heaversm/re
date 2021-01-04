@@ -1,9 +1,12 @@
+// import * as BABYLON from '@babylonjs/core/Legacy/legacy';
+
 import * as OIMO from 'oimo';
 import { Scene } from '@babylonjs/core/scene';
-import { Vector3, Color3, Color4, Angle, Axis, Matrix } from '@babylonjs/core/Maths/math';
+import { Vector3, Color3, Color4, Angle, Axis } from '@babylonjs/core/Maths/math';
 import { OimoJSPlugin } from '@babylonjs/core/Physics/Plugins/oimoJSPlugin';
 import { Animation } from '@babylonjs/core/Animations/animation';
 import { AnimationPropertiesOverride } from '@babylonjs/core/Animations/animationPropertiesOverride';
+import { EasingFunction, BezierCurveEase } from '@babylonjs/core/Animations/easing';
 import { Camera } from '@babylonjs/core/Cameras/camera';
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
@@ -14,23 +17,26 @@ import { SceneLoader } from '@babylonjs/core/Loading/sceneLoader';
 import { RecastJSPlugin } from '@babylonjs/core/Navigation/Plugins/recastJSPlugin';
 import Recast from 'recast-detour';
 
-// this has to be a require or Node complains
-// const Recast = require('recast-detour');
-
+import '@babylonjs/core/Animations/animatable';
 import '@babylonjs/core/Physics/physicsEngineComponent';
 import '@babylonjs/core/Loading/Plugins/babylonFileLoader';
 import '@babylonjs/loaders';
-import "@babylonjs/core/Debug/debugLayer";
-import "@babylonjs/inspector";
+// import "@babylonjs/core/Debug/debugLayer";
+// import "@babylonjs/inspector";
 
 import Ragdoll from './ragdoll';
+import { viewportToWorldPoint } from './utils';
 
-export default async function createScene(engine) {
+export default async function createScene(engine, events) {
   const scene = new Scene(engine);
+
+  // parameters
+
+  let showFooter = true;
 
   // scene settings
 
-  scene.enablePhysics(new Vector3(0, -9, 0), new OimoJSPlugin(true, undefined, OIMO));
+  scene.enablePhysics(new Vector3(0, -9, 0), new OimoJSPlugin(true, 8, OIMO));
 
   // this is really important to tell Babylon.js to use decomposeLerp and matrix interpolation
   Animation.AllowMatricesInterpolation = true;
@@ -45,20 +51,22 @@ export default async function createScene(engine) {
 
   // camera
 
-  const camera = new FreeCamera('camera', new Vector3(0, 4.91, -18), scene); // PERSPECTIVE HORIZONTAL
+  const camera = new FreeCamera('camera', new Vector3(0, 4.91, -18), scene);
   camera.fovMode = Camera.FOVMODE_HORIZONTAL_FIXED; // resize the scene based on canvas width instead of height
 
   // floor
 
-  const floorBox = MeshBuilder.CreateGround('floor', { width: 40, height: 20 }, scene);
-  floorBox.position = new Vector3(0, 0, 0);
-  floorBox.physicsImpostor = new PhysicsImpostor(floorBox, PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0 }, scene);
+  const floorHeight = 20;
+  const floor = MeshBuilder.CreateBox('floor', { width: 40, height: floorHeight, depth: 20 }, scene);
+  floor.physicsImpostor = new PhysicsImpostor(floor, PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.9 }, scene);
+  floor.physicsImpostor.physicsBody.isKinematic = true; // specific to oimo.js
+  floor.position.y = -floorHeight / 2;
 
   const floorColor = 128 / 255;
   const floorMaterial = new StandardMaterial('floorMaterial', scene);
   floorMaterial.disableLighting = true;
   floorMaterial.emissiveColor = new Color3(floorColor, 0, 0);
-  floorBox.material = floorMaterial;
+  floor.material = floorMaterial;
 
   // character
 
@@ -114,10 +122,12 @@ export default async function createScene(engine) {
   const ragdoll = new Ragdoll(skeleton, mesh, config, jointCollisions, showBoxes, mainPivotSphereSize, disableBoxBoneSync);
   ragdoll.init();
 
+  // ragdoll.ragdoll();
+
   // crowd navigation
 
   const navigationPlugin = new RecastJSPlugin(Recast);
-  navigationPlugin.createNavMesh([floorBox], {
+  navigationPlugin.createNavMesh([floor], {
     cs: 0.2,
     ch: 0.2,
     walkableSlopeAngle: 35,
@@ -133,28 +143,84 @@ export default async function createScene(engine) {
     detailSampleMaxError: 1,
   });
 
+  let targetFooterBottomCenterWorld = new Vector3(0, 0, 0);
   function pinGroundPlaneToFooter() {
+    if (!showFooter) {
+      return;
+    }
     const $footer = document.getElementById('footer');
     const footerRect = $footer.getBoundingClientRect();
-    const floorBoundingBox = floorBox.getBoundingInfo().boundingBox;
-    // references:
-    // - https://stackoverflow.com/questions/13055214/mouse-canvas-x-y-to-three-js-world-x-y-z
-    // - https://forum.babylonjs.com/t/how-do-i-tie-an-object-to-the-mouse-with-playground-example/7799
-    const topCenter = Vector3.Unproject(
-      new Vector3((footerRect.right - footerRect.left) / 2, footerRect.top, 0.5),
-      engine.getRenderWidth(),
-      engine.getRenderHeight(),
-      Matrix.Identity(),
-      camera.getViewMatrix(),
-      camera.getProjectionMatrix()
+    const floorBoundingBox = floor.getBoundingInfo().boundingBox;
+    // find the world-space location of the top center of the footer element
+    // at the Z position of the far edge of the ground plane
+    const targetFooterTopCenterWorld = viewportToWorldPoint(
+      ((footerRect.right - footerRect.left) / 2) / engine.getRenderWidth(),
+      footerRect.top / engine.getRenderHeight(),
+      floorBoundingBox.maximumWorld.z,
+      camera
     );
-    const dir = topCenter.subtract(camera.position).normalize();
-    const distance = (floorBoundingBox.maximumWorld.z - camera.position.z) / dir.z;
-    const cameraDelta = camera.position.clone().add(dir.scale(distance));
-    camera.position.y -= cameraDelta.y;
+    camera.position.y -= targetFooterTopCenterWorld.y;
+
+    targetFooterBottomCenterWorld = viewportToWorldPoint(
+      ((footerRect.right - footerRect.left) / 2) / engine.getRenderWidth(),
+      (footerRect.bottom + 200) / engine.getRenderHeight(), // add a little extra vertical buffer to hide any ragdolls
+      floorBoundingBox.maximumWorld.z,
+      camera
+    );
   }
   pinGroundPlaneToFooter();
   scene.onBeforeRenderObservable.add(pinGroundPlaneToFooter);
+
+  const animationFrameRate = 60;
+  const floorAnimationDuration = 0.5;
+  const floorEasingFunction = new BezierCurveEase(0.42, 0, 1, 1);
+  floorEasingFunction.setEasingMode(EasingFunction.EASINGMODE_EASEIN);
+  const originalFloorPosition = floor.position;
+
+  events.onNavigateOnline.add(() => {
+    if (showFooter) {
+      return;
+    }
+    showFooter = true;
+    floor.isVisible = true;
+    Animation.CreateAndStartAnimation(
+      'floorYIn',
+      floor,
+      'position',
+      animationFrameRate,
+      animationFrameRate * floorAnimationDuration,
+      floor.position,
+      originalFloorPosition,
+      Animation.ANIMATIONLOOPMODE_RELATIVE,
+      floorEasingFunction
+    );
+  });
+
+  events.onNavigateIRL.add(() => {
+    if (!showFooter) {
+      return;
+    }
+    showFooter = false;
+    Animation.CreateAndStartAnimation(
+      'floorYOut',
+      floor,
+      'position',
+      animationFrameRate,
+      animationFrameRate * floorAnimationDuration,
+      originalFloorPosition,
+      new Vector3(0, (-floorHeight / 2) + targetFooterBottomCenterWorld.y, 0),
+      Animation.ANIMATIONLOOPMODE_RELATIVE,
+      floorEasingFunction,
+      () => {
+        // floor.isVisible = false;
+      }
+    );
+    ragdoll.ragdoll();
+  });
+
+  // scene.debugLayer.show({
+  //   overlay: true
+  // });
 
   return scene;
 }

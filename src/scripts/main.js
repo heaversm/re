@@ -1,8 +1,14 @@
 import MicroModal from "micromodal";
+import { Observable } from "@babylonjs/core/Misc/observable";
 
 import "regenerator-runtime";
 
 import init3DOverlay from "./3d-overlay"
+
+const babylonEvents = {
+  onNavigateOnline: new Observable(),
+  onNavigateIRL: new Observable()
+};
 
 const re = (function () {
   const $contentItems = document.querySelectorAll(".modal__content-item");
@@ -54,12 +60,15 @@ const re = (function () {
     switch (id) {
       case "irl":
         $body.dataset.page = "irl";
+        babylonEvents.onNavigateIRL.notifyObservers();
         break;
       case "online":
         $body.dataset.page = "online";
+        babylonEvents.onNavigateOnline.notifyObservers();
         break;
       default:
         $body.dataset.page = "home";
+        babylonEvents.onNavigateIRL.notifyObservers();
         break;
     }
   };
@@ -80,5 +89,5 @@ window.onload = function () {
 
 window.addEventListener("DOMContentLoaded", function () {
   const $canvas = document.getElementById("render-canvas");
-  init3DOverlay($canvas);
+  init3DOverlay($canvas, babylonEvents);
 });
