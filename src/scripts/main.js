@@ -2,7 +2,7 @@ import MicroModal from "micromodal";
 
 import "regenerator-runtime";
 
-import init3DOverlay from "./3d-overlay"
+import init3DOverlay from "./3d-overlay";
 
 const re = (function () {
   const $contentItems = document.querySelectorAll(".modal__content-item");
@@ -34,9 +34,10 @@ const re = (function () {
           }
         });
         $targetContent.classList.add("active");
-        $targetImage.classList.add("active")
-      }
+        $targetImage.classList.add("active");
+      },
     });
+    MicroModal.show("modal-3"); //show strobe at start
   };
 
   const addListeners = function () {
@@ -59,7 +60,7 @@ const re = (function () {
         $body.dataset.page = "online";
         break;
       default:
-        $body.dataset.page = "home";
+        $body.dataset.page = "irl";
         break;
     }
   };
@@ -70,7 +71,7 @@ const re = (function () {
   };
 
   return {
-    init: init
+    init: init,
   };
 })();
 
