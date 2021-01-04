@@ -1,8 +1,14 @@
 import MicroModal from "micromodal";
+import { Observable } from "@babylonjs/core/Misc/observable";
 
 import "regenerator-runtime";
 
 import init3DOverlay from "./3d-overlay";
+
+const babylonEvents = {
+  onNavigateOnline: new Observable(),
+  onNavigateIRL: new Observable(),
+};
 
 const re = (function () {
   const $contentItems = document.querySelectorAll(".modal__content-item");
@@ -33,8 +39,12 @@ const re = (function () {
             item.classList.remove("active");
           }
         });
-        $targetContent.classList.add("active");
-        $targetImage.classList.add("active");
+        if ($targetContent) {
+          $targetContent.classList.add("active");
+        }
+        if ($targetImage) {
+          $targetImage.classList.add("active");
+        }
       },
     });
     MicroModal.show("modal-3"); //show strobe at start
@@ -49,20 +59,31 @@ const re = (function () {
     $pageTitle.addEventListener("click", onMainNavClick);
   };
 
+  const closeAllModals = function () {
+    MicroModal.close("modal-1");
+    MicroModal.close("modal-2");
+    MicroModal.close("modal-3");
+  };
+
   const onMainNavClick = function (e) {
     e.preventDefault();
     const id = e.currentTarget.dataset.id;
+
     switch (id) {
       case "irl":
         $body.dataset.page = "irl";
+        babylonEvents.onNavigateIRL.notifyObservers();
         break;
       case "online":
         $body.dataset.page = "online";
+        babylonEvents.onNavigateOnline.notifyObservers();
         break;
       default:
         $body.dataset.page = "irl";
+        babylonEvents.onNavigateIRL.notifyObservers();
         break;
     }
+    closeAllModals();
   };
 
   const init = function () {
@@ -81,5 +102,5 @@ window.onload = function () {
 
 window.addEventListener("DOMContentLoaded", function () {
   const $canvas = document.getElementById("render-canvas");
-  init3DOverlay($canvas);
+  init3DOverlay($canvas, babylonEvents);
 });
