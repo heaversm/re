@@ -235,13 +235,12 @@ h6 {
       background-color: $c-red;
     }
   }
-  &__text-inner {
+
+  &__exhibit-content {
     background-color: $c-white;
     color: $c-black;
     padding: $space-std;
     font-size: 12px;
-  }
-  &__exhibit-content {
     display: none;
   }
 
@@ -277,7 +276,6 @@ h6 {
 .collection {
   &__nav {
     background-color: $c-white;
-    color: $c-black;
     padding: 5px;
     height: 100%;
     display: none;
@@ -286,7 +284,7 @@ h6 {
     margin-top: 10px;
   }
   &__link {
-    color: $c-black;
+    color: $c-blue;
     text-transform: uppercase;
     font-size: 14px;
     @include breakpoint(desktop) {
@@ -294,6 +292,9 @@ h6 {
     }
     @include breakpoint(mobile_sm) {
       font-size: 12px;
+    }
+    &:hover {
+      color: $c-red;
     }
   }
 }
@@ -439,8 +440,8 @@ body[data-page="irl"] {
       background-color: $c-red;
     }
   }
-  .square-grid__image[data-page="irl"],
-  .square-grid__exhibit-content[data-page="irl"] {
+  .square-grid__image.active,
+  .square-grid__exhibit-content.active {
     display: block;
   }
   .footer {
@@ -451,6 +452,14 @@ body[data-page="irl"] {
       @include breakpoint(mobile_only) {
         display: none;
       }
+    }
+  }
+  .collection {
+    &__nav[data-id="irl"] {
+      display: block;
+    }
+    &__nav[data-id="online"] {
+      display: none;
     }
   }
 }
@@ -473,7 +482,10 @@ body[data-page="online"] {
     }
   }
   .collection {
-    &__nav {
+    &__nav[data-id="irl"] {
+      display: none;
+    }
+    &__nav[data-id="online"] {
       display: block;
     }
   }

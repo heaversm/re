@@ -23,6 +23,11 @@ const re = (function () {
   let strobeInterval; //handles flashing strobe text
   let strobeOn = false; //when true, text is blue
 
+  const $gridImages = document.querySelectorAll(".square-grid__image");
+  const $exhibitContents = document.querySelectorAll(
+    ".square-grid__exhibit-content"
+  );
+
   const initModal = function () {
     MicroModal.init({
       onShow: (modal, trigger, e) => {
@@ -54,7 +59,6 @@ const re = (function () {
       },
       onClose: (modal, trigger, e) => {
         const modalID = modal.id;
-        console.log(modalID);
         if (modalID === "modal-3") {
           //strobe modal
           cancelStrobe();
@@ -72,6 +76,33 @@ const re = (function () {
     );
     $blueSquare.addEventListener("click", onMainNavClick);
     $pageTitle.addEventListener("click", onMainNavClick);
+    const $irlCollectionLinks = document.querySelectorAll(
+      ".collection__link[data-page='irl']"
+    );
+    $irlCollectionLinks.forEach((irlLink) => {
+      irlLink.addEventListener("click", onIRLCollectionLinkClick);
+    });
+  };
+
+  const onIRLCollectionLinkClick = (e) => {
+    e.preventDefault();
+    const thisID = e.target.dataset.collection;
+    $gridImages.forEach(($gridImage) => {
+      $gridImage.classList.toggle("active", false);
+    });
+    $exhibitContents.forEach(($exhibitContent) => {
+      $exhibitContent.classList.toggle("active", false);
+    });
+    const $collectionImages = document.querySelectorAll(
+      `.square-grid__image[data-collection="${thisID}"]`
+    );
+    $collectionImages.forEach(($collectionImage) => {
+      $collectionImage.classList.toggle("active", true);
+    });
+    const $collectionContent = document.querySelector(
+      `.square-grid__exhibit-content[data-collection="${thisID}"]`
+    );
+    $collectionContent.classList.toggle("active", true);
   };
 
   const closeAllModals = function () {
