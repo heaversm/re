@@ -13,7 +13,7 @@ import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import { PhysicsImpostor } from '@babylonjs/core/Physics/physicsImpostor';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
 import { MultiMaterial } from '@babylonjs/core/Materials/multiMaterial';
-import { AssetsManager } from '@babylonjs/core/Misc/assetsManager';
+import { AssetsManager, AssetTaskState } from '@babylonjs/core/Misc/assetsManager';
 import { RecastJSPlugin } from '@babylonjs/core/Navigation/Plugins/recastJSPlugin';
 import Recast from 'recast-detour';
 
@@ -57,16 +57,18 @@ export default async function createScene(engine, events) {
   // load assets
 
   const assetsManager = new AssetsManager(scene);
-  const assetContainerPromises = [
-    new Promise((resolve, reject) => {
-      const agent0Task = assetsManager.addContainerTask('agent0Task', '', 'assets/models/', 'agent0.babylon');
-      agent0Task.onSuccess = ({ loadedContainer }) => resolve(loadedContainer);
-      agent0Task.onError = (t, m, exception) => reject(exception);
-    })
-  ];
+  const modelFileNames = ['agent0.babylon'];
+  modelFileNames.forEach((modelFileName, i) => {
+    assetsManager.addContainerTask(`agent${i}Task`, '', 'assets/models/', modelFileName)
+  });
 
-  assetsManager.load();
-  const assetContainers = await Promise.all(assetContainerPromises);
+  const assetContainers = await new Promise(resolve => {
+    assetsManager.onFinish = tasks => {
+      const successfulTasks = tasks.filter(task => task.taskState !== AssetTaskState.ERROR);
+      resolve(successfulTasks.map(({ loadedContainer }) => loadedContainer));
+    };
+    assetsManager.load();
+  });
 
   // camera
 
