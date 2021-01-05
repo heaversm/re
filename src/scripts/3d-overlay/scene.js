@@ -2,7 +2,7 @@
 
 import * as OIMO from 'oimo';
 import { Scene } from '@babylonjs/core/scene';
-import { Vector3, Color3, Color4, Angle, Axis } from '@babylonjs/core/Maths/math';
+import { Vector3, Color3, Color4, Angle } from '@babylonjs/core/Maths/math';
 import { OimoJSPlugin } from '@babylonjs/core/Physics/Plugins/oimoJSPlugin';
 import { Animation } from '@babylonjs/core/Animations/animation';
 import { AnimationPropertiesOverride } from '@babylonjs/core/Animations/animationPropertiesOverride';
@@ -12,7 +12,6 @@ import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import { PhysicsImpostor } from '@babylonjs/core/Physics/physicsImpostor';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
-import { MultiMaterial } from '@babylonjs/core/Materials/multiMaterial';
 import { AssetsManager, AssetTaskState } from '@babylonjs/core/Misc/assetsManager';
 import { RecastJSPlugin } from '@babylonjs/core/Navigation/Plugins/recastJSPlugin';
 import Recast from 'recast-detour';
@@ -27,7 +26,7 @@ import '@babylonjs/loaders';
 // import "@babylonjs/core/Debug/debugLayer";
 // import "@babylonjs/inspector";
 
-import Ragdoll from './ragdoll';
+import { AgentPool } from './agent';
 import { viewportToWorldPoint } from './utils';
 
 export default async function createScene(engine, events) {
@@ -62,10 +61,10 @@ export default async function createScene(engine, events) {
     assetsManager.addContainerTask(`agent${i}Task`, '', 'assets/models/', modelFileName)
   });
 
-  const assetContainers = await new Promise(resolve => {
+  const agentPools = await new Promise(resolve => {
     assetsManager.onFinish = tasks => {
       const successfulTasks = tasks.filter(task => task.taskState !== AssetTaskState.ERROR);
-      resolve(successfulTasks.map(({ loadedContainer }) => loadedContainer));
+      resolve(successfulTasks.map(({ loadedContainer }) => new AgentPool(loadedContainer, scene)));
     };
     assetsManager.load();
   });
@@ -87,65 +86,20 @@ export default async function createScene(engine, events) {
   const floorColor = 128 / 255;
   const floorMaterial = new StandardMaterial('floorMaterial', scene);
   floorMaterial.disableLighting = true;
-  floorMaterial.emissiveColor = new Color3(floorColor, 0, 0);
+  floorMaterial.emissiveColor = new Color3(floorColor, floorColor, floorColor);
   floor.material = floorMaterial;
 
-  // character
+  // agents
 
-  const { rootNodes: meshes, skeletons } = assetContainers[0].instantiateModelsToScene();
-
-  const [mesh] = meshes;
-  const [skeleton] = skeletons;
-
-  mesh.position = new Vector3(-6, 0, 8.9);
-  mesh.rotation = new Vector3(Angle.FromDegrees(-90).radians(), Angle.FromDegrees(180).radians(), 0);
-  mesh.scaling = new Vector3(0.01, 0.01, 0.01);
-  mesh.isVisible = false;
-
-  const lightGrayMaterial = new StandardMaterial('lightGrayMaterial', scene);
-  lightGrayMaterial.disableLighting = true;
-  lightGrayMaterial.emissiveColor = new Color3(0.8, 0.8, 0.8);
-
-  const greenMaterial = new StandardMaterial('greenMaterial', scene);
-  greenMaterial.disableLighting = true;
-  greenMaterial.emissiveColor = new Color3(0, 1, 0);
-
-  const redMaterial = new StandardMaterial('redMaterial', scene);
-  redMaterial.disableLighting = true;
-  redMaterial.emissiveColor = new Color3(1, 0, 0);
-
-  const agentMaterial = new MultiMaterial('agentMaterial', scene);
-  agentMaterial.subMaterials.push(lightGrayMaterial);
-  agentMaterial.subMaterials.push(lightGrayMaterial);
-  agentMaterial.subMaterials.push(greenMaterial);
-  agentMaterial.subMaterials.push(redMaterial);
-  mesh.material = agentMaterial;
-
-  skeleton.beginAnimation('Idle', true); // true means loop
-
-  // ragdoll
-
-  const config = [
-    { bones: ["mixamorig_Hips"], size: 0.2, boxOffset: -0.05 },
-    { bones: ["mixamorig_Spine1"], size: 0.2, boxOffset: 0.1, min: -10, max: 10 },
-    { bones: ["mixamorig_HeadTop_End"], size: 0.225, boxOffset: -0.115, min: -10, max: 10 },
-    { bones: ["mixamorig_RightArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Z, min: -45, max: 90, boxOffset: 0.1 },
-    { bones: ["mixamorig_LeftArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Z, min: -45, max: 90, boxOffset: 0.1  },
-    { bones: ["mixamorig_RightForeArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Y, min: -90, max: 90, boxOffset: 0.1 },
-    { bones: ["mixamorig_LeftForeArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Y, min: -90, max: 90, boxOffset: 0.1 },
-    { bones: ['mixamorig_RightHand', 'mixamorig_LeftHand'], size: 0.1, height: 0.15, min: -10, max: 10, boxOffset: 0.05 },
-    { bones: ["mixamorig_RightUpLeg", "mixamorig_LeftUpLeg"], size: 0.15, height: 0.25, rotationAxis: Axis.Z, min: -90, max: 90, boxOffset: 0.25 },
-    { bones: ["mixamorig_RightLeg", "mixamorig_LeftLeg"], size: 0.15, height: 0.25, min: -45, max: 90, boxOffset: 0.15 },
-    { bones: ["mixamorig_RightFoot", "mixamorig_LeftFoot"], size: 0.15, min: -10, max: 10 },
-  ];
-  const jointCollisions = false;
-  const showBoxes = false;
-  const mainPivotSphereSize = 0;
-  const disableBoxBoneSync = false;
-  const ragdoll = new Ragdoll(skeleton, mesh, config, jointCollisions, showBoxes, mainPivotSphereSize, disableBoxBoneSync);
-  ragdoll.init();
-
-  // ragdoll.ragdoll();
+  const agents = new Set();
+  const newAgent = agentPools[0].instantiate(
+    new Vector3(-6, 0, 8.9),
+    new Vector3(Angle.FromDegrees(-90).radians(), Angle.FromDegrees(180).radians(), 0),
+    new Vector3(0.01, 0.01, 0.01)
+  );
+  newAgent.mesh.isVisible = false;
+  newAgent.skeleton.beginAnimation('Idle', true); // true means loop
+  agents.add(newAgent);
 
   // crowd navigation
 
@@ -206,7 +160,9 @@ export default async function createScene(engine, events) {
     }
     showFooter = true;
     floor.isVisible = true;
-    mesh.isVisible = true;
+    for (const agent of agents) {
+      agent.mesh.isVisible = true;
+    }
     Animation.CreateAndStartAnimation(
       'floorYIn',
       floor,
@@ -239,13 +195,17 @@ export default async function createScene(engine, events) {
         floor.isVisible = false;
       }
     );
-    ragdoll.ragdoll();
-    const hideMeshObservable = scene.onBeforeRenderObservable.add(() => {
-      if (!camera.isInFrustum(mesh)) {
-        mesh.isVisible = false;
-        scene.onBeforeRenderObservable.remove(hideMeshObservable);
+    for (const agent of agents) {
+      if (!agent.ragdoll.ragdollMode) {
+        agent.ragdoll.ragdoll();
       }
-    });
+      const hideMeshObservable = scene.onBeforeRenderObservable.add(() => {
+        if (!camera.isInFrustum(agent.mesh)) {
+          agent.mesh.isVisible = false;
+          scene.onBeforeRenderObservable.remove(hideMeshObservable);
+        }
+      });
+    }
   });
 
   // scene.debugLayer.show({
