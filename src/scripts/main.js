@@ -23,6 +23,7 @@ const re = (function () {
   let strobeInterval; //handles flashing strobe text
   let strobeOn = false; //when true, text is blue
 
+  const $collectionLinks = document.querySelectorAll(".collection__link");
   const $gridImages = document.querySelectorAll(".square-grid__image");
   const $exhibitContents = document.querySelectorAll(
     ".square-grid__exhibit-content"
@@ -86,7 +87,12 @@ const re = (function () {
 
   const onIRLCollectionLinkClick = (e) => {
     e.preventDefault();
-    const thisID = e.target.dataset.collection;
+    const $thisLink = e.target;
+    const thisID = $thisLink.dataset.collection;
+    $collectionLinks.forEach(($collectionLink) => {
+      $collectionLink.classList.toggle("active", false);
+    });
+    $thisLink.classList.toggle("active", true);
     $gridImages.forEach(($gridImage) => {
       $gridImage.classList.toggle("active", false);
     });
