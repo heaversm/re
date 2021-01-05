@@ -479,6 +479,12 @@ body[data-page="online"] {
   }
 }
 
+body.strobe {
+  .modal__strobe-text {
+    color: $c-blue;
+  }
+}
+
 #render-canvas {
   background: transparent;
   height: 100%;

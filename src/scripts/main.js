@@ -17,6 +17,12 @@ const re = (function () {
   const $blueSquare = document.querySelector(".header-main__square");
   const $pageTitle = document.querySelector(".header-main__title-link");
 
+  const $strobeText = document.querySelector(".modal__strobe-text");
+  const $strobeTrigger = document.querySelector(".modal__strobe-trigger");
+  const strobeTiming = 500; //ms between flashes
+  let strobeInterval; //handles flashing strobe text
+  let strobeOn = false; //when true, text is blue
+
   const initModal = function () {
     MicroModal.init({
       onShow: (modal, trigger, e) => {
@@ -46,8 +52,17 @@ const re = (function () {
           $targetImage.classList.add("active");
         }
       },
+      onClose: (modal, trigger, e) => {
+        const modalID = modal.id;
+        console.log(modalID);
+        if (modalID === "modal-3") {
+          //strobe modal
+          cancelStrobe();
+        }
+      },
     });
-    MicroModal.show("modal-3"); //show strobe at start
+    //MicroModal.show("modal-3"); //show strobe at start //using this clears out all config options...https://github.com/ghosh/Micromodal/issues/354
+    $strobeTrigger.click();
   };
 
   const addListeners = function () {
@@ -86,9 +101,28 @@ const re = (function () {
     closeAllModals();
   };
 
+  const initStrobe = function () {
+    strobeInterval = setInterval(handleStrobe, strobeTiming);
+  };
+
+  const cancelStrobe = function () {
+    clearInterval(strobeInterval);
+  };
+
+  const handleStrobe = function () {
+    strobeOn = !strobeOn;
+    if (strobeOn) {
+      $body.classList.add("strobe");
+    } else {
+      const hasStrobe = $body.classList.contains("strobe");
+      hasStrobe && $body.classList.remove("strobe");
+    }
+  };
+
   const init = function () {
     initModal();
     addListeners();
+    initStrobe(); //add strobe effect for first modal
   };
 
   return {
