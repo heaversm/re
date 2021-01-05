@@ -36,7 +36,9 @@ export default async function createScene(engine, events) {
 
   // scene settings
 
-  scene.enablePhysics(new Vector3(0, -9, 0), new OimoJSPlugin(true, 8, OIMO));
+  scene.enablePhysics(new Vector3(0, -9.8, 0), new OimoJSPlugin(true, 8, OIMO));
+  // add extra physics iterations per-frame to avoid ragdolls falling through the ground
+  scene.getPhysicsEngine().setSubTimeStep(1);
 
   // this is really important to tell Babylon.js to use decomposeLerp and matrix interpolation
   Animation.AllowMatricesInterpolation = true;
@@ -212,7 +214,7 @@ export default async function createScene(engine, events) {
       Animation.ANIMATIONLOOPMODE_RELATIVE,
       floorEasingFunction,
       () => {
-        // floor.isVisible = false;
+        floor.isVisible = false;
       }
     );
     ragdoll.ragdoll();
