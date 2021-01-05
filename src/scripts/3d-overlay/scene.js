@@ -18,6 +18,7 @@ import { RecastJSPlugin } from '@babylonjs/core/Navigation/Plugins/recastJSPlugi
 import Recast from 'recast-detour';
 
 import '@babylonjs/core/Animations/animatable';
+import '@babylonjs/core/Engines/Extensions/engine.occlusionQuery';
 import '@babylonjs/core/Physics/physicsEngineComponent';
 import '@babylonjs/core/Loading/Plugins/babylonFileLoader';
 import '@babylonjs/loaders';
@@ -32,7 +33,7 @@ export default async function createScene(engine, events) {
 
   // parameters
 
-  let showFooter = true;
+  let showFooter = false;
 
   // scene settings
 
@@ -63,6 +64,7 @@ export default async function createScene(engine, events) {
   floor.physicsImpostor = new PhysicsImpostor(floor, PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.9 }, scene);
   floor.physicsImpostor.physicsBody.isKinematic = true; // specific to oimo.js
   floor.position.y = -floorHeight / 2;
+  floor.isVisible = false;
 
   const floorColor = 128 / 255;
   const floorMaterial = new StandardMaterial('floorMaterial', scene);
@@ -80,6 +82,7 @@ export default async function createScene(engine, events) {
   mesh.position = new Vector3(-6, 0, 8.9);
   mesh.rotation = new Vector3(Angle.FromDegrees(-90).radians(), Angle.FromDegrees(180).radians(), 0);
   mesh.scaling = new Vector3(0.01, 0.01, 0.01);
+  mesh.isVisible = false;
 
   const lightGrayMaterial = new StandardMaterial('lightGrayMaterial', scene);
   lightGrayMaterial.disableLighting = true;
@@ -185,6 +188,7 @@ export default async function createScene(engine, events) {
     }
     showFooter = true;
     floor.isVisible = true;
+    mesh.isVisible = true;
     Animation.CreateAndStartAnimation(
       'floorYIn',
       floor,
@@ -218,6 +222,12 @@ export default async function createScene(engine, events) {
       }
     );
     ragdoll.ragdoll();
+    const hideMeshObservable = scene.onBeforeRenderObservable.add(() => {
+      if (!camera.isInFrustum(mesh)) {
+        mesh.isVisible = false;
+        scene.onBeforeRenderObservable.remove(hideMeshObservable);
+      }
+    });
   });
 
   // scene.debugLayer.show({
