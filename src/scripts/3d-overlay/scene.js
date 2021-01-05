@@ -13,13 +13,15 @@ import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import { PhysicsImpostor } from '@babylonjs/core/Physics/physicsImpostor';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
 import { MultiMaterial } from '@babylonjs/core/Materials/multiMaterial';
-import { SceneLoader } from '@babylonjs/core/Loading/sceneLoader';
+import { AssetsManager } from '@babylonjs/core/Misc/assetsManager';
 import { RecastJSPlugin } from '@babylonjs/core/Navigation/Plugins/recastJSPlugin';
 import Recast from 'recast-detour';
 
 import '@babylonjs/core/Animations/animatable';
+import '@babylonjs/core/Cameras/universalCamera';
 import '@babylonjs/core/Engines/Extensions/engine.occlusionQuery';
 import '@babylonjs/core/Physics/physicsEngineComponent';
+import '@babylonjs/core/Loading/loadingScreen';
 import '@babylonjs/core/Loading/Plugins/babylonFileLoader';
 import '@babylonjs/loaders';
 // import "@babylonjs/core/Debug/debugLayer";
@@ -52,6 +54,20 @@ export default async function createScene(engine, events) {
 
   scene.clearColor = new Color4(0, 0, 0, 0);
 
+  // load assets
+
+  const assetsManager = new AssetsManager(scene);
+  const assetContainerPromises = [
+    new Promise((resolve, reject) => {
+      const agent0Task = assetsManager.addContainerTask('agent0Task', '', 'assets/models/', 'agent0.babylon');
+      agent0Task.onSuccess = ({ loadedContainer }) => resolve(loadedContainer);
+      agent0Task.onError = (t, m, exception) => reject(exception);
+    })
+  ];
+
+  assetsManager.load();
+  const assetContainers = await Promise.all(assetContainerPromises);
+
   // camera
 
   const camera = new FreeCamera('camera', new Vector3(0, 4.91, -18), scene);
@@ -74,7 +90,7 @@ export default async function createScene(engine, events) {
 
   // character
 
-  const { meshes, skeletons } = await SceneLoader.ImportMeshAsync('', 'assets/models/', 'agent0.babylon', scene);
+  const { rootNodes: meshes, skeletons } = assetContainers[0].instantiateModelsToScene();
 
   const [mesh] = meshes;
   const [skeleton] = skeletons;
