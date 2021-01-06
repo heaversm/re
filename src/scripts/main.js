@@ -5,6 +5,8 @@ import "regenerator-runtime";
 
 import init3DOverlay from "./3d-overlay";
 
+import irlImages from "../assets/images/irl/*.jpg";
+
 import { RE1 } from "./re1";
 import { RE2 } from "./re2";
 import { RE3 } from "./re3";
@@ -25,10 +27,10 @@ const babylonEvents = {
 
 const re = (function () {
   const $contentItems = document.querySelectorAll(".modal__content-item");
-  const $imageItems = document.querySelectorAll(".modal__image");
   const $body = document.body;
   const $blueSquare = document.querySelector(".header-main__square");
   const $pageTitle = document.querySelector(".header-main__title-link");
+  const $irlImage = document.querySelector(".irl__image");
 
   const $strobeTrigger = document.querySelector(".modal__strobe-trigger");
   const strobeTiming = 500; //ms between flashes
@@ -48,9 +50,11 @@ const re = (function () {
       onShow: (modal, trigger, e) => {
         const modalID = modal.id;
         if (modalID === "modal-1") {
+          //ONLINE
           handleModal1(modal, trigger, e);
         }
         if (modalID === "modal-2") {
+          //IRL
           handleModal2(modal, trigger, e);
         }
       },
@@ -67,13 +71,13 @@ const re = (function () {
   };
 
   const handleModal1 = function (modal, trigger, e) {
+    //ONLINE
     const $triggerEl = e.currentTarget;
     const id = $triggerEl.dataset.id;
+    const collection = $triggerEl.dataset.collection;
+    const alt = $triggerEl.alt;
     const $targetContent = document.querySelector(
-      `.modal__content-item[data-id="${id}"]`
-    );
-    const $targetImage = document.querySelector(
-      `.modal__image[data-id="${id}"]`
+      `.modal__content-item[data-collection="${collection}"]`
     );
 
     $contentItems.forEach((item) => {
@@ -81,25 +85,27 @@ const re = (function () {
         item.classList.remove("active");
       }
     });
-    $imageItems.forEach((item) => {
-      if (item.classList.contains("active")) {
-        item.classList.remove("active");
-      }
-    });
+    $irlImage.src = `${irlImages[id]}`;
+    $irlImage.alt = id;
+    //debugger;
+
     if ($targetContent) {
       $targetContent.classList.add("active");
-    }
-    if ($targetImage) {
-      $targetImage.classList.add("active");
+      const $modalTitle = $targetContent.querySelector(".modal__content-title");
+      if ($modalTitle) {
+        $modalTitle.innerHTML = alt;
+      }
     }
   };
 
   const handleModal2 = function (modal, trigger, e) {
+    //IRL
     if (!curSketch) {
       hideSquares();
     } else {
       //need to dispose of curSketch
       curSketch.removeSketch();
+      //TODO: Oren - dispose of any previous character related processes
     }
     switch (trigger.dataset.id) {
       case "online1":
