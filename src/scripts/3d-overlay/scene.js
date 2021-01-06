@@ -12,7 +12,6 @@ import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import { PhysicsImpostor } from '@babylonjs/core/Physics/physicsImpostor';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
-import { AssetsManager, AssetTaskState } from '@babylonjs/core/Misc/assetsManager';
 import { RecastJSPlugin } from '@babylonjs/core/Navigation/Plugins/recastJSPlugin';
 import Recast from 'recast-detour';
 
@@ -20,9 +19,6 @@ import '@babylonjs/core/Animations/animatable';
 import '@babylonjs/core/Cameras/universalCamera';
 import '@babylonjs/core/Engines/Extensions/engine.occlusionQuery';
 import '@babylonjs/core/Physics/physicsEngineComponent';
-import '@babylonjs/core/Loading/loadingScreen';
-import '@babylonjs/core/Loading/Plugins/babylonFileLoader';
-import '@babylonjs/loaders';
 // import "@babylonjs/core/Debug/debugLayer";
 // import "@babylonjs/inspector";
 
@@ -53,22 +49,6 @@ export default async function createScene(engine, events) {
 
   scene.clearColor = new Color4(0, 0, 0, 0);
 
-  // load assets
-
-  const assetsManager = new AssetsManager(scene);
-  const modelFileNames = ['agent0.babylon'];
-  modelFileNames.forEach((modelFileName, i) => {
-    assetsManager.addContainerTask(`agent${i}Task`, '', 'assets/models/', modelFileName)
-  });
-
-  const agentPools = await new Promise(resolve => {
-    assetsManager.onFinish = tasks => {
-      const successfulTasks = tasks.filter(task => task.taskState !== AssetTaskState.ERROR);
-      resolve(successfulTasks.map(({ loadedContainer }) => new AgentPool(loadedContainer, scene)));
-    };
-    assetsManager.load();
-  });
-
   // camera
 
   const camera = new FreeCamera('camera', new Vector3(0, 4.91, -18), scene);
@@ -89,17 +69,28 @@ export default async function createScene(engine, events) {
   floorMaterial.emissiveColor = new Color3(floorColor, floorColor, floorColor);
   floor.material = floorMaterial;
 
-  // agents
+  // door
 
-  const agents = new Set();
-  const newAgent = agentPools[0].instantiate(
-    new Vector3(-6, 0, 8.9),
-    new Vector3(Angle.FromDegrees(-90).radians(), Angle.FromDegrees(180).radians(), 0),
-    new Vector3(0.01, 0.01, 0.01)
-  );
-  newAgent.mesh.isVisible = false;
-  newAgent.skeleton.beginAnimation('Idle', true); // true means loop
-  agents.add(newAgent);
+  const doorHeight = 2;
+  const door = MeshBuilder.CreatePlane('door', { width: 1.5, height: doorHeight }, scene);
+  door.position = new Vector3(8.235, doorHeight / 2, 8.9);
+  door.rotation.y = Angle.FromDegrees(88).radians();
+  door.setParent(floor);
+  door.isVisible = false;
+
+  const doorMaterial = new StandardMaterial('doorMaterial', scene);
+  doorMaterial.disableLighting = true;
+  doorMaterial.emissiveColor = new Color3(0, 0, 0);
+  door.material = doorMaterial;
+
+  // reference: https://stackoverflow.com/questions/55982637/is-is-possible-in-babylon-js-to-occlude-an-object-using-a-transparent-object
+  const occluderHeight = 3;
+  const transparentOccluder = MeshBuilder.CreatePlane('occluder', { width: 5, height: occluderHeight }, scene)
+  transparentOccluder.position = new Vector3(10.7, occluderHeight / 2, 8)
+  transparentOccluder.setParent(floor);
+  transparentOccluder.onBeforeRenderObservable.add(() => engine.setColorWrite(false));
+  transparentOccluder.onAfterRenderObservable.add(() => engine.setColorWrite(true));
+  transparentOccluder.isVisible = false;
 
   // crowd navigation
 
@@ -107,7 +98,7 @@ export default async function createScene(engine, events) {
   navigationPlugin.createNavMesh([floor], {
     cs: 0.2,
     ch: 0.2,
-    walkableSlopeAngle: 35,
+    walkableSlopeAngle: 0,
     walkableHeight: 1,
     walkableClimb: 1,
     walkableRadius: 1,
@@ -119,6 +110,25 @@ export default async function createScene(engine, events) {
     detailSampleDist: 6,
     detailSampleMaxError: 1,
   });
+
+  // agents
+
+  const agentPools = await AgentPool.initializeAgentPools(navigationPlugin, scene);
+  const agents = new Set();
+
+  function addAgent() {
+    const newAgent = agentPools[Math.floor(Math.random() * agentPools.length)].instantiate(
+      new Vector3(9, 0, 8.9),
+      new Vector3(Angle.FromDegrees(-90).radians(), Angle.FromDegrees(90).radians(), 0),
+      new Vector3(0.01, 0.01, 0.01)
+    );
+    agents.add(newAgent);
+    newAgent.moveTo(new Vector3(-6, 0, 8.9), () => {
+      newAgent.rotateTo(Angle.FromDegrees(180).radians(), 2, EasingFunction.EASINGMODE_EASEOUT);
+    }, 0.5);
+  }
+
+  // window resizing camera logic
 
   let targetFooterBottomCenterWorld = new Vector3(0, 0, 0);
   function pinGroundPlaneToFooter() {
@@ -148,6 +158,8 @@ export default async function createScene(engine, events) {
   pinGroundPlaneToFooter();
   scene.onBeforeRenderObservable.add(pinGroundPlaneToFooter);
 
+  // event handling
+
   const animationFrameRate = 60;
   const floorAnimationDuration = 0.5;
   const floorEasingFunction = new BezierCurveEase(0.42, 0, 1, 1);
@@ -160,6 +172,8 @@ export default async function createScene(engine, events) {
     }
     showFooter = true;
     floor.isVisible = true;
+    door.isVisible = true;
+    transparentOccluder.isVisible = true;
     for (const agent of agents) {
       agent.mesh.isVisible = true;
     }
@@ -172,7 +186,10 @@ export default async function createScene(engine, events) {
       floor.position,
       originalFloorPosition,
       Animation.ANIMATIONLOOPMODE_RELATIVE,
-      floorEasingFunction
+      floorEasingFunction,
+      () => {
+        addAgent();
+      }
     );
   });
 
@@ -193,11 +210,13 @@ export default async function createScene(engine, events) {
       floorEasingFunction,
       () => {
         floor.isVisible = false;
+        door.isVisible = false;
+        transparentOccluder.isVisible = false;
       }
     );
     for (const agent of agents) {
-      if (!agent.ragdoll.ragdollMode) {
-        agent.ragdoll.ragdoll();
+      if (!agent.isRagdoll) {
+        agent.fall();
       }
       const hideMeshObservable = scene.onBeforeRenderObservable.add(() => {
         if (!camera.isInFrustum(agent.mesh)) {
