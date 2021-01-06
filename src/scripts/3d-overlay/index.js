@@ -3,7 +3,7 @@ import { Engine } from '@babylonjs/core/Engines/engine';
 import createScene from './scene';
 
 export default async function (canvas, events) {
-  const engine = new Engine(canvas, true, { preserveDrawingBuffer: true });
+  const engine = new Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
   engine.hideLoadingUI();
 
   const scene = await createScene(engine, events);
