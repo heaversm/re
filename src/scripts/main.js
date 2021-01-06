@@ -5,6 +5,10 @@ import "regenerator-runtime";
 
 import init3DOverlay from "./3d-overlay";
 
+import { RE1 } from "./re1";
+//const re1 = require("./re1");
+const re1 = new RE1();
+
 const babylonEvents = {
   onNavigateOnline: new Observable(),
   onNavigateIRL: new Observable(),
@@ -35,6 +39,7 @@ const re = (function () {
         const modalID = modal.id;
         if (modalID === "modal-2") {
           hideSquares();
+          re1.init();
         }
 
         const $triggerEl = e.currentTarget;
