@@ -6,8 +6,10 @@ import "regenerator-runtime";
 import init3DOverlay from "./3d-overlay";
 
 import { RE1 } from "./re1";
+import { RE2 } from "./re2";
 //const re1 = require("./re1");
 const re1 = new RE1();
+const re2 = new RE2();
 
 const babylonEvents = {
   onNavigateOnline: new Observable(),
@@ -98,6 +100,14 @@ const re = (function () {
         curSketch = re1;
         re1.init();
         //TODO: Oren - initialize the babylon layer / dispose of existing babylon layers
+        break;
+      case "online2":
+        curSketch = re2;
+        re2.init();
+        break;
+      default:
+        curSketch = re1;
+        re1.init();
         break;
     }
   };
