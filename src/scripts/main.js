@@ -21,7 +21,6 @@ const re = (function () {
   const $blueSquare = document.querySelector(".header-main__square");
   const $pageTitle = document.querySelector(".header-main__title-link");
 
-  const $strobeText = document.querySelector(".modal__strobe-text");
   const $strobeTrigger = document.querySelector(".modal__strobe-trigger");
   const strobeTiming = 500; //ms between flashes
   let strobeInterval; //handles flashing strobe text
@@ -33,39 +32,18 @@ const re = (function () {
     ".square-grid__exhibit-content"
   );
 
+  let curSketch;
+
   const initModal = function () {
     MicroModal.init({
       onShow: (modal, trigger, e) => {
         const modalID = modal.id;
+        console.log(modalID);
+        if (modalID === "modal-1") {
+          handleModal1(modal, trigger, e);
+        }
         if (modalID === "modal-2") {
-          hideSquares();
-          re1.init();
-        }
-
-        const $triggerEl = e.currentTarget;
-        const id = $triggerEl.dataset.id;
-        const $targetContent = document.querySelector(
-          `.modal__content-item[data-id="${id}"]`
-        );
-        const $targetImage = document.querySelector(
-          `.modal__image[data-id="${id}"]`
-        );
-
-        $contentItems.forEach((item) => {
-          if (item.classList.contains("active")) {
-            item.classList.remove("active");
-          }
-        });
-        $imageItems.forEach((item) => {
-          if (item.classList.contains("active")) {
-            item.classList.remove("active");
-          }
-        });
-        if ($targetContent) {
-          $targetContent.classList.add("active");
-        }
-        if ($targetImage) {
-          $targetImage.classList.add("active");
+          handleModal2(modal, trigger, e);
         }
       },
       onClose: (modal, trigger, e) => {
@@ -78,6 +56,50 @@ const re = (function () {
     });
     //MicroModal.show("modal-3"); //show strobe at start //using this clears out all config options...https://github.com/ghosh/Micromodal/issues/354
     $strobeTrigger.click();
+  };
+
+  const handleModal1 = function (modal, trigger, e) {
+    const $triggerEl = e.currentTarget;
+    const id = $triggerEl.dataset.id;
+    const $targetContent = document.querySelector(
+      `.modal__content-item[data-id="${id}"]`
+    );
+    const $targetImage = document.querySelector(
+      `.modal__image[data-id="${id}"]`
+    );
+
+    $contentItems.forEach((item) => {
+      if (item.classList.contains("active")) {
+        item.classList.remove("active");
+      }
+    });
+    $imageItems.forEach((item) => {
+      if (item.classList.contains("active")) {
+        item.classList.remove("active");
+      }
+    });
+    if ($targetContent) {
+      $targetContent.classList.add("active");
+    }
+    if ($targetImage) {
+      $targetImage.classList.add("active");
+    }
+  };
+
+  const handleModal2 = function (modal, trigger, e) {
+    if (!curSketch) {
+      hideSquares();
+    } else {
+      //need to dispose of curSketch
+      curSketch.removeSketch();
+    }
+    switch (trigger.dataset.id) {
+      case "online1":
+        curSketch = re1;
+        re1.init();
+        //TODO: Oren - initialize the babylon layer / dispose of existing babylon layers
+        break;
+    }
   };
 
   const hideSquares = function () {

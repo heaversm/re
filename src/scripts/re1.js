@@ -1,7 +1,13 @@
 import p5 from "p5";
 
 export class RE1 {
-  re1 = function () {
+  constructor() {
+    //will hold references to each sketch
+    this.p1 = null;
+    this.p2 = null;
+  }
+
+  re1 = () => {
     /* eslint-disable no-undef, no-unused-vars */
     const barSize = 5;
     let squareSize;
@@ -14,6 +20,8 @@ export class RE1 {
     const windowHeight = $modal2.offsetHeight;
     console.log($modal2, windowWidth, windowHeight);
     const frameRate = 30;
+
+    //let p1, p2; //p5 instances of each sketch
 
     const s1 = function (sketch) {
       sketch.setup = function () {
@@ -42,6 +50,8 @@ export class RE1 {
           );
         }
       };
+
+      return;
     };
 
     const s2 = function (sketch) {
@@ -64,9 +74,9 @@ export class RE1 {
       };
     };
 
-    const initSketch = function () {
-      new p5(s1);
-      new p5(s2);
+    const initSketch = () => {
+      this.p1 = new p5(s1);
+      this.p2 = new p5(s2);
     };
 
     initSketch();
@@ -74,5 +84,9 @@ export class RE1 {
 
   init() {
     return this.re1();
+  }
+  removeSketch() {
+    this.p1.remove();
+    this.p2.remove();
   }
 }
