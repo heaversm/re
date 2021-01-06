@@ -32,6 +32,11 @@ const re = (function () {
   const initModal = function () {
     MicroModal.init({
       onShow: (modal, trigger, e) => {
+        const modalID = modal.id;
+        if (modalID === "modal-2") {
+          hideSquares();
+        }
+
         const $triggerEl = e.currentTarget;
         const id = $triggerEl.dataset.id;
         const $targetContent = document.querySelector(
@@ -68,6 +73,10 @@ const re = (function () {
     });
     //MicroModal.show("modal-3"); //show strobe at start //using this clears out all config options...https://github.com/ghosh/Micromodal/issues/354
     $strobeTrigger.click();
+  };
+
+  const hideSquares = function () {
+    $body.classList.toggle("modal-active", true);
   };
 
   const addListeners = function () {

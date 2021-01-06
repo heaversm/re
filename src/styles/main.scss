@@ -285,6 +285,10 @@ h6 {
     left: 0;
     top: 0;
     display: none;
+    border: $space-std solid $c-blue;
+    &:hover {
+      border-color: $c-yellow;
+    }
   }
 }
 
@@ -499,8 +503,7 @@ body[data-page="online"] {
     display: block;
   }
   .square-grid {
-    display: none;
-    &__red-square,
+    //display: none;
     &__text-container {
       display: none;
     }
@@ -511,6 +514,14 @@ body[data-page="online"] {
     }
     &__nav[data-id="online"] {
       display: flex;
+    }
+  }
+  &.modal-active {
+    .square-grid {
+      display: none;
+      &__red-square {
+        display: none;
+      }
     }
   }
 }
