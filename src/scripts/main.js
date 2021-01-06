@@ -7,9 +7,16 @@ import init3DOverlay from "./3d-overlay";
 
 import { RE1 } from "./re1";
 import { RE2 } from "./re2";
-//const re1 = require("./re1");
+import { RE3 } from "./re3";
+import { RE4 } from "./re4";
+import { RE5 } from "./re5";
+import { RE6 } from "./re6";
 const re1 = new RE1();
 const re2 = new RE2();
+const re3 = new RE3();
+const re4 = new RE4();
+const re5 = new RE5();
+const re6 = new RE6();
 
 const babylonEvents = {
   onNavigateOnline: new Observable(),
@@ -40,7 +47,6 @@ const re = (function () {
     MicroModal.init({
       onShow: (modal, trigger, e) => {
         const modalID = modal.id;
-        console.log(modalID);
         if (modalID === "modal-1") {
           handleModal1(modal, trigger, e);
         }
@@ -104,6 +110,22 @@ const re = (function () {
       case "online2":
         curSketch = re2;
         re2.init();
+        break;
+      case "online3":
+        curSketch = re3;
+        re3.init();
+        break;
+      case "online4":
+        curSketch = re4;
+        re4.init();
+        break;
+      case "online5":
+        curSketch = re5;
+        re5.init();
+        break;
+      case "online6":
+        curSketch = re6;
+        re6.init();
         break;
       default:
         curSketch = re1;
