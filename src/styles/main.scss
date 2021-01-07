@@ -44,6 +44,13 @@ h6 {
   margin: 0;
 }
 
+.no-mobile {
+  display: none;
+  @include breakpoint(tablet) {
+    display: block;
+  }
+}
+
 .container {
   position: relative;
   display: flex;
@@ -67,7 +74,7 @@ h6 {
 .header-main {
   display: flex;
   &__square {
-    width: 32vw;
+    width: $mobile-header-height;
     background-color: $c-blue;
     @include breakpoint(tablet) {
       width: $col-left-w;
@@ -92,6 +99,15 @@ h6 {
     flex-grow: 1;
     display: flex;
     align-items: center;
+    @include breakpoint(mobile_only) {
+      height: $mobile-header-height;
+    }
+  }
+  &__title-link {
+    @include breakpoint(mobile_only) {
+      display: block;
+      width: 100%;
+    }
   }
   &__title {
     color: $c-yellow;
@@ -107,8 +123,8 @@ h6 {
       font-size: 30px;
       letter-spacing: 5px;
     }
-    @include breakpoint(mobile_sm) {
-      font-size: 18px;
+    @include breakpoint(mobile_only) {
+      width: 100%;
     }
   }
 }
@@ -117,6 +133,10 @@ h6 {
   background-color: $c-black;
   &__items {
     padding: $space-std;
+    display: none;
+    @include breakpoint(tablet) {
+      display: block;
+    }
   }
   &__item {
     display: block;
@@ -147,6 +167,7 @@ h6 {
 .main {
   display: flex;
   flex-wrap: wrap;
+  position: relative;
 
   &__col {
     &.left {
@@ -155,6 +176,13 @@ h6 {
       padding-bottom: 0;
       width: $col-left-w * 2;
       min-height: calc(100vh - #{$col-left-w * 2});
+      @include breakpoint(mobile_only) {
+        //display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: $z-mobile-nav;
+      }
       @include breakpoint(tablet) {
         width: $col-left-w;
         min-height: calc(100vh - #{$col-left-w});
@@ -300,8 +328,8 @@ h6 {
     background-color: $c-white;
     padding: 5px;
     height: 100%;
-    display: none;
     flex-direction: column;
+    //display: none; //MH - comment out temporarily
   }
   &__item {
     margin-top: 10px;
@@ -341,7 +369,11 @@ h6 {
   }
   &__strobe-text {
     animation: strobe 0.5s linear infinite;
+    p {
+      margin: 0;
+    }
   }
+
   &__overlay {
     position: fixed;
     top: 0;
@@ -480,10 +512,6 @@ body[data-page="home"] {
     &__red-square {
       z-index: $z-red-square-active; //position red square above blues
     }
-    &__square:nth-child(n + 5) {
-      //hide all but first 4 squares
-      display: none;
-    }
   }
 }
 
@@ -512,10 +540,14 @@ body[data-page="irl"] {
   }
   .collection {
     &__nav[data-id="irl"] {
-      display: flex;
+      @include breakpoint(tablet) {
+        display: flex;
+      }
     }
     &__nav[data-id="online"] {
-      display: none;
+      @include breakpoint(tablet) {
+        display: none;
+      }
     }
   }
 }
@@ -538,10 +570,14 @@ body[data-page="online"] {
   }
   .collection {
     &__nav[data-id="irl"] {
-      display: none;
+      @include breakpoint(tablet) {
+        display: none;
+      }
     }
     &__nav[data-id="online"] {
-      display: flex;
+      @include breakpoint(tablet) {
+        display: flex;
+      }
     }
   }
   &.modal-active {
