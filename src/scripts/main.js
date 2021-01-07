@@ -33,9 +33,6 @@ const re = (function () {
   const $irlImage = document.querySelector(".irl__image");
 
   const $strobeTrigger = document.querySelector(".modal__strobe-trigger");
-  const strobeTiming = 500; //ms between flashes
-  let strobeInterval; //handles flashing strobe text
-  let strobeOn = false; //when true, text is blue
 
   const $collectionLinks = document.querySelectorAll(".collection__link");
   const $gridImages = document.querySelectorAll(".square-grid__image");
@@ -56,13 +53,6 @@ const re = (function () {
         if (modalID === "modal-2") {
           //IRL
           handleModal2(modal, trigger, e);
-        }
-      },
-      onClose: (modal, trigger, e) => {
-        const modalID = modal.id;
-        if (modalID === "modal-3") {
-          //strobe modal
-          cancelStrobe();
         }
       },
     });
@@ -107,7 +97,9 @@ const re = (function () {
       curSketch.removeSketch();
       //TODO: Oren - dispose of any previous character related processes
     }
-    switch (trigger.dataset.id) {
+    const $triggerEl = e.currentTarget;
+    const id = $triggerEl.dataset.id;
+    switch (id) {
       case "online1":
         curSketch = re1;
         re1.init();
@@ -212,28 +204,9 @@ const re = (function () {
     closeAllModals();
   };
 
-  const initStrobe = function () {
-    strobeInterval = setInterval(handleStrobe, strobeTiming);
-  };
-
-  const cancelStrobe = function () {
-    clearInterval(strobeInterval);
-  };
-
-  const handleStrobe = function () {
-    strobeOn = !strobeOn;
-    if (strobeOn) {
-      $body.classList.add("strobe");
-    } else {
-      const hasStrobe = $body.classList.contains("strobe");
-      hasStrobe && $body.classList.remove("strobe");
-    }
-  };
-
   const init = function () {
     initModal();
     addListeners();
-    initStrobe(); //add strobe effect for first modal
   };
 
   return {

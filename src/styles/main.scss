@@ -17,6 +17,7 @@ body {
   font-smooth: never;
   -webkit-font-smoothing: none;
   margin: 0;
+  overflow: hidden;
 }
 
 ul {
@@ -152,23 +153,25 @@ h6 {
       background-color: $c-gray;
       padding: $space-std;
       padding-bottom: 0;
-      width: 32vw;
-      min-height: calc(100vh - #{$col-left-w});
+      width: $col-left-w * 2;
+      min-height: calc(100vh - #{$col-left-w * 2});
       @include breakpoint(tablet) {
         width: $col-left-w;
+        min-height: calc(100vh - #{$col-left-w});
       }
     }
     &.right {
       background-color: $c-black;
       flex-grow: 1;
       position: relative;
-      width: calc(100vw - #{$col-left-w} - #{$sidebar-w});
-      min-height: calc(100vh - #{$col-left-w});
+      width: calc(100vw - #{$col-left-w + $sidebar-w});
+      min-height: calc(100vh - #{$col-left-w * 2});
       padding: $right-v-pad $space-std $right-v-pad 0;
       flex: 1;
 
       @include breakpoint(tablet) {
-        width: calc(100vw - #{$col-left-w} - #{$sidebar-w});
+        min-height: calc(100vh - #{$col-left-w});
+        width: calc(100vw - #{$col-left-w + $sidebar-w});
       }
       @include breakpoint(mobile_only) {
         padding-left: $space-std;
@@ -336,6 +339,9 @@ h6 {
   &.is-open {
     display: block;
   }
+  &__strobe-text {
+    animation: strobe 0.5s linear infinite;
+  }
   &__overlay {
     position: fixed;
     top: 0;
@@ -380,9 +386,10 @@ h6 {
         width: 100%;
       }
       &__image {
-        height: 70vh;
+        max-height: 70vh;
         width: auto;
         max-width: 100%;
+        object-fit: contain;
       }
       &__image-container {
         background-color: $c-black;
@@ -547,12 +554,6 @@ body[data-page="online"] {
   }
 }
 
-body.strobe {
-  .modal__strobe-text {
-    color: $c-blue;
-  }
-}
-
 #render-canvas {
   background: transparent;
   height: 100%;
@@ -571,4 +572,13 @@ body.strobe {
   top: 0;
   width: 100%;
   height: 100%;
+}
+
+@keyframes strobe {
+  0% {
+    color: $c-black;
+  }
+  100% {
+    color: $c-blue;
+  }
 }
