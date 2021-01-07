@@ -51,6 +51,13 @@ h6 {
   }
 }
 
+.mobile-only {
+  display: block;
+  @include breakpoint(tablet) {
+    display: none;
+  }
+}
+
 .container {
   position: relative;
   display: flex;
@@ -177,11 +184,19 @@ h6 {
       width: $col-left-w * 2;
       min-height: calc(100vh - #{$col-left-w * 2});
       @include breakpoint(mobile_only) {
-        //display: none;
+        display: none;
         position: absolute;
         top: 0;
         left: 0;
+        width: 100%;
+        height: calc(100vh - #{$mobile-header-height});
         z-index: $z-mobile-nav;
+        min-height: 0;
+        padding: $space-std;
+        background-color: $c-black;
+        [data-mobile-nav-active="true"] & {
+          display: block;
+        }
       }
       @include breakpoint(tablet) {
         width: $col-left-w;
@@ -324,15 +339,29 @@ h6 {
 }
 
 .collection {
+  &__title {
+    margin: 0;
+    padding: $space-std;
+    font-size: 14px;
+  }
   &__nav {
     background-color: $c-white;
-    padding: 5px;
-    height: 100%;
+    padding: $space-std * 2;
+
     flex-direction: column;
     //display: none; //MH - comment out temporarily
+    @include breakpoint(tablet) {
+      padding: $space-std;
+      height: 100%;
+    }
   }
   &__item {
     margin-top: 10px;
+    @include breakpoint(mobile_only) {
+      &:first-child {
+        margin-top: 0;
+      }
+    }
   }
   &__link {
     color: $c-blue;
@@ -341,9 +370,7 @@ h6 {
     @include breakpoint(desktop) {
       font-size: 16px;
     }
-    @include breakpoint(mobile_sm) {
-      font-size: 12px;
-    }
+
     &:hover,
     &.active {
       color: $c-red;
