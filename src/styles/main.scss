@@ -83,17 +83,26 @@ h6 {
   &__square {
     width: $mobile-header-height;
     background-color: $c-blue;
+    padding: $space-std * 2;
     @include breakpoint(tablet) {
       width: $col-left-w;
       min-height: $col-left-w;
     }
-    a {
-      width: 100%;
-      height: 100%;
-      display: block;
-      overflow: hidden;
-      text-indent: -1000px;
+  }
+  &__burger {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    @include breakpoint(tablet) {
+      display: none;
     }
+  }
+  &__burger-bar {
+    height: 5px;
+    width: 100%;
+    background-color: $c-black;
   }
   &__content {
     flex-grow: 1;
@@ -241,12 +250,19 @@ h6 {
 .square-grid {
   position: relative;
   z-index: 2;
-  @include breakpoint(mobile_only) {
-    width: 55%;
+
+  [data-initial-load="true"] & {
+    @include breakpoint(mobile_only) {
+      display: none;
+    }
   }
+
   &__inner {
     display: flex;
     flex-wrap: wrap;
+    @include breakpoint(mobile_only) {
+      justify-content: space-between;
+    }
   }
   &__red-square {
     width: calc(#{$square-grid-w * 2} + #{$space-std});
@@ -306,17 +322,25 @@ h6 {
   }
 
   &__square {
-    width: $square-grid-w;
-    height: $square-grid-w;
-    margin-left: $space-std;
-    margin-top: $space-std;
     background-color: $c-blue;
     position: relative;
     flex-grow: 0;
 
+    margin-top: $space-std;
     &:nth-child(-n + 2) {
       margin-top: 0;
     }
+    @include breakpoint(mobile_only) {
+      width: calc(50vw - #{$space-std + $space-std/2});
+      height: calc(50vw - #{$space-std + $space-std/2});
+    }
+
+    @include breakpoint(tablet) {
+      margin-left: $space-std;
+      width: $square-grid-w;
+      height: $square-grid-w;
+    }
+
     &:before {
       display: block;
       content: "";
@@ -531,6 +555,12 @@ h6 {
 
 //STATE LOGIC
 
+body[data-modal-open="true"] {
+  .container {
+    pointer-events: none;
+  }
+}
+
 body[data-page="home"] {
   .square-grid {
     &__text-container {
@@ -626,6 +656,10 @@ body[data-page="online"] {
   touch-action: none;
   width: 100%;
   z-index: 100;
+  @include breakpoint(mobile_only) {
+    //TODO: OREN - I had to disable pointer events on mobile because they are set up to toggle on mouse position and are currently blocking UI elements
+    pointer-events: none !important;
+  }
 }
 
 #sketch,

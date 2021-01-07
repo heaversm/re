@@ -6,11 +6,17 @@
   <title>Responsive Eye: Peter Burr</title>
   <link rel="stylesheet" href="styles/main.scss">
 </head>
-<body id="home" data-page="irl" data-mobile-nav-active="false">
+<body id="home" data-page="irl" data-mobile-nav-active="false" data-initial-load="true">
   <div class="container">
     <section class="content">
       <header class="header-main">
-        <div class="header-main__square"><a href="#" role="button">Home</a></div>
+        <div class="header-main__square">
+          <div class="header-main__burger">
+            <div class="header-main__burger-bar"></div>
+            <div class="header-main__burger-bar"></div>
+            <div class="header-main__burger-bar"></div>
+          </div>
+        </div>
         <div class="header-main__content">
           <nav class="nav-main">
             <ul class="nav-main__items">
@@ -32,31 +38,8 @@
       <main class="main">
         <div class="main__col left">
           <div class="intro">
+            
             <p class="mobile-only collection__title">IRL SHOW</p>
-            <nav class="collection__nav" data-id="online">
-              <ul class="collection__list">
-                <li class="collection__item">
-                  <a href="#" class="collection__link" data-id="online1" data-micromodal-trigger="modal-2">Black Square</a>
-                </li>
-                <li class="collection__item">
-                  <a href="#" class="collection__link" data-id="online2" data-micromodal-trigger="modal-2">Blue Square</a>
-                </li>
-                <li class="collection__item">
-                  <a href="#" class="collection__link" data-id="online3" data-micromodal-trigger="modal-2">Red Square</a>
-                </li>
-                <li class="collection__item">
-                  <a href="#" class="collection__link" data-id="online4" data-micromodal-trigger="modal-2">Green Square</a>
-                </li>
-                <li class="collection__item">
-                  <a href="#" class="collection__link" data-id="online5" data-micromodal-trigger="modal-2">Yellow Square</a>
-                </li>
-                <li class="collection__item">
-                  <a href="#" class="collection__link" data-id="online6" data-micromodal-trigger="modal-2">White Square</a>
-                </li>
-              </ul>
-              <div class="collection__fill"></div>
-            </nav>
-            <p class="mobile-only collection__title">ONLINE SHOW</p>
             <nav class="collection__nav" data-id="irl">
               <ul class="collection__list">
                 <li class="collection__item">
@@ -77,7 +60,30 @@
               </ul>
               <div class="collection__fill"></div>
             </nav>
-
+            <p class="mobile-only collection__title">ONLINE SHOW</p>
+            <nav class="collection__nav" data-id="online">
+              <ul class="collection__list">
+                <li class="collection__item">
+                  <a href="#" class="collection__link" data-page="online" data-id="online1" data-micromodal-trigger="modal-2">Black Square</a>
+                </li>
+                <li class="collection__item">
+                  <a href="#" class="collection__link" data-page="online" data-id="online2" data-micromodal-trigger="modal-2">Blue Square</a>
+                </li>
+                <li class="collection__item">
+                  <a href="#" class="collection__link" data-page="online" data-id="online3" data-micromodal-trigger="modal-2">Red Square</a>
+                </li>
+                <li class="collection__item">
+                  <a href="#" class="collection__link" data-page="online" data-id="online4" data-micromodal-trigger="modal-2">Green Square</a>
+                </li>
+                <li class="collection__item">
+                  <a href="#" class="collection__link" data-page="online" data-id="online5" data-micromodal-trigger="modal-2">Yellow Square</a>
+                </li>
+                <li class="collection__item">
+                  <a href="#" class="collection__link" data-page="online" data-id="online6" data-micromodal-trigger="modal-2">White Square</a>
+                </li>
+              </ul>
+              <div class="collection__fill"></div>
+            </nav>
           </div>
         </div>
         <div class="main__col right">

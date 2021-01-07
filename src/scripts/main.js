@@ -48,6 +48,7 @@ const re = (function () {
   const initModal = function () {
     MicroModal.init({
       onShow: (modal, trigger, e) => {
+        $body.dataset.modalOpen = true;
         const modalID = modal.id;
         if (modalID === "modal-1") {
           //ONLINE
@@ -57,6 +58,9 @@ const re = (function () {
           //IRL
           handleModal2(modal, trigger, e);
         }
+      },
+      onClose: (modal, trigger, e) => {
+        $body.dataset.modalOpen = false;
       },
     });
     //MicroModal.show("modal-3"); //show strobe at start //using this clears out all config options...https://github.com/ghosh/Micromodal/issues/354
@@ -146,49 +150,10 @@ const re = (function () {
     );
     $blueSquare.addEventListener("touchend", onMobileNavClick);
     $pageTitle.addEventListener("click", onMainNavClick);
-    const $irlCollectionLinks = document.querySelectorAll(
-      ".collection__link[data-page='irl']"
-    );
-    $irlCollectionLinks.forEach((irlLink) => {
-      irlLink.addEventListener("click", onIRLCollectionLinkClick);
-    });
-    if (isMobile) {
-      $collectionLinks.forEach(($collectionLink) => {
-        $collectionLink.addEventListener("touchend", onMobileNavClick);
-      });
-    }
-  };
 
-  const onCollectionLinkClick = (e) => {
-    e.preventDefault();
-    if (isMobile) {
-    }
-  };
-
-  const onIRLCollectionLinkClick = (e) => {
-    e.preventDefault();
-    const $thisLink = e.target;
-    const thisID = $thisLink.dataset.collection;
     $collectionLinks.forEach(($collectionLink) => {
-      $collectionLink.classList.toggle("active", false);
+      $collectionLink.addEventListener("click", onCollectionLinkClick);
     });
-    $thisLink.classList.toggle("active", true);
-    $gridImages.forEach(($gridImage) => {
-      $gridImage.classList.toggle("active", false);
-    });
-    $exhibitContents.forEach(($exhibitContent) => {
-      $exhibitContent.classList.toggle("active", false);
-    });
-    const $collectionImages = document.querySelectorAll(
-      `.square-grid__image[data-collection="${thisID}"]`
-    );
-    $collectionImages.forEach(($collectionImage) => {
-      $collectionImage.classList.toggle("active", true);
-    });
-    const $collectionContent = document.querySelector(
-      `.square-grid__exhibit-content[data-collection="${thisID}"]`
-    );
-    $collectionContent.classList.toggle("active", true);
   };
 
   const closeAllModals = function () {
@@ -197,9 +162,66 @@ const re = (function () {
     MicroModal.close("modal-3");
   };
 
+  const onCollectionLinkClick = (e) => {
+    e.preventDefault();
+
+    const $thisLink = e.target;
+    const thisID = $thisLink.dataset.collection;
+    $collectionLinks.forEach(($collectionLink) => {
+      $collectionLink.classList.toggle("active", false);
+    });
+    $thisLink.classList.toggle("active", true);
+
+    const initialLoad = $body.dataset.initialLoad;
+    if (initialLoad) {
+      $body.dataset.initialLoad = false;
+    }
+
+    const curPage = $body.dataset.page;
+    const newPage = e.target.dataset.page;
+    if (newPage) {
+      if (curPage !== newPage) {
+        console.log(`switch from ${curPage} to ${newPage}`);
+        if (curPage === "irl") {
+          MicroModal.close("modal-1");
+        } else if (curPage === "online") {
+          MicroModal.close("modal-2");
+        }
+        $body.dataset.page = newPage;
+      }
+    }
+
+    if (newPage === "irl") {
+      $gridImages.forEach(($gridImage) => {
+        $gridImage.classList.toggle("active", false);
+      });
+      $exhibitContents.forEach(($exhibitContent) => {
+        $exhibitContent.classList.toggle("active", false);
+      });
+      const $collectionImages = document.querySelectorAll(
+        `.square-grid__image[data-collection="${thisID}"]`
+      );
+      $collectionImages.forEach(($collectionImage) => {
+        $collectionImage.classList.toggle("active", true);
+      });
+      const $collectionContent = document.querySelector(
+        `.square-grid__exhibit-content[data-collection="${thisID}"]`
+      );
+      $collectionContent.classList.toggle("active", true);
+    } else if (newPage === "online") {
+      console.log("online");
+    }
+    if (isMobile) {
+      toggleMobileNavActive();
+    }
+  };
+
   const onMobileNavClick = function (e) {
     e.preventDefault();
-    console.log("click");
+    toggleMobileNavActive();
+  };
+
+  const toggleMobileNavActive = function () {
     mobileNavActive = !mobileNavActive;
     $body.dataset.mobileNavActive = `${mobileNavActive}`;
   };
