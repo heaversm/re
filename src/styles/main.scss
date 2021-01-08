@@ -441,10 +441,13 @@ h6 {
   &__container {
     background-color: $c-gray;
     padding: $space-std;
-    max-width: 70vw;
+    max-width: calc(100vw - #{$space-std * 2});
     max-height: 100vh;
     overflow-y: auto;
     box-sizing: border-box;
+    @include breakpoint(tablet) {
+      max-width: 70vw;
+    }
   }
 
   &__content {
@@ -487,10 +490,16 @@ h6 {
   }
   &#modal-2 {
     position: absolute;
-    width: 100%;
-    height: calc(100vh - #{$col-left-w} - #{$footer-height});
-    top: 0;
-    left: 0;
+    top: $space-std;
+    left: $space-std;
+    width: calc(100% - #{$space-std * 2});
+    height: calc(100vh - #{$col-left-w + $footer-height + $space-std * 4});
+    @include breakpoint(tablet) {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: calc(100vh - #{$col-left-w} - #{$footer-height});
+    }
     .modal {
       &__container {
         padding: 0;
@@ -555,8 +564,16 @@ h6 {
 
 //STATE LOGIC
 
-body[data-modal-open="true"] {
-  .container {
+body.modal-active {
+  .square-grid__image {
+    pointer-events: none;
+  }
+}
+
+body[data-mobile-nav-active="true"] {
+  .main__col.right,
+  .modal,
+  .square-grid__image {
     pointer-events: none;
   }
 }

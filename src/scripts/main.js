@@ -1,4 +1,3 @@
-import MicroModal from "micromodal";
 import { Observable } from "@babylonjs/core/Misc/observable";
 
 import "regenerator-runtime";
@@ -26,48 +25,76 @@ const babylonEvents = {
 };
 
 const re = (function () {
+  //DOM REFERENCES
   const $contentItems = document.querySelectorAll(".modal__content-item");
   const $body = document.body;
   const $blueSquare = document.querySelector(".header-main__square");
   const $pageTitle = document.querySelector(".header-main__title-link");
   const $irlImage = document.querySelector(".irl__image");
-
-  const $strobeTrigger = document.querySelector(".modal__strobe-trigger");
-
   const $collectionLinks = document.querySelectorAll(".collection__link");
   const $gridImages = document.querySelectorAll(".square-grid__image");
   const $exhibitContents = document.querySelectorAll(
     ".square-grid__exhibit-content"
   );
+  const $modals = document.querySelectorAll(".modal");
 
+  //STATES
   let curSketch;
-
   let mobileNavActive = false;
   let isMobile;
 
-  const initModal = function () {
-    MicroModal.init({
-      onShow: (modal, trigger, e) => {
-        $body.dataset.modalOpen = true;
-        const modalID = modal.id;
-        if (modalID === "modal-1") {
-          //ONLINE
-          handleModal1(modal, trigger, e);
-        }
-        if (modalID === "modal-2") {
-          //IRL
-          handleModal2(modal, trigger, e);
-        }
-      },
-      onClose: (modal, trigger, e) => {
-        $body.dataset.modalOpen = false;
-      },
+  const DISABLE_CLICK_DURATION = 250;
+
+  const addListeners = function () {
+    const $mainNavLinks = document.querySelectorAll(".nav-main__link");
+    $mainNavLinks.forEach((navLink) =>
+      navLink.addEventListener("click", onMainNavClick)
+    );
+    $blueSquare.addEventListener("touchend", onMobileNavClick);
+    $pageTitle.addEventListener("click", onMainNavClick);
+
+    $collectionLinks.forEach(($collectionLink) => {
+      $collectionLink.addEventListener("click", onCollectionLinkClick);
     });
-    //MicroModal.show("modal-3"); //show strobe at start //using this clears out all config options...https://github.com/ghosh/Micromodal/issues/354
-    $strobeTrigger.click();
+
+    addModalListeners();
   };
 
-  const handleModal1 = function (modal, trigger, e) {
+  const addGridImageListeners = function () {
+    $gridImages.forEach(($gridImage) => {
+      $gridImage.addEventListener("click", onGridImageClick);
+    });
+  };
+
+  const removeGridImageListeners = function () {
+    $gridImages.forEach(($gridImage) => {
+      $gridImage.removeEventListener("click", onGridImageClick);
+    });
+  };
+
+  const addModalListeners = function () {
+    $modals.forEach(($modal) => {
+      const $modalClose = $modal.querySelector("[data-modal-close]");
+      if ($modalClose) {
+        $modalClose.addEventListener("click", onModalCloseClick);
+      }
+    });
+  };
+
+  const removeModalListeners = function () {
+    $modals.forEach(($modal) => {
+      const $modalClose = $modal.querySelector("[data-modal-close]");
+      if ($modalClose) {
+        $modalClose.removeEventListener("click", onModalCloseClick);
+      }
+    });
+  };
+
+  const initModal = function () {
+    showModal("modal-3");
+  };
+
+  const handleModal1 = function (e) {
     //ONLINE
     const $triggerEl = e.currentTarget;
     const id = $triggerEl.dataset.id;
@@ -93,12 +120,18 @@ const re = (function () {
         $modalTitle.innerHTML = alt;
       }
     }
+    showModal("modal-1");
   };
 
-  const handleModal2 = function (modal, trigger, e) {
+  const handleModal2 = function (e) {
+    showModal("modal-2", false);
     //IRL
     if (!curSketch) {
-      hideSquares();
+      if (isMobile) {
+        setTimeout(hideSquares, DISABLE_CLICK_DURATION + 100); //yikes...
+      } else {
+        hideSquares();
+      }
     } else {
       //need to dispose of curSketch
       curSketch.removeSketch();
@@ -139,32 +172,70 @@ const re = (function () {
     }
   };
 
-  const hideSquares = function () {
-    $body.classList.toggle("modal-active", true);
+  const onModalCloseClick = function (e) {
+    e.preventDefault();
+    const modalID = e.currentTarget.dataset.modalClose;
+    hideModal(modalID);
+    setTimeout(addGridImageListeners, DISABLE_CLICK_DURATION);
   };
 
-  const addListeners = function () {
-    const $mainNavLinks = document.querySelectorAll(".nav-main__link");
-    $mainNavLinks.forEach((navLink) =>
-      navLink.addEventListener("click", onMainNavClick)
-    );
-    $blueSquare.addEventListener("touchend", onMobileNavClick);
-    $pageTitle.addEventListener("click", onMainNavClick);
+  const hideModal = function (modalID) {
+    const $modal = document.getElementById(modalID);
+    $modal.classList.toggle("is-open", false);
+    setTimeout(() => {
+      $body.classList.toggle("modal-active", false);
+    }, DISABLE_CLICK_DURATION);
+  };
 
-    $collectionLinks.forEach(($collectionLink) => {
-      $collectionLink.addEventListener("click", onCollectionLinkClick);
+  const showModal = function (modalID, doDelay = true) {
+    if (doDelay) {
+      setTimeout(() => {
+        activateModal(modalID);
+      }, DISABLE_CLICK_DURATION);
+    } else {
+      activateModal(modalID);
+    }
+  };
+
+  const activateModal = function (modalID) {
+    $body.classList.toggle("modal-active", true);
+    $modals.forEach(($modal) => {
+      const thisID = $modal.id;
+      if (thisID === modalID) {
+        $modal.classList.toggle("is-open", true);
+      } else {
+        $modal.classList.toggle("is-open", false);
+      }
     });
   };
 
   const closeAllModals = function () {
-    MicroModal.close("modal-1");
-    MicroModal.close("modal-2");
-    MicroModal.close("modal-3");
+    $modals.forEach(($modal) => {
+      $modal.classList.toggle("is-open", false);
+    });
+    $body.classList.toggle("modal-active", false);
+  };
+
+  const hideSquares = function () {
+    $body.classList.toggle("modal-active", true);
+  };
+
+  const onGridImageClick = (e) => {
+    e.preventDefault();
+    removeGridImageListeners();
+    if (
+      $body.dataset.mobileNavActive === true ||
+      $body.dataset.modalOpen === true ||
+      $body.classList.contains("modal-active")
+    ) {
+      return;
+    }
+
+    handleModal1(e);
   };
 
   const onCollectionLinkClick = (e) => {
     e.preventDefault();
-
     const $thisLink = e.target;
     const thisID = $thisLink.dataset.collection;
     $collectionLinks.forEach(($collectionLink) => {
@@ -181,11 +252,10 @@ const re = (function () {
     const newPage = e.target.dataset.page;
     if (newPage) {
       if (curPage !== newPage) {
-        console.log(`switch from ${curPage} to ${newPage}`);
         if (curPage === "irl") {
-          MicroModal.close("modal-1");
+          hideModal("modal-1");
         } else if (curPage === "online") {
-          MicroModal.close("modal-2");
+          hideModal("modal-2");
         }
         $body.dataset.page = newPage;
       }
@@ -209,10 +279,10 @@ const re = (function () {
       );
       $collectionContent.classList.toggle("active", true);
     } else if (newPage === "online") {
-      console.log("online");
+      handleModal2(e);
     }
     if (isMobile) {
-      toggleMobileNavActive();
+      setTimeout(hideMobileNav, DISABLE_CLICK_DURATION);
     }
   };
 
@@ -226,6 +296,11 @@ const re = (function () {
     $body.dataset.mobileNavActive = `${mobileNavActive}`;
   };
 
+  const hideMobileNav = function () {
+    mobileNavActive = false;
+    $body.dataset.mobileNavActive = `${mobileNavActive}`;
+  };
+
   const onMainNavClick = function (e) {
     e.preventDefault();
     const id = e.currentTarget.dataset.id;
@@ -234,10 +309,17 @@ const re = (function () {
       case "irl":
         $body.dataset.page = "irl";
         babylonEvents.onNavigateIRL.notifyObservers();
+        const activeOnlineItem = document.querySelector(
+          '.collection__link.active[data-page="online"]'
+        );
+        if (activeOnlineItem) {
+          activeOnlineItem.classList.toggle("active", false);
+        }
         break;
       case "online":
         $body.dataset.page = "online";
         babylonEvents.onNavigateOnline.notifyObservers();
+
         break;
       default:
         $body.dataset.page = "irl";
