@@ -177,9 +177,7 @@ export default async function createScene(engine, events) {
       0,
       Scalar.RandomRange(6, 8.9)
     );
-    newAgent.moveTo(agentDestination, () => {
-      newAgent.rotateTo(Angle.FromDegrees(180).radians(), 2, EasingFunction.EASINGMODE_EASEOUT);
-    }, 0.5);
+    newAgent.moveTo(agentDestination, () => newAgent.rotateTo(Angle.FromDegrees(180).radians(), 8), 0.25);
   }
 
   // window resizing camera logic

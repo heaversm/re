@@ -14,36 +14,108 @@ import '@babylonjs/loaders';
 import Ragdoll from './ragdoll';
 import { randomItem } from './utils';
 
+const black = new Color3(0, 0, 0);
+const darkGray = new Color3(0.2, 0.2, 0.2);
+const mediumGray = new Color3(0.4, 0.4, 0.4);
+const lightGray = new Color3(0.6, 0.6, 0.6);
+const red = new Color3(1, 0, 0);
+const green = new Color3(0, 1, 0);
+const blue = new Color3(0, 0, 1);
+const yellow = new Color3(1, 1, 0);
+const magenta = new Color3(1, 0, 1);
+const cyan = new Color3(0, 1, 1);
+const grays = [darkGray, mediumGray, lightGray];
+const colors = [red, green, blue, yellow, magenta, cyan];
+const colorPairs = pairs(colors);
+
+function pairs(arr) {
+  return arr.map((v, i) => arr.slice(i + 1).map(w => [v, w]) ).flat();
+}
+
+function generateVariantColors(hairIndex, skinIndex, legsIndex, torsoIndex, useSkinColorForHairIndex = false) {
+  const variants = [];
+  for (const gray of grays) {
+    for (const colorPair of colorPairs) {
+      for (let i = 0; i < 2; i++) {
+        const variant = new Array(4);
+        variant[hairIndex] = useSkinColorForHairIndex ? gray : black;
+        variant[skinIndex] = gray;
+        if (i === 0) {
+          variant[legsIndex] = colorPair[0];
+          variant[torsoIndex] = colorPair[1];
+        } else {
+          variant[legsIndex] = colorPair[1];
+          variant[torsoIndex] = colorPair[0];
+        }
+        variants.push(variant);
+      }
+    }
+  }
+
+  return variants;
+}
+
 export class AgentPool {
   static agents = {
-    AGENT_0: 'agent0'
+    AGENT_0: 'agent0',
+    AGENT_3: 'agent3',
+    AGENT_4: 'agent4',
+    AGENT_5: 'agent5',
+    AGENT_7: 'agent7',
   };
 
   static agentModelDirectory = 'assets/models/';
 
   static agentModelFileNames = {
-    [AgentPool.agents.AGENT_0]: 'agent0.babylon'
+    [AgentPool.agents.AGENT_0]: 'agent0.babylon',
+    [AgentPool.agents.AGENT_3]: 'agent3.babylon',
+    [AgentPool.agents.AGENT_4]: 'agent4.babylon',
+    [AgentPool.agents.AGENT_5]: 'agent5.babylon',
+    [AgentPool.agents.AGENT_7]: 'agent7.babylon',
   };
+
+  static agentAnimationNames = {
+    [AgentPool.agents.AGENT_0]: {
+      idle: 'Idle',
+      walk: 'Walk'
+    },
+    [AgentPool.agents.AGENT_3]: {
+      idle: 'idle',
+      walk: 'walk'
+    },
+    [AgentPool.agents.AGENT_4]: {
+      idle: 'idle',
+      walk: 'walk'
+    },
+    [AgentPool.agents.AGENT_5]: {
+      idle: 'idle',
+      walk: 'walk'
+    },
+    [AgentPool.agents.AGENT_7]: {
+      idle: 'idle',
+      walk: 'walk'
+    },
+  }
 
   static agentMaterialVariantColors = {
-    [AgentPool.agents.AGENT_0]: [
-      [new Color3(0.8, 0.8, 0.8), new Color3(0.8, 0.8, 0.8), new Color3(0, 1, 0), new Color3(1, 0, 0)]
-    ]
+    [AgentPool.agents.AGENT_0]: generateVariantColors(0, 1, 2, 3, true),
+    [AgentPool.agents.AGENT_3]: generateVariantColors(2, 0, 1, 3),
+    [AgentPool.agents.AGENT_4]: generateVariantColors(0, 1, 2, 3),
+    [AgentPool.agents.AGENT_5]: generateVariantColors(0, 1, 2, 3),
+    [AgentPool.agents.AGENT_7]: generateVariantColors(0, 1, 2, 3),
   };
 
-  static agentRagdollConfigs = {
-    [AgentPool.agents.AGENT_0]: [
-      { bones: ["mixamorig_Hips"], size: 0.2, boxOffset: -0.05 },
-      // { bones: ["mixamorig_Spine1"], size: 0.2, boxOffset: 0.1, min: -10, max: 10 },
-      { bones: ["mixamorig_HeadTop_End"], size: 0.225, boxOffset: -0.115, min: -10, max: 10 },
-      { bones: ["mixamorig_RightArm", "mixamorig_LeftArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Z, min: -45, max: 90, boxOffset: 0.1 },
-      { bones: ["mixamorig_RightForeArm", "mixamorig_LeftForeArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Y, min: -90, max: 90, boxOffset: 0.1 },
-      // { bones: ['mixamorig_RightHand', 'mixamorig_LeftHand'], size: 0.1, height: 0.15, min: -10, max: 10, boxOffset: 0.05 },
-      { bones: ["mixamorig_RightUpLeg", "mixamorig_LeftUpLeg"], size: 0.15, height: 0.25, rotationAxis: Axis.Z, min: -90, max: 90, boxOffset: 0.25 },
-      { bones: ["mixamorig_RightLeg", "mixamorig_LeftLeg"], size: 0.15, height: 0.25, min: -45, max: 90, boxOffset: 0.15 },
-      { bones: ["mixamorig_RightFoot", "mixamorig_LeftFoot"], size: 0.15, min: -10, max: 10 },
-    ]
-  }
+  static agentRagdollConfig = [
+    { bones: ["mixamorig_Hips"], size: 0.2, boxOffset: -0.05 },
+    // { bones: ["mixamorig_Spine1"], size: 0.2, boxOffset: 0.1, min: -10, max: 10 },
+    { bones: ["mixamorig_HeadTop_End"], size: 0.225, boxOffset: -0.115, min: -10, max: 10 },
+    { bones: ["mixamorig_RightArm", "mixamorig_LeftArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Z, min: -45, max: 90, boxOffset: 0.1 },
+    { bones: ["mixamorig_RightForeArm", "mixamorig_LeftForeArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Y, min: -90, max: 90, boxOffset: 0.1 },
+    // { bones: ['mixamorig_RightHand', 'mixamorig_LeftHand'], size: 0.1, height: 0.15, min: -10, max: 10, boxOffset: 0.05 },
+    { bones: ["mixamorig_RightUpLeg", "mixamorig_LeftUpLeg"], size: 0.15, height: 0.25, rotationAxis: Axis.Z, min: -90, max: 90, boxOffset: 0.25 },
+    { bones: ["mixamorig_RightLeg", "mixamorig_LeftLeg"], size: 0.15, height: 0.25, min: -45, max: 90, boxOffset: 0.15 },
+    { bones: ["mixamorig_RightFoot", "mixamorig_LeftFoot"], size: 0.15, min: -10, max: 10 },
+  ]
 
   static crowd = null;
   static navigationPlugin = null;
@@ -51,7 +123,7 @@ export class AgentPool {
   static defaultCrowdAgentParameters = {
     radius: 0.1,
     maxAcceleration: 200.0,
-    maxSpeed: 0.8,
+    maxSpeed: 0.9,
     collisionQueryRange: 1,
     pathOptimizationRange: 0.0,
     separationWeight: 1.0
@@ -106,13 +178,12 @@ export class AgentPool {
 
     mesh.material = variant === -1 ? randomItem(this.materialVariants) : this.materialVariants[variant];
 
-    const config = this.constructor.agentRagdollConfigs[this.agentEnum];
+    const config = this.constructor.agentRagdollConfig;
     const jointCollisions = false;
     const showBoxes = false;
     const mainPivotSphereSize = 0;
     const disableBoxBoneSync = true;
     const ragdoll = new Ragdoll(skeleton, mesh, config, jointCollisions, showBoxes, mainPivotSphereSize, disableBoxBoneSync);
-    // ragdoll.init();
 
     let crowdAgentIndex = null;
     const size = mesh.getBoundingInfo().boundingBox.extendSizeWorld;
@@ -124,9 +195,9 @@ export class AgentPool {
       crowdAgentIndex = this.constructor.crowd.addAgent(position, crowdAgentParameters, new TransformNode());
     }
 
-    skeleton.beginAnimation('Idle', true);
+    skeleton.beginAnimation(this.constructor.agentAnimationNames[this.agentEnum].idle, true);
 
-    return new Agent(mesh, skeleton, ragdoll, crowdAgentIndex, this.scene);
+    return new Agent(mesh, skeleton, ragdoll, crowdAgentIndex, this.agentEnum, this.scene);
   }
 }
 
@@ -303,16 +374,18 @@ export class Agent {
     }
   ];
 
-  constructor(mesh, skeleton, ragdoll, crowdAgentIndex, scene) {
+  constructor(mesh, skeleton, ragdoll, crowdAgentIndex, agentEnum, scene) {
     this.mesh = mesh;
     this.skeleton = skeleton;
     this.ragdoll = ragdoll;
     this.crowdAgentIndex = crowdAgentIndex;
+    this.agentEnum = agentEnum;
     this.scene = scene;
 
     this.destination = null;
     this.onArrival = NOOP;
     this.onArrivalDistanceOffset = 0;
+    this.isMoving = false;
     this.freezeObservable = null;
     this.onFreeze = NOOP;
     this.rotationAnimation = null;
@@ -332,10 +405,12 @@ export class Agent {
     if (!AgentPool.navigationPlugin || !AgentPool.crowd || this.crowdAgentIndex === null) {
       return;
     }
+    this.isMoving = true;
+
     this.destination = AgentPool.navigationPlugin.getClosestPoint(targetPosition);
     AgentPool.crowd.agentGoto(this.crowdAgentIndex, this.destination);
 
-    this.skeleton.beginAnimation('Walk', true);
+    this.skeleton.beginAnimation(AgentPool.agentAnimationNames[this.agentEnum].walk, true);
 
     this.mesh.onBeforeRenderObservable.clear();
     this.mesh.onBeforeRenderObservable.add(this.walk);
@@ -351,6 +426,7 @@ export class Agent {
       this.crowdAgentIndex = null;
       this.onArrival = NOOP;
       this.onArrivalDistanceOffset = 0;
+      this.isMoving = false;
     }
   }
 
@@ -418,7 +494,7 @@ export class Agent {
     }
 
     if (distance <= this.constructor.arrivalDistanceThreshold) {
-      this.skeleton.beginAnimation('Idle', true);
+      this.skeleton.beginAnimation(AgentPool.agentAnimationNames[this.agentEnum].idle, true);
       this.mesh.onBeforeRenderObservable.clear();
       this.destination = null;
       AgentPool.crowd.agentTeleport(this.crowdAgentIndex, AgentPool.navigationPlugin.getClosestPoint(this.mesh.position));
@@ -428,26 +504,26 @@ export class Agent {
       }
       this.onArrival = NOOP;
       this.onArrivalDistanceOffset = 0;
+      this.isMoving = false;
     }
   }
 
-  rotateTo(targetAngle, durationInSeconds, easingMode = EasingFunction.EASINGMODE_EASEINOUT) {
-    const ease = new CubicEase();
-    ease.setEasingMode(easingMode);
-    this.rotationAnimation = Animation.CreateAndStartAnimation(
-      `rotateAgent_${Date.now()}`,
-      this.mesh,
-      'rotation.y',
-      60,
-      60 * durationInSeconds,
-      Scalar.NormalizeRadians(this.mesh.rotation.y),
-      Scalar.NormalizeRadians(targetAngle),
-      Animation.ANIMATIONLOOPMODE_RELATIVE,
-      ease,
-      () => {
-        this.rotationAnimation = null;
+  rotateTo(targetAngleRadians, speed, easingMode = EasingFunction.EASINGMODE_EASEINOUT) {
+    if (speed === null || speed === undefined) {
+      this.mesh.rotation.y = targetAngleRadians;
+      return;
+    }
+    const targetAngleDegrees = Angle.FromRadians(targetAngleRadians).degrees();
+    const obs = this.scene.onBeforeRenderObservable.add(() => {
+      const currentAngleDegrees = Angle.FromRadians(this.mesh.rotation.y).degrees();
+      const rotationDirection = (currentAngleDegrees - targetAngleDegrees + 360) % 360 > 180 ? 1 : -1;
+      if (Scalar.WithinEpsilon(currentAngleDegrees, targetAngleDegrees, 2)) {
+        this.scene.onBeforeRenderObservable.remove(obs);
+        return;
       }
-    );
+      const deltaTime = this.scene.getEngine().getDeltaTime() * 0.001;
+      this.mesh.rotation.y += speed * rotationDirection * deltaTime;
+    })
   }
 
   stopRotation() {
