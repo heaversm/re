@@ -136,7 +136,7 @@ export class Agent {
   static arrivalDistanceThreshold = 0.01;
 
   static freezeVelocityThreshold = 0.001;
-  static consecutiveFramesBeforeFreeze = 10;
+  static consecutiveFramesBeforeFreeze = 60;
 
   static ragdollPoses = [
     {
