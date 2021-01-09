@@ -16,3 +16,7 @@ export function viewportToWorldPoint(viewportX, viewportY, targetWorldZ, camera)
   const distance = (targetWorldZ - camera.position.z) / dir.z;
   return camera.position.clone().add(dir.scale(distance));
 }
+
+export function randomItem(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}

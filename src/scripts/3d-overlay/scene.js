@@ -3,16 +3,18 @@
 import * as OIMO from 'oimo';
 import { Scene } from '@babylonjs/core/scene';
 import { Vector3, Color3, Color4, Angle } from '@babylonjs/core/Maths/math';
+import { Scalar } from '@babylonjs/core/Maths/math.scalar';
 import { OimoJSPlugin } from '@babylonjs/core/Physics/Plugins/oimoJSPlugin';
 import { Animation } from '@babylonjs/core/Animations/animation';
 import { AnimationPropertiesOverride } from '@babylonjs/core/Animations/animationPropertiesOverride';
-import { EasingFunction, BezierCurveEase } from '@babylonjs/core/Animations/easing';
+import { EasingFunction } from '@babylonjs/core/Animations/easing';
 import { Camera } from '@babylonjs/core/Cameras/camera';
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera';
-import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
-import { PhysicsImpostor } from '@babylonjs/core/Physics/physicsImpostor';
+import { PointerEventTypes } from '@babylonjs/core/Events/pointerEvents';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
+import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import { RecastJSPlugin } from '@babylonjs/core/Navigation/Plugins/recastJSPlugin';
+import { PhysicsImpostor } from '@babylonjs/core/Physics/physicsImpostor';
 import Recast from 'recast-detour';
 
 import '@babylonjs/core/Animations/animatable';
@@ -23,14 +25,13 @@ import '@babylonjs/core/Physics/physicsEngineComponent';
 // import "@babylonjs/inspector";
 
 import { AgentPool } from './agent';
-import { viewportToWorldPoint } from './utils';
+import { viewportToWorldPoint, randomItem } from './utils';
+import { GROUND, WALLS, RAGDOLLS } from './collision-groups';
 
 export default async function createScene(engine, events) {
   const scene = new Scene(engine);
 
   // parameters
-
-  let showFooter = false;
 
   // scene settings
 
@@ -56,11 +57,16 @@ export default async function createScene(engine, events) {
 
   // floor
 
+  const floorWidth = 40;
   const floorHeight = 20;
-  const floor = MeshBuilder.CreateBox('floor', { width: 40, height: floorHeight, depth: 20 }, scene);
+  const floorDepth = 20;
+  const floor = MeshBuilder.CreateBox('floor', { width: floorWidth, height: floorHeight, depth: floorDepth }, scene);
   floor.physicsImpostor = new PhysicsImpostor(floor, PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.9 }, scene);
   floor.physicsImpostor.physicsBody.isKinematic = true; // specific to oimo.js
+  floor.physicsImpostor.physicsBody.shapes.belongsTo = GROUND;
+  floor.physicsImpostor.physicsBody.shapes.collidesWith = RAGDOLLS;
   floor.position.y = -floorHeight / 2;
+  floor.isPickable = false;
   floor.isVisible = false;
 
   const floorColor = 128 / 255;
@@ -76,6 +82,7 @@ export default async function createScene(engine, events) {
   door.position = new Vector3(8.235, doorHeight / 2, 8.9);
   door.rotation.y = Angle.FromDegrees(88).radians();
   door.setParent(floor);
+  door.isPickable = false;
   door.isVisible = false;
 
   const doorMaterial = new StandardMaterial('doorMaterial', scene);
@@ -90,7 +97,49 @@ export default async function createScene(engine, events) {
   transparentOccluder.setParent(floor);
   transparentOccluder.onBeforeRenderObservable.add(() => engine.setColorWrite(false));
   transparentOccluder.onAfterRenderObservable.add(() => engine.setColorWrite(true));
-  transparentOccluder.isVisible = false;
+  transparentOccluder.isPickable = false;
+  transparentOccluder.isVisible = false
+
+  // invisible walls
+
+  const wallHeight = 100;
+  const wallDepth = 1;
+
+  const frontWall = MeshBuilder.CreateBox('frontWall', { width: floorWidth, height: wallHeight, depth: wallDepth }, scene);
+  frontWall.position = new Vector3(0, 0, floorDepth / 2 + wallDepth / 2);
+  frontWall.physicsImpostor = new PhysicsImpostor(frontWall, PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.9 }, scene);
+  frontWall.physicsImpostor.physicsBody.shapes.belongsTo = WALLS;
+  frontWall.physicsImpostor.physicsBody.shapes.collidesWith = RAGDOLLS;
+  frontWall.isPickable = false;
+  frontWall.isVisible = false;
+  frontWall.freezeWorldMatrix();
+
+  const backWall = MeshBuilder.CreateBox('backWall', { width: floorWidth, height: wallHeight, depth: wallDepth }, scene);
+  backWall.position = new Vector3(0, 0, -floorDepth / 2 - wallDepth / 2);
+  backWall.physicsImpostor = new PhysicsImpostor(backWall, PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.9 }, scene);
+  backWall.physicsImpostor.physicsBody.shapes.belongsTo = WALLS;
+  backWall.physicsImpostor.physicsBody.shapes.collidesWith = RAGDOLLS;
+  backWall.isPickable = false;
+  backWall.isVisible = false;
+  backWall.freezeWorldMatrix();
+
+  const leftWall = MeshBuilder.CreateBox('leftWall', { width: wallDepth, height: wallHeight, depth: floorDepth }, scene);
+  leftWall.position = new Vector3(-12, 0, 0);
+  leftWall.physicsImpostor = new PhysicsImpostor(leftWall, PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.9 }, scene);
+  leftWall.physicsImpostor.physicsBody.shapes.belongsTo = WALLS;
+  leftWall.physicsImpostor.physicsBody.shapes.collidesWith = RAGDOLLS;
+  leftWall.isPickable = false;
+  leftWall.isVisible = false;
+  leftWall.freezeWorldMatrix();
+
+  const rightWall = MeshBuilder.CreateBox('rightWall', { width: wallDepth, height: wallHeight, depth: floorDepth }, scene);
+  rightWall.position = new Vector3(12, 0, 0);
+  rightWall.physicsImpostor = new PhysicsImpostor(leftWall, PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.9 }, scene);
+  rightWall.physicsImpostor.physicsBody.shapes.belongsTo = WALLS;
+  rightWall.physicsImpostor.physicsBody.shapes.collidesWith = RAGDOLLS;
+  rightWall.isPickable = false;
+  rightWall.isVisible = false;
+  rightWall.freezeWorldMatrix();
 
   // crowd navigation
 
@@ -114,28 +163,46 @@ export default async function createScene(engine, events) {
   // agents
 
   const agentPools = await AgentPool.initializeAgentPools(navigationPlugin, scene);
-  const agents = new Set();
+  const agentsByMesh = new Map();
 
   function addAgent() {
-    const newAgent = agentPools[Math.floor(Math.random() * agentPools.length)].instantiate(
+    const newAgent = randomItem(agentPools).instantiate(
       new Vector3(9, 0, 8.9),
       new Vector3(Angle.FromDegrees(-90).radians(), Angle.FromDegrees(90).radians(), 0),
       new Vector3(0.01, 0.01, 0.01)
     );
-    agents.add(newAgent);
-    newAgent.moveTo(new Vector3(-6, 0, 8.9), () => {
+    agentsByMesh.set(newAgent.mesh, newAgent);
+    const agentDestination = new Vector3(
+      Scalar.RandomRange(-7, 7),
+      0,
+      Scalar.RandomRange(6, 8.9)
+    );
+    newAgent.moveTo(agentDestination, () => {
       newAgent.rotateTo(Angle.FromDegrees(180).radians(), 2, EasingFunction.EASINGMODE_EASEOUT);
     }, 0.5);
   }
 
   // window resizing camera logic
 
-  let targetFooterBottomCenterWorld = new Vector3(0, 0, 0);
-  function pinGroundPlaneToFooter() {
-    if (!showFooter) {
-      return;
+  const $footer = document.getElementById('footer');
+  $footer.addEventListener('transitionend', () => {
+    const footerTransform = window.getComputedStyle($footer).getPropertyValue('transform');
+    if (footerTransform === 'none')  { // visible
+      addAgent();
+    } else { // not visible
+      floor.isVisible = false;
+      door.isVisible = false;
+      transparentOccluder.isVisible = false;
+      for (const agent of agentsByMesh.values()) {
+        agent.mesh.isVisible = false;
+        if (!agent.isRagdoll && !agent.isFrozen) {
+          agent.setRandomRagdollPose();
+        }
+      }
     }
-    const $footer = document.getElementById('footer');
+  });
+
+  function pinGroundPlaneToFooter() {
     const footerRect = $footer.getBoundingClientRect();
     const floorBoundingBox = floor.getBoundingInfo().boundingBox;
     // find the world-space location of the top center of the footer element
@@ -147,83 +214,37 @@ export default async function createScene(engine, events) {
       camera
     );
     camera.position.y -= targetFooterTopCenterWorld.y;
-
-    targetFooterBottomCenterWorld = viewportToWorldPoint(
-      ((footerRect.right - footerRect.left) / 2) / engine.getRenderWidth(),
-      (footerRect.bottom + 200) / engine.getRenderHeight(), // add a little extra vertical buffer to hide any ragdolls
-      floorBoundingBox.maximumWorld.z,
-      camera
-    );
   }
   pinGroundPlaneToFooter();
   scene.onBeforeRenderObservable.add(pinGroundPlaneToFooter);
 
   // event handling
 
-  const animationFrameRate = 60;
-  const floorAnimationDuration = 0.5;
-  const floorEasingFunction = new BezierCurveEase(0.42, 0, 1, 1);
-  floorEasingFunction.setEasingMode(EasingFunction.EASINGMODE_EASEIN);
-  const originalFloorPosition = floor.position;
-
   events.onNavigateOnline.add(() => {
-    if (showFooter) {
-      return;
-    }
-    showFooter = true;
     floor.isVisible = true;
     door.isVisible = true;
     transparentOccluder.isVisible = true;
-    for (const agent of agents) {
+    for (const agent of agentsByMesh.values()) {
       agent.mesh.isVisible = true;
     }
-    Animation.CreateAndStartAnimation(
-      'floorYIn',
-      floor,
-      'position',
-      animationFrameRate,
-      animationFrameRate * floorAnimationDuration,
-      floor.position,
-      originalFloorPosition,
-      Animation.ANIMATIONLOOPMODE_RELATIVE,
-      floorEasingFunction,
-      () => {
-        addAgent();
-      }
-    );
   });
 
-  events.onNavigateIRL.add(() => {
-    if (!showFooter) {
-      return;
-    }
-    showFooter = false;
-    Animation.CreateAndStartAnimation(
-      'floorYOut',
-      floor,
-      'position',
-      animationFrameRate,
-      animationFrameRate * floorAnimationDuration,
-      originalFloorPosition,
-      new Vector3(0, (-floorHeight / 2) + targetFooterBottomCenterWorld.y, 0),
-      Animation.ANIMATIONLOOPMODE_RELATIVE,
-      floorEasingFunction,
-      () => {
-        floor.isVisible = false;
-        door.isVisible = false;
-        transparentOccluder.isVisible = false;
-      }
-    );
-    for (const agent of agents) {
-      if (!agent.isRagdoll) {
-        agent.fall();
-      }
-      const hideMeshObservable = scene.onBeforeRenderObservable.add(() => {
-        if (!camera.isInFrustum(agent.mesh)) {
-          agent.mesh.isVisible = false;
-          scene.onBeforeRenderObservable.remove(hideMeshObservable);
+  events.onViewOnlineArtwork.add(() => {
+    addAgent();
+  });
+
+  scene.onPointerObservable.add(pointerInfo => {
+    switch (pointerInfo.type) {
+      case PointerEventTypes.POINTERDOWN:
+        if (pointerInfo.pickInfo.hit) {
+          const agent = agentsByMesh.get(pointerInfo.pickInfo.pickedMesh);
+          if (agent && !agent.isRagdoll && !agent.isFrozen) {
+            agent.fall(true, () => {
+              // TODO: add frozen ragdoll mesh to navmesh
+            });
+          }
         }
-      });
+        break;
     }
   });
 

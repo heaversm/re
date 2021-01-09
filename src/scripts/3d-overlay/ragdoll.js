@@ -2,6 +2,10 @@ import { Vector3, Quaternion, Matrix, Axis, Space } from '@babylonjs/core/Maths/
 import { PhysicsImpostor } from '@babylonjs/core/Physics/physicsImpostor';
 import { PhysicsJoint } from '@babylonjs/core/Physics/physicsJoint';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
+import { TransformNode } from '@babylonjs/core/Meshes/transformNode';
+import { BoundingInfo } from '@babylonjs/core/Culling/boundingInfo';
+
+import { GROUND, WALLS, RAGDOLLS } from './collision-groups';
 
 export default function Ragdoll(skeleton, mesh, config, jointCollisions = false, showBoxes = false, mainPivotSphereSize = 0, disableBoxBoneSync = false) {
   this.skeleton = skeleton;
@@ -19,11 +23,13 @@ export default function Ragdoll(skeleton, mesh, config, jointCollisions = false,
   this.mainPivotSphereSize = mainPivotSphereSize; // used for debugging. Show the main pivot points for the joints.
   this.disableBoxBoneSync = disableBoxBoneSync; // when not in ragdoll mode, the boxes will, by default, follow the bones. If you don't want that, set this to true.
   this.ragdollMode = false;
+  this.frozen = false;
   this.jointCollisions = jointCollisions;
   this.rootBoneName;
   this.rootBoneIndex = -1;
   this.mass = 1;
   this.restitution = 0;
+  this.syncObservable = null;
 
   this.putBoxesInBoneCenter = false;
   this.defaultJoint = PhysicsJoint.HingeJoint;
@@ -31,6 +37,19 @@ export default function Ragdoll(skeleton, mesh, config, jointCollisions = false,
   this.defaultJointMax = 90;
 
   this.boneOffsetAxis = Axis.Y;
+
+  this.initBones = function() {
+    for (let i = 0; i < this.config.length; i++) {
+      let boneNames = this.config[i].hasOwnProperty("bone") ? [this.config[i].bone] : this.config[i].bones;
+      for (let ii = 0; ii < boneNames.length; ii++) {
+        let currentBone = this.skeleton.bones[this.skeleton.getBoneIndexByName(boneNames[ii])];
+        if (currentBone == undefined) {
+          return;
+        }
+        this.bones.push(currentBone);
+      }
+    }
+  }
 
   this.createColliders = function() {
     this.mesh.computeWorldMatrix();
@@ -41,7 +60,7 @@ export default function Ragdoll(skeleton, mesh, config, jointCollisions = false,
       for (let ii = 0; ii < boneNames.length; ii++) {
         let currentBone = this.skeleton.bones[this.skeleton.getBoneIndexByName(boneNames[ii])];
 
-        if(currentBone == undefined) {
+        if (currentBone == undefined) {
           // eslint-disable-next-line no-console
           console.log("Bone", boneNames[ii], "does not exist :(");
           return;
@@ -57,6 +76,16 @@ export default function Ragdoll(skeleton, mesh, config, jointCollisions = false,
 
         let box = MeshBuilder.CreateBox(this.boneNames[ii] + "_box", currentBoxProps, this.scene);
         box.visibility = this.showBoxes ? this.boxVisibility : 0;
+        box.isPickable = false;
+        // let box = new TransformNode(this.boneNames[ii] + "_box");
+        // const width = this.config[i].width || this.config[i].size;
+        // const height = this.config[i].height || this.config[i].size;
+        // const depth = this.config[i].depth || this.config[i].size;
+        // const boundingInfo = new BoundingInfo(
+        //   new Vector3(-width / 2, -height / 2, -depth / 2),
+        //   new Vector3(width / 2, height / 2, depth / 2)
+        // );
+        // box.getBoundingInfo = () => boundingInfo;
 
         // Define the rest of the box properties.
         currentBoxProps.joint = this.config[i].hasOwnProperty("joint") ? this.config[i].joint : this.defaultJoint;
@@ -89,6 +118,8 @@ export default function Ragdoll(skeleton, mesh, config, jointCollisions = false,
         let mass = this.config[i].hasOwnProperty("mass") ? this.config[i].hasOwnProperty("mass")  : this.mass;
         let restitution = this.config[i].hasOwnProperty("restitution") ? this.config[i].hasOwnProperty("restitution")  : this.restitution;
         box.physicsImpostor = new PhysicsImpostor(box, PhysicsImpostor.BoxImpostor, { mass: mass, restitution: restitution }, this.scene);
+        box.physicsImpostor.physicsBody.shapes.belongsTo = RAGDOLLS;
+        box.physicsImpostor.physicsBody.shapes.collidesWith = GROUND | WALLS; // | RAGDOLLS;
 
         this.bones.push(currentBone);
         this.boneNames.push(currentBone.name);
@@ -198,7 +229,13 @@ export default function Ragdoll(skeleton, mesh, config, jointCollisions = false,
   }
 
   this.dispose = function() {
-    // TODO:
+    if (this.syncObservable) {
+      this.scene.onBeforeRenderObservable.remove(this.syncObservable)
+      this.syncObservable = null;
+    }
+    for (let i = 0; i < this.impostors.length; i++) {
+      this.impostors[i].dispose();
+    }
   }
 
   this.ragdollOff = function() {
@@ -215,18 +252,19 @@ export default function Ragdoll(skeleton, mesh, config, jointCollisions = false,
     this.initJoints();
     // This function will be called every render loop iteration.
     this.syncBonesAndBoxes = () => {
-
-
+      if (this.frozen) {
+        return;
+      }
       if (this.ragdollMode) {
         const rootBoneDirection = this.bones[this.rootBoneIndex].getDirection(this.boxConfigs[this.rootBoneIndex].boneOffsetAxis, this.mesh);
-        const rootBoneOffsetPosition = this.bones[this.rootBoneIndex].getAbsolutePosition(this.mesh).add(rootBoneDirection.scale(this.boxConfigs[this.rootBoneIndex].boxOffset))
+        const rootBoneOffsetPosition = this.bones[this.rootBoneIndex].getAbsolutePosition(this.mesh).add(rootBoneDirection.scale(this.boxConfigs[this.rootBoneIndex].boxOffset));
 
         //this.bones[this.rootBoneIndex].setAbsolutePosition(this.boxes[this.rootBoneIndex].position, this.mesh);
         this.addImpostorRotationToBone(this.rootBoneIndex);
 
         // Move the mesh, to guarantee alignment between root bone and impostor box position
-        let dist = rootBoneOffsetPosition.subtract(this.impostors[this.rootBoneIndex].object.position);
-        this.mesh.position = this.mesh.position.subtract(dist);
+        const dist = rootBoneOffsetPosition.subtract(this.impostors[this.rootBoneIndex].object.position);
+        this.mesh.position.subtractInPlace(dist);
 
         // I'll leave this here, cause this is an important one :D
         //debugger;
@@ -235,6 +273,7 @@ export default function Ragdoll(skeleton, mesh, config, jointCollisions = false,
           if (i == this.rootBoneIndex) continue;
           this.addImpostorRotationToBone(i);
         }
+
       } else {
         // If the ragdoll mode is activated, just make the impostor boxes follow the bones.
         // NOTE: If we're here, that means the user hasn't called this.createRagdoll() yet, and so the joints between impostor boxes haven't been created.
@@ -250,7 +289,7 @@ export default function Ragdoll(skeleton, mesh, config, jointCollisions = false,
         }
       }
     };
-    this.scene.registerBeforeRender(this.syncBonesAndBoxes);
+    this.syncObservable = this.scene.onBeforeRenderObservable.add(this.syncBonesAndBoxes);
   }
 
   this.ragdoll = function() {
@@ -271,6 +310,31 @@ export default function Ragdoll(skeleton, mesh, config, jointCollisions = false,
 
     if (!this.ragdollMode) {
       this.ragdollMode = true;
+      this.mesh.doNotSyncBoundingInfo = true;
     }
+  }
+
+  this.freeze = function() {
+    if (this.frozen || !this.ragdollMode) {
+      return;
+    }
+    this.frozen = true;
+    // console.log(this.mesh.position.y);
+    // for (let i = 0; i < this.bones.length; i++) {
+    //   const q = this.bones[i].getRotationQuaternion();
+    //   console.log(`new Quaternion(${q.x}, ${q.y}, ${q.z}, ${q.w}),`)
+    // }
+    this.skeleton.setCurrentPoseAsRest();
+    this.ragdollMode = false;
+    this.dispose();
+  }
+
+  this.setPose = function(yPosition, boneQuaternions) {
+    this.frozen = true;
+    this.mesh.position.y = yPosition;
+    for (let i = 0; i < boneQuaternions.length; i++) {
+      this.bones[i].setRotationQuaternion(boneQuaternions[i]);
+    }
+    this.dispose();
   }
 }

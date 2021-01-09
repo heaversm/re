@@ -22,6 +22,7 @@ const re6 = new RE6();
 const babylonEvents = {
   onNavigateOnline: new Observable(),
   onNavigateIRL: new Observable(),
+  onViewOnlineArtwork: new Observable()
 };
 
 const re = (function () {
@@ -170,6 +171,7 @@ const re = (function () {
         re1.init();
         break;
     }
+    babylonEvents.onViewOnlineArtwork.notifyObservers();
   };
 
   const onModalCloseClick = function (e) {
