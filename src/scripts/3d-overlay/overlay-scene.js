@@ -1,4 +1,4 @@
-import * as BABYLON from '@babylonjs/core/Legacy/legacy';
+// import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 
 import * as OIMO from 'oimo';
 import { Scene } from '@babylonjs/core/scene';
@@ -21,8 +21,8 @@ import '@babylonjs/core/Animations/animatable';
 import '@babylonjs/core/Cameras/universalCamera';
 import '@babylonjs/core/Engines/Extensions/engine.occlusionQuery';
 import '@babylonjs/core/Physics/physicsEngineComponent';
-import "@babylonjs/core/Debug/debugLayer";
-import "@babylonjs/inspector";
+// import "@babylonjs/core/Debug/debugLayer";
+// import "@babylonjs/inspector";
 
 import { AgentPool } from './agent';
 import { viewportToWorldPoint, randomItem } from './utils';
@@ -206,8 +206,8 @@ export default async function createScene(engine, events) {
     // find the world-space location of the top center of the footer element
     // at the Z position of the far edge of the ground plane
     const targetFooterTopCenterWorld = viewportToWorldPoint(
-      ((footerRect.right - footerRect.left) / 2) / engine.getRenderWidth(),
-      footerRect.top / engine.getRenderHeight(),
+      (((footerRect.right - footerRect.left) / 2) / engine.getRenderWidth()) / engine.getHardwareScalingLevel(),
+      (footerRect.top / engine.getRenderHeight()) / engine.getHardwareScalingLevel(),
       floorBoundingBox.maximumWorld.z,
       camera
     );
@@ -246,9 +246,9 @@ export default async function createScene(engine, events) {
     }
   });
 
-  scene.debugLayer.show({
-    overlay: true
-  });
+  // scene.debugLayer.show({
+  //   overlay: true
+  // });
 
   return scene;
 }

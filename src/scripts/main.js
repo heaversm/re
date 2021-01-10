@@ -350,6 +350,10 @@ const re = (function () {
     checkMobile();
     initModal();
     addListeners();
+
+    const $overlayCanvas = document.getElementById("render-canvas");
+    const $characterCanvas = document.getElementById("sketch-canvas");
+    init3DOverlay($overlayCanvas, $characterCanvas, babylonEvents);
   };
 
   return {
@@ -360,8 +364,3 @@ const re = (function () {
 window.onload = function () {
   re.init();
 };
-
-window.addEventListener("DOMContentLoaded", function () {
-  const $canvas = document.getElementById("render-canvas");
-  init3DOverlay($canvas, babylonEvents);
-});
