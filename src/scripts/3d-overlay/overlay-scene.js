@@ -28,7 +28,7 @@ import { AgentPool } from './agent';
 import { viewportToWorldPoint, randomItem } from './utils';
 import { GROUND, WALLS, RAGDOLLS } from './collision-groups';
 
-export default async function createScene(engine, events) {
+export default async function createScene(engine, models, events) {
   const scene = new Scene(engine);
 
   // parameters
@@ -162,7 +162,7 @@ export default async function createScene(engine, events) {
 
   // agents
 
-  const agentPools = await AgentPool.initializeAgentPools(navigationPlugin, scene);
+  const agentPools = await AgentPool.initializeAgentPools(models, navigationPlugin, scene);
   const agentsByMesh = new Map();
 
   function addAgent() {

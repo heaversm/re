@@ -6,6 +6,8 @@ import init3DOverlay from "./3d-overlay";
 
 import irlImages from "../assets/images/irl/*.jpg";
 
+import modelFiles from "../assets/models/*.babylon";
+
 import { RE1 } from "./re1";
 import { RE2 } from "./re2";
 import { RE3 } from "./re3";
@@ -43,6 +45,7 @@ const re = (function () {
   let curSketch;
   let mobileNavActive = false;
   let isMobile;
+  let isBabylonInitialized = false;
 
   const DISABLE_CLICK_DURATION = 250;
 
@@ -307,7 +310,7 @@ const re = (function () {
     $body.dataset.mobileNavActive = `${mobileNavActive}`;
   };
 
-  const onMainNavClick = function (e) {
+  const onMainNavClick = async function (e) {
     e.preventDefault();
     const id = e.currentTarget.dataset.id;
 
@@ -324,6 +327,7 @@ const re = (function () {
         break;
       case "online":
         $body.dataset.page = "online";
+        if (!)
         babylonEvents.onNavigateOnline.notifyObservers();
         break;
       default:
@@ -345,14 +349,20 @@ const re = (function () {
       );
   };
 
-  const init = function () {
+  const init = async function () {
     checkMobile();
     initModal();
     addListeners();
 
+    const modelBlobs = await Promise.all(Object.values(modelFiles).map(modelURL => window.fetch(modelURL).then(r => r.blob())));
+    const models = Object.keys(modelFiles).reduce((acc, modelFile, i) => ({
+      ...acc,
+      [modelFile]: URL.createObjectURL(modelBlobs[i])
+    }), {});
+
     const $overlayCanvas = document.getElementById("render-canvas");
     const $characterCanvas = document.getElementById("sketch-canvas");
-    init3DOverlay($overlayCanvas, $characterCanvas, babylonEvents);
+    init3DOverlay($overlayCanvas, $characterCanvas, models, babylonEvents);
   };
 
   return {

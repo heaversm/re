@@ -19,7 +19,7 @@ import '@babylonjs/loaders'
 import Ragdoll from './ragdoll.js';
 import { generateVariantColors } from './agent.js';
 
-export default async function createScene(engine) {
+export default async function createScene(engine, models) {
   const scene = new Scene(engine);
 
   scene.enablePhysics(new Vector3(0, -9.8, 0), new OimoJSPlugin(true, 8, OIMO));
@@ -40,15 +40,8 @@ export default async function createScene(engine) {
 
   const assetsManager = new AssetsManager(scene);
   assetsManager.useDefaultLoadingScreen = false;
-  const characterFileNames = [
-    'agent0.babylon',
-    'agent3.babylon',
-    'agent4.babylon',
-    'agent5.babylon',
-    'agent7.babylon'
-  ];
-  const characterPromises = characterFileNames.map(characterFileName => new Promise(resolve => {
-    const agentTask = assetsManager.addContainerTask(`${characterFileName}Task`, '', 'assets/models/', characterFileName)
+  const characterPromises = Object.entries(models).map(([characterName, modelURL]) => new Promise(resolve => {
+    const agentTask = assetsManager.addContainerTask(`${characterName}Task`, '', '', modelURL)
     agentTask.onSuccess = ({ loadedContainer }) => resolve(loadedContainer);
   }));
 

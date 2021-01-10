@@ -129,7 +129,7 @@ export class AgentPool {
     separationWeight: 1.0
   };
 
-  static async initializeAgentPools(navigationPlugin, scene, maxAgents = 100) {
+  static async initializeAgentPools(models, navigationPlugin, scene, maxAgents = 100) {
     this.navigationPlugin = navigationPlugin;
     if (this.navigationPlugin) {
       this.crowd = navigationPlugin.createCrowd(maxAgents, 1, scene);
@@ -138,7 +138,7 @@ export class AgentPool {
     const assetsManager = new AssetsManager(scene);
     assetsManager.useDefaultLoadingScreen = false;
     const agentPoolPromises = Object.values(this.agents).map(agentEnum => new Promise(resolve => {
-      const agentTask = assetsManager.addContainerTask(`${agentEnum}Task`, '', this.agentModelDirectory, this.agentModelFileNames[agentEnum])
+      const agentTask = assetsManager.addContainerTask(`${agentEnum}Task`, '', '', models[agentEnum])
       agentTask.onSuccess = ({ loadedContainer }) => resolve(new AgentPool(loadedContainer, agentEnum, scene));
     }));
 
