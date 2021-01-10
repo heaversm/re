@@ -76,9 +76,11 @@ const re = (function () {
 
   const addModalListeners = function () {
     $modals.forEach(($modal) => {
-      const $modalClose = $modal.querySelector("[data-modal-close]");
-      if ($modalClose) {
-        $modalClose.addEventListener("click", onModalCloseClick);
+      const $modalClose = $modal.querySelectorAll("[data-modal-close]");
+      if ($modalClose.length) {
+        $modalClose.forEach(($closeTrigger) => {
+          $closeTrigger.addEventListener("click", onModalCloseClick);
+        });
       }
     });
   };
@@ -86,8 +88,10 @@ const re = (function () {
   const removeModalListeners = function () {
     $modals.forEach(($modal) => {
       const $modalClose = $modal.querySelector("[data-modal-close]");
-      if ($modalClose) {
-        $modalClose.removeEventListener("click", onModalCloseClick);
+      if ($modalClose.length) {
+        $modalClose.forEach(($closeTrigger) => {
+          $modalClose.removeEventListener("click", onModalCloseClick);
+        });
       }
     });
   };
@@ -176,6 +180,7 @@ const re = (function () {
 
   const onModalCloseClick = function (e) {
     e.preventDefault();
+    console.log(e.currentTarget, e.target);
     const modalID = e.currentTarget.dataset.modalClose;
     hideModal(modalID);
     setTimeout(addGridImageListeners, DISABLE_CLICK_DURATION);

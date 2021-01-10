@@ -393,8 +393,9 @@ h6 {
     background-color: $c-white;
     padding: $space-std * 2;
     flex-direction: column;
-    display: none; //MH - comment out temporarily
+
     @include breakpoint(tablet) {
+      display: none;
       padding: $space-std;
       height: 100%;
     }
@@ -436,13 +437,6 @@ h6 {
   &.is-open {
     display: block;
   }
-}
-
-.modal {
-  display: none;
-  &.is-open {
-    display: block;
-  }
   &__strobe-text {
     animation: strobe 0.5s linear infinite;
     p {
@@ -456,7 +450,6 @@ h6 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -467,6 +460,13 @@ h6 {
       }
     }
   }
+  &__bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: $z-modal-bg;
+  }
 
   &__container {
     background-color: $c-gray;
@@ -475,6 +475,8 @@ h6 {
     max-height: 100vh;
     overflow-y: auto;
     box-sizing: border-box;
+    position: relative;
+    z-index: $z-modal-content;
     @include breakpoint(tablet) {
       max-width: 70vw;
     }
@@ -509,6 +511,9 @@ h6 {
         width: auto;
         max-width: 100%;
         object-fit: contain;
+        @include breakpoint(mobile_sm) {
+          max-height: 50vh;
+        }
       }
       &__image-container {
         background-color: $c-black;
@@ -633,9 +638,12 @@ body[data-page="home"] {
 
       &-container {
         display: block;
-        left: #{$space-std * 2};
+        left: $space-std;
         width: calc(100% - #{$space-std * 2});
         height: calc(100% - #{$space-std * 2});
+        @include breakpoint(tablet) {
+          left: #{$space-std * 2};
+        }
       }
     }
   }
@@ -647,13 +655,21 @@ body[data-page="home"] {
       height: calc(100% - #{$space-std * 2});
       top: $space-std;
       right: $space-std;
+      display: none;
+      @include breakpoint(tablet) {
+        display: block;
+      }
     }
     &__exhibit-content.active[data-page="home"] {
       display: flex;
       height: 100%;
+      overflow: auto;
     }
     &__text-container {
-      height: 100%;
+      height: calc(100% - #{$space-std * 2});
+      @include breakpoint(tablet) {
+        height: 100%;
+      }
     }
   }
   .collection {
