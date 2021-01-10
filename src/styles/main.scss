@@ -18,6 +18,9 @@ body {
   -webkit-font-smoothing: none;
   margin: 0;
   overflow: hidden;
+  @include breakpoint(desktop) {
+    font-size: $scaling-font--std;
+  }
 }
 
 ul {
@@ -86,7 +89,8 @@ h6 {
     padding: $space-std * 2;
     @include breakpoint(tablet) {
       width: $col-left-w;
-      min-height: $col-left-w;
+      height: $col-left-w;
+      max-height: $col-left-w;
     }
   }
   &__burger {
@@ -108,6 +112,9 @@ h6 {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    @include breakpoint(tablet) {
+      height: $col-left-w;
+    }
   }
   &__title-container {
     background-color: $c-white;
@@ -118,11 +125,20 @@ h6 {
     @include breakpoint(mobile_only) {
       height: $mobile-header-height;
     }
+    @include breakpoint(tablet) {
+      height: 50%;
+      flex-basis: 50%;
+    }
   }
   &__title-link {
-    @include breakpoint(mobile_only) {
-      display: block;
-      width: 100%;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    background-color: $c-black;
+    &:hover {
+      .header-main__title {
+        color: $c-red;
+      }
     }
   }
   &__title {
@@ -135,34 +151,34 @@ h6 {
     display: inline-block;
     margin: 0;
     font-weight: normal;
-    @include breakpoint(tablet) {
-      font-size: 30px;
-      letter-spacing: 5px;
-    }
     @include breakpoint(mobile_only) {
       width: 100%;
+    }
+    @include breakpoint(tablet) {
+      font-size: 2vw;
+      letter-spacing: 5px;
     }
   }
 }
 
 .nav-main {
   background-color: $c-black;
+  @include breakpoint(tablet) {
+    height: 50%;
+    flex-basis: 50%;
+  }
   &__items {
     padding: $space-std;
     display: none;
     @include breakpoint(tablet) {
       display: block;
+      height: 100%;
     }
   }
   &__item {
-    display: block;
     display: flex;
     align-items: center;
-    &:nth-child(even) {
-      .nav-main__link {
-        background-color: $c-gray--lt;
-      }
-    }
+    height: 50%;
   }
   &__link {
     color: $c-black;
@@ -171,11 +187,13 @@ h6 {
     padding: 5px 10px;
     display: block;
     letter-spacing: 1px;
-    @include breakpoint(tablet) {
-      font-size: 20px;
-    }
     &:hover {
+      background-color: $c-red;
       color: black;
+    }
+    @include breakpoint(tablet) {
+      font-size: 1.4vw;
+      height: 100%;
     }
   }
 }
@@ -311,6 +329,9 @@ h6 {
     display: none;
     height: calc(100% - #{$space-std});
     flex-direction: column;
+    @include breakpoint(desktop) {
+      font-size: $scaling-font--std;
+    }
   }
 
   &__exhibit-content-fill {
@@ -379,6 +400,11 @@ h6 {
       height: 100%;
     }
   }
+  &__list {
+    @include breakpoint(tablet) {
+      margin-bottom: 1.1vw;
+    }
+  }
   &__item {
     margin-top: 10px;
     @include breakpoint(mobile_only) {
@@ -392,7 +418,7 @@ h6 {
     text-transform: uppercase;
     font-size: 14px;
     @include breakpoint(desktop) {
-      font-size: 16px;
+      font-size: 1.1vw;
     }
 
     &:hover,
@@ -436,6 +462,11 @@ h6 {
     justify-content: center;
     align-items: center;
     z-index: 900;
+    &:active {
+      .modal__container {
+        background-color: $c-red;
+      }
+    }
   }
 
   &__container {
@@ -447,6 +478,9 @@ h6 {
     box-sizing: border-box;
     @include breakpoint(tablet) {
       max-width: 70vw;
+    }
+    &:hover {
+      background-color: $c-yellow;
     }
   }
 
@@ -489,6 +523,7 @@ h6 {
     }
   }
   &#modal-2 {
+    //online
     position: absolute;
     top: $space-std;
     left: $space-std;
@@ -507,6 +542,7 @@ h6 {
         max-height: 100%;
         width: 100%;
         height: 100%;
+        overflow: hidden;
       }
       &__images {
         width: 100%;
@@ -576,6 +612,11 @@ body[data-mobile-nav-active="true"] {
   .square-grid__image {
     pointer-events: none;
   }
+  @include breakpoint(mobile_only) {
+    .content {
+      z-index: $z-mobile-nav-active;
+    }
+  }
 }
 
 body[data-page="home"] {
@@ -637,7 +678,6 @@ body[data-page="online"] {
     display: block;
   }
   .square-grid {
-    //display: none;
     &__text-container {
       display: none;
     }

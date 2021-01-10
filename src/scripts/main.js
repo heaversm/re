@@ -22,7 +22,7 @@ const re6 = new RE6();
 const babylonEvents = {
   onNavigateOnline: new Observable(),
   onNavigateIRL: new Observable(),
-  onViewOnlineArtwork: new Observable()
+  onViewOnlineArtwork: new Observable(),
 };
 
 const re = (function () {
@@ -92,7 +92,7 @@ const re = (function () {
   };
 
   const initModal = function () {
-    showModal("modal-3");
+    showModal("modal-3", false);
   };
 
   const handleModal1 = function (e) {
@@ -112,7 +112,6 @@ const re = (function () {
     });
     $irlImage.src = `${irlImages[id]}`;
     $irlImage.alt = id;
-    //debugger;
 
     if ($targetContent) {
       $targetContent.classList.add("active");
