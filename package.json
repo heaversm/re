@@ -5,7 +5,7 @@
   "scripts": {
     "start": "parcel src/index.html --port 3000 --no-hmr",
     "build": "parcel build src/index.html",
-    "prebuild": "rimraf dist"
+    "build:hooliganship": "npm run build -- --public-url /emptyspace/"
   },
   "author": "",
   "license": "UNLICENSED",
@@ -29,35 +29,31 @@
     "@babel/preset-env": "^7.12.11",
     "eslint": "^7.16.0",
     "parcel-bundler": "^1.12.4",
-    "parcel-plugin-custom-dist-structure": "^1.1.16",
+    "parcel-plugin-nuke-dist": "^1.0.1",
     "parcel-plugin-static-files-copy": "^2.5.0",
+    "parcel-plugin-structurize": "^2.3.2",
     "rimraf": "^2.7.1",
     "sass": "^1.30.0"
   },
-  "customDistStructure": {
-    "config": {
-      "scripts": [
-        ".js",
-        ".js.map"
-      ],
-      "styles": [
-        ".css",
-        ".css.map"
-      ],
-      "assets/images": [
-        ".jpg",
-        ".png",
-        ".gif",
-        ".svg"
-      ],
-      "assets/fonts": [
-        ".ttf",
-        ".otf"
-      ]
-    },
-    "options": {
-      "development": true
-    }
+  "parcel-plugin-structurize": {
+    "rules": [
+      {
+        "match": "*.{js,js.map}",
+        "folder": "scripts"
+      },
+      {
+        "match": "*.{css,css.map}",
+        "folder": "styles"
+      },
+      {
+        "match": "*.{jpg,png,gif,svg}",
+        "folder": "assets/images"
+      },
+      {
+        "match": "*.{ttf,otf}",
+        "folder": "assets/fonts"
+      }
+    ]
   },
   "staticFiles": {
     "staticPath": [
