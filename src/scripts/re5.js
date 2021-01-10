@@ -14,7 +14,7 @@ export class RE5 {
 
     let sketchRenderer;
     let sketch2Renderer;
-    const frameRate = 30;
+    const frameRate = 10;
 
     const s1 = function (sketch) {
       const barSize = 1;

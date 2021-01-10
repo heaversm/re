@@ -20,7 +20,7 @@ export class RE3 {
 
     const colorSize = 2;
     const gapSize = 8;
-    const frameRate = 30;
+    const frameRate = 10;
 
     let barSize;
 
