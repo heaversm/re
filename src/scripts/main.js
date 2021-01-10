@@ -35,7 +35,7 @@ const re = (function () {
   const $collectionLinks = document.querySelectorAll(".collection__link");
   const $gridImages = document.querySelectorAll(".square-grid__image");
   const $exhibitContents = document.querySelectorAll(
-    ".square-grid__exhibit-content"
+    ".square-grid__exhibit-content[data-page='irl']"
   );
   const $modals = document.querySelectorAll(".modal");
 
@@ -48,15 +48,16 @@ const re = (function () {
 
   const addListeners = function () {
     const $mainNavLinks = document.querySelectorAll(".nav-main__link");
-    $mainNavLinks.forEach((navLink) =>
-      navLink.addEventListener("click", onMainNavClick)
-    );
+    $mainNavLinks.forEach((navLink) => {
+      navLink.addEventListener("click", onMainNavClick);
+    });
     $blueSquare.addEventListener("touchend", onMobileNavClick);
-    $pageTitle.addEventListener("click", onMainNavClick);
 
     $collectionLinks.forEach(($collectionLink) => {
       $collectionLink.addEventListener("click", onCollectionLinkClick);
     });
+
+    $pageTitle.addEventListener("click", onMainNavClick);
 
     addModalListeners();
   };
@@ -320,11 +321,10 @@ const re = (function () {
       case "online":
         $body.dataset.page = "online";
         babylonEvents.onNavigateOnline.notifyObservers();
-
         break;
       default:
-        $body.dataset.page = "irl";
-        babylonEvents.onNavigateIRL.notifyObservers();
+        $body.dataset.page = "home";
+        babylonEvents.onNavigateIRL.notifyObservers(); //TODO: Oren - confirm this should be
         break;
     }
     closeAllModals();

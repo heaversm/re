@@ -392,9 +392,8 @@ h6 {
   &__nav {
     background-color: $c-white;
     padding: $space-std * 2;
-
     flex-direction: column;
-    //display: none; //MH - comment out temporarily
+    display: none; //MH - comment out temporarily
     @include breakpoint(tablet) {
       padding: $space-std;
       height: 100%;
@@ -620,13 +619,52 @@ body[data-mobile-nav-active="true"] {
 }
 
 body[data-page="home"] {
+  .header-main {
+    &__title {
+      color: $c-red;
+    }
+  }
+  .main {
+    &__col {
+      height: calc(100vh - #{$col-left-w});
+      &.left {
+        padding-bottom: $space-std;
+      }
+
+      &-container {
+        display: block;
+        left: #{$space-std * 2};
+        width: calc(100% - #{$space-std * 2});
+        height: calc(100% - #{$space-std * 2});
+      }
+    }
+  }
   .square-grid {
-    &__text-container {
-      display: none;
-    }
+    display: none;
     &__red-square {
-      z-index: $z-red-square-active; //position red square above blues
+      position: absolute;
+      width: calc(100% - #{$space-std * 2});
+      height: calc(100% - #{$space-std * 2});
+      top: $space-std;
+      right: $space-std;
     }
+    &__exhibit-content.active[data-page="home"] {
+      display: flex;
+      height: 100%;
+    }
+    &__text-container {
+      height: 100%;
+    }
+  }
+  .collection {
+    &__nav {
+      &[data-id="home"] {
+        display: flex;
+      }
+    }
+  }
+  .footer {
+    transform: translateY($footer-height-out);
   }
 }
 
@@ -640,7 +678,7 @@ body[data-page="irl"] {
     }
   }
   .square-grid__image.active,
-  .square-grid__exhibit-content.active {
+  .square-grid__exhibit-content.active:not([data-page="home"]) {
     display: flex;
   }
   .footer {
