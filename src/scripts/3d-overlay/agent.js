@@ -32,7 +32,7 @@ function pairs(arr) {
   return arr.map((v, i) => arr.slice(i + 1).map(w => [v, w]) ).flat();
 }
 
-function generateVariantColors(hairIndex, skinIndex, legsIndex, torsoIndex, useSkinColorForHairIndex = false) {
+export function generateVariantColors(hairIndex, skinIndex, legsIndex, torsoIndex, useSkinColorForHairIndex = false) {
   const variants = [];
   for (const gray of grays) {
     for (const colorPair of colorPairs) {
@@ -136,6 +136,7 @@ export class AgentPool {
     }
 
     const assetsManager = new AssetsManager(scene);
+    assetsManager.useDefaultLoadingScreen = false;
     const agentPoolPromises = Object.values(this.agents).map(agentEnum => new Promise(resolve => {
       const agentTask = assetsManager.addContainerTask(`${agentEnum}Task`, '', this.agentModelDirectory, this.agentModelFileNames[agentEnum])
       agentTask.onSuccess = ({ loadedContainer }) => resolve(new AgentPool(loadedContainer, agentEnum, scene));

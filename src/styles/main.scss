@@ -773,6 +773,16 @@ body[data-page="online"] {
   }
 }
 
+#sketch-canvas {
+  background: transparent;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  touch-action: none;
+  width: 100%;
+}
+
 #sketch,
 #sketch2 {
   position: absolute;
