@@ -18,14 +18,14 @@ export default async function (overlayCanvas, characterCanvas, events) {
     offscreenCanvas.width = overlayCanvas.width;
     offscreenCanvas.height = overlayCanvas.height;
 
-    overlayEngine = characterEngine = new Engine(offscreenCanvas, true, engineOptions, true);
+    overlayEngine = characterEngine = new Engine(offscreenCanvas, false, engineOptions, true);
     overlayEngine.hideLoadingUI();
     overlayEngine.inputElement = overlayCanvas;
   } else {
-    overlayEngine = new Engine(overlayCanvas, true, engineOptions, true);
+    overlayEngine = new Engine(overlayCanvas, false, engineOptions, true);
     overlayEngine.hideLoadingUI();
 
-    characterEngine = new Engine(characterCanvas, true, engineOptions, true);
+    characterEngine = new Engine(characterCanvas, false, engineOptions, true);
     characterEngine.hideLoadingUI();
   }
 
