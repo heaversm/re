@@ -327,7 +327,6 @@ const re = (function () {
         break;
       case "online":
         $body.dataset.page = "online";
-        if (!)
         babylonEvents.onNavigateOnline.notifyObservers();
         break;
       default:
