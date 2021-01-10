@@ -32,7 +32,7 @@ function pairs(arr) {
   return arr.map((v, i) => arr.slice(i + 1).map(w => [v, w]) ).flat();
 }
 
-export function generateVariantColors(hairIndex, skinIndex, legsIndex, torsoIndex, useSkinColorForHairIndex = false) {
+function generateVariantColors(hairIndex, skinIndex, legsIndex, torsoIndex, useSkinColorForHairIndex = false) {
   const variants = [];
   for (const gray of grays) {
     for (const colorPair of colorPairs) {
@@ -55,55 +55,71 @@ export function generateVariantColors(hairIndex, skinIndex, legsIndex, torsoInde
   return variants;
 }
 
-export class AgentPool {
-  static agents = {
-    AGENT_0: 'agent0',
-    AGENT_3: 'agent3',
-    AGENT_4: 'agent4',
-    AGENT_5: 'agent5',
-    AGENT_7: 'agent7',
-  };
+export const AGENTS = {
+  AGENT_0: 'agent0',
+  AGENT_3: 'agent3',
+  AGENT_4: 'agent4',
+  AGENT_5: 'agent5',
+  AGENT_7: 'agent7',
+};
 
+const AGENT_MATERIAL_VARIANT_COLORS = {
+  [AGENTS.AGENT_0]: generateVariantColors(0, 1, 2, 3, true),
+  [AGENTS.AGENT_3]: generateVariantColors(2, 0, 1, 3),
+  [AGENTS.AGENT_4]: generateVariantColors(0, 1, 2, 3),
+  [AGENTS.AGENT_5]: generateVariantColors(0, 1, 2, 3),
+  [AGENTS.AGENT_7]: generateVariantColors(0, 1, 2, 3),
+};
+
+export function generateMaterialVariants(agentEnum, scene) {
+  return (AGENT_MATERIAL_VARIANT_COLORS[agentEnum] || []).map((colors, i) => {
+    const materialName = `${agentEnum}MultiMaterial${i}`;
+    const multiMaterial = new MultiMaterial(materialName, scene);
+    for (const [j, color] of colors.entries()) {
+      const colorMaterial = new StandardMaterial(`${materialName}SubMaterial${j}`, scene);
+      colorMaterial.disableLighting = true;
+      colorMaterial.emissiveColor = color;
+      colorMaterial.freeze();
+      multiMaterial.subMaterials.push(colorMaterial);
+    }
+    multiMaterial.freeze();
+    return multiMaterial;
+  });
+}
+
+export class AgentPool {
   static agentModelDirectory = 'assets/models/';
 
   static agentModelFileNames = {
-    [AgentPool.agents.AGENT_0]: 'agent0.babylon',
-    [AgentPool.agents.AGENT_3]: 'agent3.babylon',
-    [AgentPool.agents.AGENT_4]: 'agent4.babylon',
-    [AgentPool.agents.AGENT_5]: 'agent5.babylon',
-    [AgentPool.agents.AGENT_7]: 'agent7.babylon',
+    [AGENTS.AGENT_0]: 'agent0.babylon',
+    [AGENTS.AGENT_3]: 'agent3.babylon',
+    [AGENTS.AGENT_4]: 'agent4.babylon',
+    [AGENTS.AGENT_5]: 'agent5.babylon',
+    [AGENTS.AGENT_7]: 'agent7.babylon',
   };
 
   static agentAnimationNames = {
-    [AgentPool.agents.AGENT_0]: {
+    [AGENTS.AGENT_0]: {
       idle: 'Idle',
       walk: 'Walk'
     },
-    [AgentPool.agents.AGENT_3]: {
+    [AGENTS.AGENT_3]: {
       idle: 'idle',
       walk: 'walk'
     },
-    [AgentPool.agents.AGENT_4]: {
+    [AGENTS.AGENT_4]: {
       idle: 'idle',
       walk: 'walk'
     },
-    [AgentPool.agents.AGENT_5]: {
+    [AGENTS.AGENT_5]: {
       idle: 'idle',
       walk: 'walk'
     },
-    [AgentPool.agents.AGENT_7]: {
+    [AGENTS.AGENT_7]: {
       idle: 'idle',
       walk: 'walk'
     },
   }
-
-  static agentMaterialVariantColors = {
-    [AgentPool.agents.AGENT_0]: generateVariantColors(0, 1, 2, 3, true),
-    [AgentPool.agents.AGENT_3]: generateVariantColors(2, 0, 1, 3),
-    [AgentPool.agents.AGENT_4]: generateVariantColors(0, 1, 2, 3),
-    [AgentPool.agents.AGENT_5]: generateVariantColors(0, 1, 2, 3),
-    [AgentPool.agents.AGENT_7]: generateVariantColors(0, 1, 2, 3),
-  };
 
   static agentRagdollConfig = [
     { bones: ["mixamorig_Hips"], size: 0.2, boxOffset: -0.05 },
@@ -137,7 +153,7 @@ export class AgentPool {
 
     const assetsManager = new AssetsManager(scene);
     assetsManager.useDefaultLoadingScreen = false;
-    const agentPoolPromises = Object.values(this.agents).map(agentEnum => new Promise(resolve => {
+    const agentPoolPromises = Object.values(AGENTS).map(agentEnum => new Promise(resolve => {
       const agentTask = assetsManager.addContainerTask(`${agentEnum}Task`, '', '', models[agentEnum])
       agentTask.onSuccess = ({ loadedContainer }) => resolve(new AgentPool(loadedContainer, agentEnum, scene));
     }));
@@ -152,19 +168,7 @@ export class AgentPool {
     this.agentEnum = agentEnum;
     this.scene = scene;
 
-    this.materialVariants = (this.constructor.agentMaterialVariantColors[agentEnum] || []).map((colors, i) => {
-      const materialName = `${agentEnum}MultiMaterial${i}`;
-      const multiMaterial = new MultiMaterial(materialName, scene);
-      for (const [j, color] of colors.entries()) {
-        const colorMaterial = new StandardMaterial(`${materialName}SubMaterial${j}`, scene);
-        colorMaterial.disableLighting = true;
-        colorMaterial.emissiveColor = color;
-        colorMaterial.freeze();
-        multiMaterial.subMaterials.push(colorMaterial);
-      }
-      multiMaterial.freeze();
-      return multiMaterial;
-    });
+    this.materialVariants = generateMaterialVariants(agentEnum, scene);
   }
 
   instantiate(position, rotation, scaling, variant = -1) {
@@ -208,7 +212,7 @@ export class Agent {
   static arrivalDistanceThreshold = 0.01;
 
   static freezeVelocityThreshold = 0.001;
-  static consecutiveFramesBeforeFreeze = 20;
+  static consecutiveFramesBeforeFreeze = 60;
 
   static ragdollPoses = [
     {
@@ -502,7 +506,7 @@ export class Agent {
     const obs = this.scene.onBeforeRenderObservable.add(() => {
       const currentAngleDegrees = Angle.FromRadians(this.mesh.rotation.y).degrees();
       const rotationDirection = (currentAngleDegrees - targetAngleDegrees + 360) % 360 > 180 ? 1 : -1;
-      if (Scalar.WithinEpsilon(currentAngleDegrees, targetAngleDegrees, 2)) {
+      if (Scalar.WithinEpsilon(currentAngleDegrees, targetAngleDegrees, 4)) {
         this.scene.onBeforeRenderObservable.remove(obs);
         return;
       }

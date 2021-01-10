@@ -7,7 +7,7 @@ import { BoundingInfo } from '@babylonjs/core/Culling/boundingInfo';
 
 import { GROUND, WALLS, RAGDOLLS } from './collision-groups';
 
-export default function Ragdoll(skeleton, mesh, config, jointCollisions = false, showBoxes = false, mainPivotSphereSize = 0, disableBoxBoneSync = false, isKinematic = false) {
+export default function Ragdoll(skeleton, mesh, config, jointCollisions = false, showBoxes = false, mainPivotSphereSize = 0, disableBoxBoneSync = false) {
   this.skeleton = skeleton;
   this.scene = skeleton.getScene();
   this.mesh = mesh;
@@ -30,7 +30,6 @@ export default function Ragdoll(skeleton, mesh, config, jointCollisions = false,
   this.mass = 1;
   this.restitution = 0;
   this.syncObservable = null;
-  this.isKinematic = isKinematic;
 
   this.putBoxesInBoneCenter = false;
   this.defaultJoint = PhysicsJoint.HingeJoint;
@@ -121,9 +120,6 @@ export default function Ragdoll(skeleton, mesh, config, jointCollisions = false,
         box.physicsImpostor = new PhysicsImpostor(box, PhysicsImpostor.BoxImpostor, { mass: mass, restitution: restitution }, this.scene);
         box.physicsImpostor.physicsBody.shapes.belongsTo = RAGDOLLS;
         box.physicsImpostor.physicsBody.shapes.collidesWith = GROUND | WALLS; // | RAGDOLLS;
-        if (this.isKinematic) {
-          box.physicsImpostor.physicsBody.isKinematic = true;
-        }
 
         this.bones.push(currentBone);
         this.boneNames.push(currentBone.name);

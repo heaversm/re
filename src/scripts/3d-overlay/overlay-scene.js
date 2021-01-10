@@ -7,7 +7,6 @@ import { Scalar } from '@babylonjs/core/Maths/math.scalar';
 import { OimoJSPlugin } from '@babylonjs/core/Physics/Plugins/oimoJSPlugin';
 import { Animation } from '@babylonjs/core/Animations/animation';
 import { AnimationPropertiesOverride } from '@babylonjs/core/Animations/animationPropertiesOverride';
-import { EasingFunction } from '@babylonjs/core/Animations/easing';
 import { Camera } from '@babylonjs/core/Cameras/camera';
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera';
 import { PointerEventTypes } from '@babylonjs/core/Events/pointerEvents';
@@ -177,7 +176,7 @@ export default async function createScene(engine, models, events) {
       0,
       Scalar.RandomRange(6, 8.9)
     );
-    newAgent.moveTo(agentDestination, () => newAgent.rotateTo(Angle.FromDegrees(180).radians(), 8), 0.25);
+    newAgent.moveTo(agentDestination, () => newAgent.rotateTo(Angle.FromDegrees(180).radians(), null), 0);
   }
 
   // window resizing camera logic

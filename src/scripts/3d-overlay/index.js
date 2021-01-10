@@ -27,6 +27,7 @@ export default async function (overlayCanvas, characterCanvas, models, events) {
 
     characterEngine = new Engine(characterCanvas, false, engineOptions, true);
     characterEngine.hideLoadingUI();
+    characterEngine.resize(true);
   }
 
   const overlayScene = await createOverlayScene(overlayEngine, models, events);
@@ -65,6 +66,12 @@ export default async function (overlayCanvas, characterCanvas, models, events) {
       characterEngine.resize(true);
     }
   });
+
+  events.onResizeSketchContainer.add(() => {
+    if (useMultipleEngines) {
+      characterEngine.resize(true);
+    }
+  })
 
   // allow mouse interaction with both the 3D overlay and the underlying HTML
   // by setting pointer-events: false on the render canvas

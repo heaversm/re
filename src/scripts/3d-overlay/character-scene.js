@@ -4,8 +4,6 @@ import { AnimationPropertiesOverride } from '@babylonjs/core/Animations/animatio
 import { Scene } from '@babylonjs/core/scene';
 import { Camera } from '@babylonjs/core/Cameras/camera';
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera';
-import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
-import { MultiMaterial } from '@babylonjs/core/Materials/multiMaterial';
 import { Vector3, Color4, Angle, Axis } from '@babylonjs/core/Maths/math';
 import { AssetsManager } from '@babylonjs/core/Misc/assetsManager';
 import { OimoJSPlugin } from '@babylonjs/core/Physics/Plugins/oimoJSPlugin';
@@ -17,12 +15,13 @@ import '@babylonjs/core/Loading/Plugins/babylonFileLoader';
 import '@babylonjs/loaders'
 
 import Ragdoll from './ragdoll.js';
-import { generateVariantColors } from './agent.js';
+import { AGENTS, generateMaterialVariants } from './agent.js';
+import { randomItem } from './utils';
 
 export default async function createScene(engine, models) {
   const scene = new Scene(engine);
 
-  scene.enablePhysics(new Vector3(0, -9.8, 0), new OimoJSPlugin(true, 8, OIMO));
+  scene.enablePhysics(new Vector3(0, 0, 0), new OimoJSPlugin(true, 8, OIMO));
 
   // this is really important to tell Babylon.js to use decomposeLerp and matrix interpolation
   Animation.AllowMatricesInterpolation = true;
@@ -42,31 +41,26 @@ export default async function createScene(engine, models) {
   assetsManager.useDefaultLoadingScreen = false;
   const characterPromises = Object.entries(models).map(([characterName, modelURL]) => new Promise(resolve => {
     const agentTask = assetsManager.addContainerTask(`${characterName}Task`, '', '', modelURL)
-    agentTask.onSuccess = ({ loadedContainer }) => resolve(loadedContainer);
+    agentTask.onSuccess = ({ loadedContainer }) => resolve([characterName, loadedContainer]);
   }));
 
   assetsManager.loadAsync();
 
-  const characterContainers = await Promise.all(characterPromises);
+  const characterContainers = (await Promise.all(characterPromises)).reduce((acc, [characterName, assetContainer]) => ({
+    ...acc,
+    [characterName]: assetContainer
+  }), {});
 
-  const { rootNodes: meshes, skeletons } = characterContainers[0].instantiateModelsToScene();
+  const agentEnum = randomItem(Object.values(AGENTS));
+  const agent0Materials = generateMaterialVariants(agentEnum, scene);
+
+  const { rootNodes: meshes, skeletons } = characterContainers[agentEnum].instantiateModelsToScene();
   const [mesh] = meshes;
   const [skeleton] = skeletons;
   mesh.rotation = new Vector3(Angle.FromDegrees(-90).radians(), 0, 0),
   mesh.scaling = new Vector3(0.01, 0.01, 0.01);
 
-  const colorVariants = generateVariantColors(0, 1, 2, 3, true);
-  const colors = colorVariants[0];
-  const multiMaterial = new MultiMaterial('characterMaterial', scene);
-  for (const [j, color] of colors.entries()) {
-    const colorMaterial = new StandardMaterial(`characterMaterialSubMaterial${j}`, scene);
-    colorMaterial.disableLighting = true;
-    colorMaterial.emissiveColor = color;
-    colorMaterial.freeze();
-    multiMaterial.subMaterials.push(colorMaterial);
-  }
-  multiMaterial.freeze();
-  mesh.material = multiMaterial;
+  mesh.material = randomItem(agent0Materials);
 
   const ragdollConfig = [
     { bones: ["mixamorig_Hips"], size: 0.2, boxOffset: -0.05 },

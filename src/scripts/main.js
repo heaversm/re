@@ -14,18 +14,20 @@ import { RE3 } from "./re3";
 import { RE4 } from "./re4";
 import { RE5 } from "./re5";
 import { RE6 } from "./re6";
-const re1 = new RE1();
-const re2 = new RE2();
-const re3 = new RE3();
-const re4 = new RE4();
-const re5 = new RE5();
-const re6 = new RE6();
 
 const babylonEvents = {
   onNavigateOnline: new Observable(),
   onNavigateIRL: new Observable(),
   onViewOnlineArtwork: new Observable(),
+  onResizeSketchContainer: new Observable()
 };
+
+const re1 = new RE1(babylonEvents.onResizeSketchContainer);
+const re2 = new RE2(babylonEvents.onResizeSketchContainer);
+const re3 = new RE3(babylonEvents.onResizeSketchContainer);
+const re4 = new RE4(babylonEvents.onResizeSketchContainer);
+const re5 = new RE5(babylonEvents.onResizeSketchContainer);
+const re6 = new RE6(babylonEvents.onResizeSketchContainer);
 
 const re = (function () {
   //DOM REFERENCES
@@ -45,7 +47,6 @@ const re = (function () {
   let curSketch;
   let mobileNavActive = false;
   let isMobile;
-  let isBabylonInitialized = false;
 
   const DISABLE_CLICK_DURATION = 250;
 
@@ -363,6 +364,12 @@ const re = (function () {
     const $characterCanvas = document.getElementById("sketch-canvas");
     init3DOverlay($overlayCanvas, $characterCanvas, models, babylonEvents);
   };
+
+  const sketchResizeObserver = new ResizeObserver(entries => {
+    const sketchContainer = entries[0].target;
+    babylonEvents.onResizeSketchContainer.notifyObservers([sketchContainer.clientWidth, sketchContainer.clientHeight]);
+  });
+  sketchResizeObserver.observe(document.getElementById('sketch-container'));
 
   return {
     init: init,

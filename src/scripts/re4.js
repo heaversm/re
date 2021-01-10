@@ -1,10 +1,18 @@
 import p5 from "p5";
 
 export class RE4 {
-  constructor() {
+  constructor(onResizeObserver) {
     //will hold references to each sketch
     this.p1 = null;
     this.p2 = null;
+    onResizeObserver.add(([containerWidth, containerHeight]) => {
+      if (this.p1) {
+        this.p1.resizeCanvas(containerWidth, containerHeight);
+      }
+      if (this.p2) {
+        this.p2.resizeCanvas(containerWidth, containerHeight);
+      }
+    });
   }
 
   re4 = () => {
