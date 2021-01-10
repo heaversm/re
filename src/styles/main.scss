@@ -767,6 +767,7 @@ body[data-page="online"] {
   touch-action: none;
   width: 100%;
   z-index: 100;
+  pointer-events: none;
   @include breakpoint(mobile_only) {
     //TODO: OREN - I had to disable pointer events on mobile because they are set up to toggle on mouse position and are currently blocking UI elements
     pointer-events: none !important;

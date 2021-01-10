@@ -3,7 +3,7 @@ import { Engine } from '@babylonjs/core/Engines/engine';
 import createOverlayScene from './overlay-scene';
 import createCharacterScene from './character-scene';
 
-export default async function (overlayCanvas, characterCanvas, events) {
+export default async function (overlayCanvas, characterCanvas, models, events) {
   // Babylon.js views rely on canvas.drawImage() which has bad performance on Firefox
   // see https://bugzilla.mozilla.org/show_bug.cgi?id=1602299
   const useMultipleEngines = true;
@@ -29,8 +29,8 @@ export default async function (overlayCanvas, characterCanvas, events) {
     characterEngine.hideLoadingUI();
   }
 
-  const overlayScene = await createOverlayScene(overlayEngine, events);
-  const characterScene = await createCharacterScene(characterEngine);
+  const overlayScene = await createOverlayScene(overlayEngine, models, events);
+  const characterScene = await createCharacterScene(characterEngine, models);
 
   if (useMultipleEngines) {
     overlayEngine.runRenderLoop(function() {
