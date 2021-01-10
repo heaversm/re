@@ -142,7 +142,7 @@ export class AgentPool {
       agentTask.onSuccess = ({ loadedContainer }) => resolve(new AgentPool(loadedContainer, agentEnum, scene));
     }));
 
-    assetsManager.load();
+    assetsManager.loadAsync();
 
     return await Promise.all(agentPoolPromises);
   }
