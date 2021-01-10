@@ -19,7 +19,7 @@ export class RE2 {
     const $modal2 = document.getElementById("modal-2");
     const windowWidth = $modal2.offsetWidth;
     const windowHeight = $modal2.offsetHeight;
-    const frameRate = 10;
+    const frameRate = 30;
 
     const s1 = function (sketch) {
       sketch.setup = function () {

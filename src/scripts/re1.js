@@ -18,7 +18,7 @@ export class RE1 {
     const $modal2 = document.getElementById("modal-2");
     const windowWidth = $modal2.offsetWidth;
     const windowHeight = $modal2.offsetHeight;
-    const frameRate = 10;
+    const frameRate = 30;
 
     //let p1, p2; //p5 instances of each sketch
 

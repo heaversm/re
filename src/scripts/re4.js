@@ -19,7 +19,7 @@ export class RE4 {
     let sketchRenderer;
     let sketch2Renderer;
 
-    const frameRate = 10;
+    const frameRate = 30;
 
     const s1 = function (sketch) {
       sketch.setup = function () {
