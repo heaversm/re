@@ -4,4 +4,4 @@ This site is using parcel to bundle sass and any npm dependencies. Parcel is con
 
 To develop the site on your own machine, run `npm install`, then `npm start`, and open [localhost:3000](http://localhost:3000) in your browser.
 
-To build the site, run `npm run build`.
+To build the site, run `npm run build`...
