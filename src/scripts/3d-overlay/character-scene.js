@@ -52,7 +52,7 @@ export default async function createScene(engine) {
     agentTask.onSuccess = ({ loadedContainer }) => resolve(loadedContainer);
   }));
 
-  assetsManager.load();
+  assetsManager.loadAsync();
 
   const characterContainers = await Promise.all(characterPromises);
 
