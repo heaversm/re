@@ -49,7 +49,6 @@ const re = (function () {
   let mobileNavActive = false;
   let isMobile;
   let isBabylonInitialized = false;
-  let modelPromises;
 
   const DISABLE_CLICK_DURATION = 250;
 
@@ -332,7 +331,9 @@ const re = (function () {
           // show loading modal
           showModal("modal-4", false);
 
-          const modelBlobs = await Promise.all(modelPromises);
+          const modelBlobs = await Promise.all(Object.values(modelFiles).map((modelURL) =>
+            window.fetch(modelURL).then((r) => r.blob())
+          ));
           const models = Object.keys(modelFiles).reduce(
             (acc, modelFile, i) => ({
               ...acc,
@@ -424,18 +425,11 @@ const re = (function () {
     sketchResizeObserver.observe(document.getElementById("sketch-container"));
   };
 
-  const fetchModels = function() {
-    modelPromises = Object.values(modelFiles).map((modelURL) =>
-      window.fetch(modelURL).then((r) => r.blob())
-    );
-  }
-
   const init = async function () {
     checkMobile();
     initModal();
     addListeners();
     addResizeObservers();
-    fetchModels();
   };
 
   return {
