@@ -31,7 +31,7 @@ export default async function (overlayCanvas, characterCanvas, models, events) {
   }
 
   const overlayScene = await createOverlayScene(overlayEngine, models, events);
-  const characterScene = await createCharacterScene(characterEngine, models);
+  const characterScene = await createCharacterScene(characterEngine, models, events);
 
   if (useMultipleEngines) {
     overlayEngine.runRenderLoop(function() {

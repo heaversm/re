@@ -18,7 +18,7 @@ import Ragdoll from './ragdoll.js';
 import { AGENTS, generateMaterialVariants } from './agent.js';
 import { randomItem } from './utils';
 
-export default async function createScene(engine, models) {
+export default async function createScene(engine, models, events) {
   const scene = new Scene(engine);
 
   scene.enablePhysics(new Vector3(0, 0, 0), new OimoJSPlugin(true, 8, OIMO));
@@ -34,8 +34,7 @@ export default async function createScene(engine, models) {
 
   scene.clearColor = new Color4(0, 0, 0, 0);
 
-  const camera = new FreeCamera('camera', new Vector3(0, 1, -3), scene);
-  camera.fovMode = Camera.FOVMODE_HORIZONTAL_FIXED; // resize the scene based on canvas width instead of height
+  const camera = new FreeCamera('camera', new Vector3(0, 0.9, -3), scene);
 
   const assetsManager = new AssetsManager(scene);
   assetsManager.useDefaultLoadingScreen = false;
@@ -59,8 +58,9 @@ export default async function createScene(engine, models) {
   const [skeleton] = skeletons;
   mesh.rotation = new Vector3(Angle.FromDegrees(-90).radians(), 0, 0),
   mesh.scaling = new Vector3(0.01, 0.01, 0.01);
-
   mesh.material = randomItem(agent0Materials);
+
+
 
   const ragdollConfig = [
     { bones: ["mixamorig_Hips"], size: 0.2, boxOffset: -0.05 },
@@ -81,6 +81,16 @@ export default async function createScene(engine, models) {
   const ragdoll = new Ragdoll(skeleton, mesh, ragdollConfig, jointCollisions, showBoxes, mainPivotSphereSize, disableBoxBoneSync, isKinematic);
   ragdoll.init();
   ragdoll.ragdoll();
+
+  function setCameraZPosition() {
+    const boundingBox = mesh.getBoundingInfo().boundingBox;
+    const extents = boundingBox.extendSizeWorld;
+    const height = extents.y * 2;
+    const cameraDist = ((height / Math.tan((Angle.FromRadians(camera.fov).degrees() / 2) / ( 180 / Math.PI ))) / 2) + extents.z;
+    camera.position.z = -cameraDist;
+  }
+  events.onResizeSketchContainer.add(setCameraZPosition);
+  setCameraZPosition();
 
   return scene;
 }
