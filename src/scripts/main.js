@@ -355,6 +355,11 @@ const re = (function () {
     initModal();
     addListeners();
 
+    // don't initialize 3D content on mobile
+    if (isMobile) {
+      return;
+    }
+
     const modelBlobs = await Promise.all(Object.values(modelFiles).map(modelURL => window.fetch(modelURL).then(r => r.blob())));
     const models = Object.keys(modelFiles).reduce((acc, modelFile, i) => ({
       ...acc,

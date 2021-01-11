@@ -2,7 +2,6 @@ import * as OIMO from 'oimo';
 import { Animation } from '@babylonjs/core/Animations/animation';
 import { AnimationPropertiesOverride } from '@babylonjs/core/Animations/animationPropertiesOverride';
 import { Scene } from '@babylonjs/core/scene';
-import { Camera } from '@babylonjs/core/Cameras/camera';
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera';
 import { Vector3, Color4, Angle, Axis } from '@babylonjs/core/Maths/math';
 import { AssetsManager } from '@babylonjs/core/Misc/assetsManager';
@@ -72,7 +71,7 @@ export default async function createScene(engine, models, events) {
       { bones: ["mixamorig_Hips"], size: 0.2, boxOffset: -0.05 },
       { bones: ["mixamorig_Spine1"], size: 0.2, boxOffset: 0.1, min: -10, max: 10 },
       { bones: ["mixamorig_HeadTop_End"], size: 0.225, boxOffset: -0.115, min: -10, max: 10 },
-      { bones: ["mixamorig_RightArm", "mixamorig_LeftArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Z, min: -45, max: 90, boxOffset: 0.1 },
+      { bones: ["mixamorig_RightArm", "mixamorig_LeftArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Z, min: -90, max: 90, boxOffset: 0.1 },
       { bones: ["mixamorig_RightForeArm", "mixamorig_LeftForeArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Y, min: -90, max: 90, boxOffset: 0.1 },
       { bones: ['mixamorig_RightHand', 'mixamorig_LeftHand'], size: 0.1, height: 0.15, min: -10, max: 10, boxOffset: 0.05 },
       { bones: ["mixamorig_RightUpLeg", "mixamorig_LeftUpLeg"], size: 0.15, height: 0.25, rotationAxis: Axis.Z, min: -90, max: 90, boxOffset: 0.25 },
@@ -96,18 +95,25 @@ export default async function createScene(engine, models, events) {
 
     const leftHandIndex = ragdoll.boneNames.indexOf('mixamorig_LeftHand');
     const leftHandImpostor = ragdoll.impostors[leftHandIndex];
-    leftHandImpostor.physicsBody.isKinematic = true;
-
     const leftHandTransform = leftHandImpostor.object;
-    leftHandTransform.position = new Vector3(0.2, 1.5, -0.15);
+    leftHandImpostor.physicsBody.isKinematic = true;
+    leftHandImpostor.physicsBody.position = new OIMO.Vec3(1, 1.5, -0.15);
+    leftHandImpostor.physicsBody.isKinematic = false;
+
+    const rightHandIndex = ragdoll.boneNames.indexOf('mixamorig_RightHand');
+    const rightHandImpostor = ragdoll.impostors[rightHandIndex];
+    const rightHandTransform = rightHandImpostor.object;
 
     // doesn't seem to be working...
     character.mouseObserver = events.onMouseMove.add(({ x, y }) => {
       if (x > 0.5) {
-        leftHandTransform.position.x = map(x, 0.5, 1.0, 0, 0.8, true);
-      }
-      if (y < 0.5) {
-        leftHandTransform.position.y = map(y, 0, 0.5, 2, 1, true);
+        rightHandImpostor.physicsBody.isKinematic = false;
+        leftHandImpostor.physicsBody.isKinematic = true;
+        leftHandTransform.position.x = map(x, 0.5, 1, 0, 2, true);
+      } else {
+        leftHandImpostor.physicsBody.isKinematic = false;
+        rightHandImpostor.physicsBody.isKinematic = true;
+        rightHandTransform.position.x = map(x, 0, 0.5, -2, 0, true);
       }
     });
   }
