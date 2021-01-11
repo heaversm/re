@@ -235,6 +235,7 @@ export default function Ragdoll(skeleton, mesh, config, jointCollisions = false,
     }
     for (let i = 0; i < this.impostors.length; i++) {
       this.impostors[i].dispose();
+      this.boxes[i].dispose();
     }
   }
 

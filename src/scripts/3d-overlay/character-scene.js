@@ -16,7 +16,7 @@ import '@babylonjs/loaders'
 
 import Ragdoll from './ragdoll.js';
 import { AGENTS, generateMaterialVariants } from './agent.js';
-import { randomItem } from './utils';
+import { randomItem, map } from './utils';
 
 export default async function createScene(engine, models, events) {
   const scene = new Scene(engine);
@@ -50,47 +50,109 @@ export default async function createScene(engine, models, events) {
     [characterName]: assetContainer
   }), {});
 
-  const agentEnum = randomItem(Object.values(AGENTS));
-  const agent0Materials = generateMaterialVariants(agentEnum, scene);
+  let character = null;
+  function instantiateRandomCharacter() {
+    if (character) {
+      disposeCharacter();
+    }
+    character = {};
+    const agentEnum = randomItem(Object.values(AGENTS));
+    const agentMaterialVariants = generateMaterialVariants(agentEnum, scene);
 
-  const { rootNodes: meshes, skeletons } = characterContainers[agentEnum].instantiateModelsToScene();
-  const [mesh] = meshes;
-  const [skeleton] = skeletons;
-  mesh.rotation = new Vector3(Angle.FromDegrees(-90).radians(), 0, 0),
-  mesh.scaling = new Vector3(0.01, 0.01, 0.01);
-  mesh.material = randomItem(agent0Materials);
+    const { rootNodes: meshes, skeletons } = characterContainers[agentEnum].instantiateModelsToScene();
+    const [mesh] = meshes;
+    const [skeleton] = skeletons;
+    mesh.rotation = new Vector3(Angle.FromDegrees(-90).radians(), 0, 0),
+    mesh.scaling = new Vector3(0.01, 0.01, 0.01);
+    mesh.material = randomItem(agentMaterialVariants);
 
+    character.mesh = mesh;
 
+    const ragdollConfig = [
+      { bones: ["mixamorig_Hips"], size: 0.2, boxOffset: -0.05 },
+      { bones: ["mixamorig_Spine1"], size: 0.2, boxOffset: 0.1, min: -10, max: 10 },
+      { bones: ["mixamorig_HeadTop_End"], size: 0.225, boxOffset: -0.115, min: -10, max: 10 },
+      { bones: ["mixamorig_RightArm", "mixamorig_LeftArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Z, min: -45, max: 90, boxOffset: 0.1 },
+      { bones: ["mixamorig_RightForeArm", "mixamorig_LeftForeArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Y, min: -90, max: 90, boxOffset: 0.1 },
+      { bones: ['mixamorig_RightHand', 'mixamorig_LeftHand'], size: 0.1, height: 0.15, min: -10, max: 10, boxOffset: 0.05 },
+      { bones: ["mixamorig_RightUpLeg", "mixamorig_LeftUpLeg"], size: 0.15, height: 0.25, rotationAxis: Axis.Z, min: -90, max: 90, boxOffset: 0.25 },
+      { bones: ["mixamorig_RightLeg", "mixamorig_LeftLeg"], size: 0.15, height: 0.25, min: -45, max: 90, boxOffset: 0.15 },
+      { bones: ["mixamorig_RightFoot", "mixamorig_LeftFoot"], size: 0.15, min: -10, max: 10 },
+    ];
+    const jointCollisions = false;
+    const showBoxes = false;
+    const mainPivotSphereSize = 0;
+    const disableBoxBoneSync = false;
+    const isKinematic = true;
+    const ragdoll = new Ragdoll(skeleton, mesh, ragdollConfig, jointCollisions, showBoxes, mainPivotSphereSize, disableBoxBoneSync, isKinematic);
+    ragdoll.init();
+    ragdoll.ragdoll();
 
-  const ragdollConfig = [
-    { bones: ["mixamorig_Hips"], size: 0.2, boxOffset: -0.05 },
-    { bones: ["mixamorig_Spine1"], size: 0.2, boxOffset: 0.1, min: -10, max: 10 },
-    { bones: ["mixamorig_HeadTop_End"], size: 0.225, boxOffset: -0.115, min: -10, max: 10 },
-    { bones: ["mixamorig_RightArm", "mixamorig_LeftArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Z, min: -45, max: 90, boxOffset: 0.1 },
-    { bones: ["mixamorig_RightForeArm", "mixamorig_LeftForeArm"], size: 0.1, height: 0.2, rotationAxis: Axis.Y, min: -90, max: 90, boxOffset: 0.1 },
-    { bones: ['mixamorig_RightHand', 'mixamorig_LeftHand'], size: 0.1, height: 0.15, min: -10, max: 10, boxOffset: 0.05 },
-    { bones: ["mixamorig_RightUpLeg", "mixamorig_LeftUpLeg"], size: 0.15, height: 0.25, rotationAxis: Axis.Z, min: -90, max: 90, boxOffset: 0.25 },
-    { bones: ["mixamorig_RightLeg", "mixamorig_LeftLeg"], size: 0.15, height: 0.25, min: -45, max: 90, boxOffset: 0.15 },
-    { bones: ["mixamorig_RightFoot", "mixamorig_LeftFoot"], size: 0.15, min: -10, max: 10 },
-  ];
-  const jointCollisions = false;
-  const showBoxes = false;
-  const mainPivotSphereSize = 0;
-  const disableBoxBoneSync = false;
-  const isKinematic = true;
-  const ragdoll = new Ragdoll(skeleton, mesh, ragdollConfig, jointCollisions, showBoxes, mainPivotSphereSize, disableBoxBoneSync, isKinematic);
-  ragdoll.init();
-  ragdoll.ragdoll();
+    character.ragdoll = ragdoll;
+
+    const spineIndex = ragdoll.boneNames.indexOf('mixamorig_Spine1');
+    const spineImpostor = ragdoll.impostors[spineIndex];
+    spineImpostor.physicsBody.isKinematic = true;
+
+    const leftHandIndex = ragdoll.boneNames.indexOf('mixamorig_LeftHand');
+    const leftHandImpostor = ragdoll.impostors[leftHandIndex];
+    leftHandImpostor.physicsBody.isKinematic = true;
+
+    const leftHandTransform = leftHandImpostor.object;
+    leftHandTransform.position = new Vector3(0.2, 1.5, -0.15);
+
+    // doesn't seem to be working...
+    character.mouseObserver = events.onMouseMove.add(({ x, y }) => {
+      if (x > 0.5) {
+        leftHandTransform.position.x = map(x, 0.5, 1.0, 0, 0.8, true);
+      }
+      if (y < 0.5) {
+        leftHandTransform.position.y = map(y, 0, 0.5, 2, 1, true);
+      }
+    });
+  }
+
+  function disposeCharacter() {
+    if (!character) {
+      return;
+    }
+    if (character.ragdoll) {
+      character.ragdoll.dispose();
+    }
+    if (character.mesh) {
+      character.mesh.dispose();
+    }
+    if (character.mouseObserver) {
+      events.onMouseMove.remove(character.mouseObserver);
+    }
+    character = null;
+  }
+
 
   function setCameraZPosition() {
-    const boundingBox = mesh.getBoundingInfo().boundingBox;
+    if (!character) {
+      return;
+    }
+    const boundingBox = character.mesh.getBoundingInfo().boundingBox;
     const extents = boundingBox.extendSizeWorld;
     const height = extents.y * 2;
     const cameraDist = ((height / Math.tan((Angle.FromRadians(camera.fov).degrees() / 2) / ( 180 / Math.PI ))) / 2) + extents.z;
     camera.position.z = -cameraDist;
   }
   events.onResizeSketchContainer.add(setCameraZPosition);
-  setCameraZPosition();
+
+  events.onViewOnlineArtwork.add(() => {
+    instantiateRandomCharacter();
+    setCameraZPosition();
+  })
+
+  events.onNavigateOnline.add(() => {
+    disposeCharacter();
+  });
+
+  events.onNavigateIRL.add(() => {
+    disposeCharacter();
+  })
 
   return scene;
 }

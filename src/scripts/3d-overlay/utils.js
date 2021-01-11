@@ -1,4 +1,5 @@
 import { Vector3, Matrix } from '@babylonjs/core/Maths/math';
+import { Scalar } from '@babylonjs/core/Maths/math.scalar';
 
 // references:
 // - https://stackoverflow.com/questions/13055214/mouse-canvas-x-y-to-three-js-world-x-y-z
@@ -19,4 +20,12 @@ export function viewportToWorldPoint(viewportX, viewportY, targetWorldZ, camera)
 
 export function randomItem(array) {
   return array[Math.floor(Math.random() * array.length)];
+}
+
+export function map(n, start1, stop1, start2, stop2, withinBounds) {
+  const newval = ((n - start1)/(stop1 - start1)) * (stop2 - start2) + start2;
+  if (!withinBounds) {
+    return newval;
+  }
+  return Scalar.Clamp(newval, start2, stop2);
 }

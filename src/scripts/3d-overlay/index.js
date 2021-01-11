@@ -92,6 +92,10 @@ export default async function (overlayCanvas, characterCanvas, models, events) {
       } else {
         overlayCanvas.style.pointerEvents = 'auto';
       }
+      events.onMouseMove.notifyObservers({
+        x: x / overlayEngine.getHardwareScalingLevel() / overlayEngine.getRenderWidth(),
+        y: y / overlayEngine.getHardwareScalingLevel() / overlayEngine.getRenderHeight(),
+      });
     });
   }
 }

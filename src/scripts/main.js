@@ -19,7 +19,8 @@ const babylonEvents = {
   onNavigateOnline: new Observable(),
   onNavigateIRL: new Observable(),
   onViewOnlineArtwork: new Observable(),
-  onResizeSketchContainer: new Observable()
+  onResizeSketchContainer: new Observable(),
+  onMouseMove: new Observable()
 };
 
 const re1 = new RE1(babylonEvents.onResizeSketchContainer);
