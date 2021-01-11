@@ -15,7 +15,7 @@ import { RE4 } from "./re4";
 import { RE5 } from "./re5";
 import { RE6 } from "./re6";
 
-const babylonEvents = {
+const events = {
   onNavigateOnline: new Observable(),
   onNavigateIRL: new Observable(),
   onViewOnlineArtwork: new Observable(),
@@ -23,12 +23,12 @@ const babylonEvents = {
   onMouseMove: new Observable(),
 };
 
-const re1 = new RE1(babylonEvents.onResizeSketchContainer);
-const re2 = new RE2(babylonEvents.onResizeSketchContainer);
-const re3 = new RE3(babylonEvents.onResizeSketchContainer);
-const re4 = new RE4(babylonEvents.onResizeSketchContainer);
-const re5 = new RE5(babylonEvents.onResizeSketchContainer);
-const re6 = new RE6(babylonEvents.onResizeSketchContainer);
+const re1 = new RE1(events.onResizeSketchContainer);
+const re2 = new RE2(events.onResizeSketchContainer);
+const re3 = new RE3(events.onResizeSketchContainer);
+const re4 = new RE4(events.onResizeSketchContainer);
+const re5 = new RE5(events.onResizeSketchContainer);
+const re6 = new RE6(events.onResizeSketchContainer);
 
 const re = (function () {
   //DOM REFERENCES
@@ -48,6 +48,7 @@ const re = (function () {
   let curSketch;
   let mobileNavActive = false;
   let isMobile;
+  let isBabylonInitialized = false;
 
   const DISABLE_CLICK_DURATION = 250;
 
@@ -180,7 +181,7 @@ const re = (function () {
         re1.init();
         break;
     }
-    babylonEvents.onViewOnlineArtwork.notifyObservers();
+    events.onViewOnlineArtwork.notifyObservers();
   };
 
   const onModalCloseClick = function (e) {
@@ -325,6 +326,33 @@ const re = (function () {
         deactivateOnlineItems();
         break;
       case "online":
+        // don't initialize 3D content on mobile
+        if (!isMobile && !isBabylonInitialized) {
+          // show loading modal
+          showModal("modal-4", false);
+
+          const modelBlobs = await Promise.all(
+            Object.values(modelFiles).map((modelURL) =>
+              window.fetch(modelURL).then((r) => r.blob())
+            )
+          );
+          const models = Object.keys(modelFiles).reduce(
+            (acc, modelFile, i) => ({
+              ...acc,
+              [modelFile]: URL.createObjectURL(modelBlobs[i]),
+            }),
+            {}
+          );
+
+          const $overlayCanvas = document.getElementById("render-canvas");
+          const $characterCanvas = document.getElementById("sketch-canvas");
+          await init3DOverlay($overlayCanvas, $characterCanvas, models, events);
+          isBabylonInitialized = true;
+
+          // hide loading modal
+          closeAllModals();
+        }
+
         $body.dataset.page = "online";
         babylonEvents.onNavigateOnline.notifyObservers();
         deactivateIRLItems();
@@ -392,33 +420,11 @@ const re = (function () {
     checkMobile();
     initModal();
     addListeners();
-
-    // don't initialize 3D content on mobile
-    if (isMobile) {
-      return;
-    }
-
-    const modelBlobs = await Promise.all(
-      Object.values(modelFiles).map((modelURL) =>
-        window.fetch(modelURL).then((r) => r.blob())
-      )
-    );
-    const models = Object.keys(modelFiles).reduce(
-      (acc, modelFile, i) => ({
-        ...acc,
-        [modelFile]: URL.createObjectURL(modelBlobs[i]),
-      }),
-      {}
-    );
-
-    const $overlayCanvas = document.getElementById("render-canvas");
-    const $characterCanvas = document.getElementById("sketch-canvas");
-    init3DOverlay($overlayCanvas, $characterCanvas, models, babylonEvents);
   };
 
   const sketchResizeObserver = new ResizeObserver((entries) => {
     const sketchContainer = entries[0].target;
-    babylonEvents.onResizeSketchContainer.notifyObservers([
+    events.onResizeSketchContainer.notifyObservers([
       sketchContainer.clientWidth,
       sketchContainer.clientHeight,
     ]);
