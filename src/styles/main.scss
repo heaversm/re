@@ -336,7 +336,7 @@ h6 {
 
   &__exhibit-content-fill {
     flex-grow: 1;
-    background-image: url("/assets/images/lines.gif");
+    background-color: $c-black;
   }
   &__exhibit-content-inner {
     flex-grow: 0;
@@ -428,7 +428,7 @@ h6 {
   }
   &__fill {
     flex-grow: 1;
-    background-image: url("/assets/images/lines.gif");
+    background-color: $c-black;
   }
 }
 
@@ -480,9 +480,40 @@ h6 {
     @include breakpoint(tablet) {
       max-width: 70vw;
     }
-    &:hover {
-      background-color: $c-yellow;
+  }
+
+  &__close-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  &__close-inner {
+    width: 10vw;
+    position: relative;
+    padding-top: 100%;
+    background-color: $c-red;
+    @include breakpoint(tablet) {
+      width: 5vw;
     }
+  }
+  &__close {
+    padding: $space-std;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &__close-text {
+    background-color: $c-white;
+    color: $c-black;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
   }
 
   &__content {
