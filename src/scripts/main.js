@@ -322,7 +322,7 @@ const re = (function () {
     switch (id) {
       case "irl":
         $body.dataset.page = "irl";
-        babylonEvents.onNavigateIRL.notifyObservers();
+        //babylonEvents.onNavigateIRL.notifyObservers();
         deactivateOnlineItems();
         break;
       case "online":
@@ -354,12 +354,12 @@ const re = (function () {
         }
 
         $body.dataset.page = "online";
-        babylonEvents.onNavigateOnline.notifyObservers();
+        //babylonEvents.onNavigateOnline.notifyObservers();
         deactivateIRLItems();
         break;
       default:
         $body.dataset.page = "home";
-        babylonEvents.onNavigateIRL.notifyObservers(); //TODO: Oren - confirm this should be
+        //babylonEvents.onNavigateIRL.notifyObservers(); //TODO: Oren - confirm this should be
         deactivateIRLItems();
         deactivateOnlineItems();
         break;
@@ -416,20 +416,23 @@ const re = (function () {
       );
   };
 
+  const addResizeObservers = function () {
+    const sketchResizeObserver = new ResizeObserver((entries) => {
+      const sketchContainer = entries[0].target;
+      events.onResizeSketchContainer.notifyObservers([
+        sketchContainer.clientWidth,
+        sketchContainer.clientHeight,
+      ]);
+    });
+    sketchResizeObserver.observe(document.getElementById("sketch-container"));
+  };
+
   const init = async function () {
     checkMobile();
     initModal();
     addListeners();
+    addResizeObservers();
   };
-
-  const sketchResizeObserver = new ResizeObserver((entries) => {
-    const sketchContainer = entries[0].target;
-    events.onResizeSketchContainer.notifyObservers([
-      sketchContainer.clientWidth,
-      sketchContainer.clientHeight,
-    ]);
-  });
-  sketchResizeObserver.observe(document.getElementById("sketch-container"));
 
   return {
     init: init,
