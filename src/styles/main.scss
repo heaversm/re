@@ -492,6 +492,10 @@ h6 {
     position: relative;
     padding-top: 100%;
     background-color: $c-red;
+    cursor: pointer;
+    &:hover {
+      background-color: red;
+    }
     @include breakpoint(tablet) {
       width: 5vw;
     }
@@ -724,8 +728,11 @@ body[data-page="irl"] {
       background-color: $c-red;
     }
   }
+  .square-grid__exhibit-content[data-page="home"] {
+    display: none !important;
+  }
   .square-grid__image.active,
-  .square-grid__exhibit-content.active:not([data-page="home"]) {
+  .square-grid__exhibit-content.active {
     display: flex;
   }
   .footer {

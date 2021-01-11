@@ -20,7 +20,7 @@ const babylonEvents = {
   onNavigateIRL: new Observable(),
   onViewOnlineArtwork: new Observable(),
   onResizeSketchContainer: new Observable(),
-  onMouseMove: new Observable()
+  onMouseMove: new Observable(),
 };
 
 const re1 = new RE1(babylonEvents.onResizeSketchContainer);
@@ -316,27 +316,65 @@ const re = (function () {
     e.preventDefault();
     const id = e.currentTarget.dataset.id;
 
+    const curPage = $body.dataset.page;
+
     switch (id) {
       case "irl":
         $body.dataset.page = "irl";
         babylonEvents.onNavigateIRL.notifyObservers();
-        const activeOnlineItem = document.querySelector(
-          '.collection__link.active[data-page="online"]'
-        );
-        if (activeOnlineItem) {
-          activeOnlineItem.classList.toggle("active", false);
-        }
+        deactivateOnlineItems();
         break;
       case "online":
         $body.dataset.page = "online";
         babylonEvents.onNavigateOnline.notifyObservers();
+        deactivateIRLItems();
         break;
       default:
         $body.dataset.page = "home";
         babylonEvents.onNavigateIRL.notifyObservers(); //TODO: Oren - confirm this should be
+        deactivateIRLItems();
+        deactivateOnlineItems();
         break;
     }
     closeAllModals();
+  };
+
+  const deactivateOnlineItems = function () {
+    const activeOnlineItem = document.querySelector(
+      '.collection__link.active[data-page="online"]'
+    );
+    if (activeOnlineItem) {
+      activeOnlineItem.classList.toggle("active", false);
+    }
+  };
+
+  const deactivateIRLItems = function () {
+    const activeIRLItem = document.querySelector(
+      '.collection__link.active[data-page="irl"]'
+    );
+    if (activeIRLItem) {
+      activeIRLItem.classList.toggle("active", false);
+    }
+    const $activeImages = document.querySelectorAll(
+      ".square-grid__image.active"
+    );
+    if ($activeImages.length) {
+      $activeImages.forEach(($activeImage) => {
+        $activeImage.classList.toggle("active", false);
+      });
+    }
+    deactivateIRLContent();
+  };
+
+  const deactivateIRLContent = function () {
+    const $activeContent = document.querySelectorAll(
+      '.square-grid__exhibit-content.active[data-page="irl"]'
+    );
+    if ($activeContent.length) {
+      $activeContent.forEach(($contentItem) => {
+        $contentItem.classList.toggle("active", false);
+      });
+    }
   };
 
   const checkMobile = function () {
@@ -355,22 +393,32 @@ const re = (function () {
     initModal();
     addListeners();
 
-    const modelBlobs = await Promise.all(Object.values(modelFiles).map(modelURL => window.fetch(modelURL).then(r => r.blob())));
-    const models = Object.keys(modelFiles).reduce((acc, modelFile, i) => ({
-      ...acc,
-      [modelFile]: URL.createObjectURL(modelBlobs[i])
-    }), {});
+    const modelBlobs = await Promise.all(
+      Object.values(modelFiles).map((modelURL) =>
+        window.fetch(modelURL).then((r) => r.blob())
+      )
+    );
+    const models = Object.keys(modelFiles).reduce(
+      (acc, modelFile, i) => ({
+        ...acc,
+        [modelFile]: URL.createObjectURL(modelBlobs[i]),
+      }),
+      {}
+    );
 
     const $overlayCanvas = document.getElementById("render-canvas");
     const $characterCanvas = document.getElementById("sketch-canvas");
     init3DOverlay($overlayCanvas, $characterCanvas, models, babylonEvents);
   };
 
-  const sketchResizeObserver = new ResizeObserver(entries => {
+  const sketchResizeObserver = new ResizeObserver((entries) => {
     const sketchContainer = entries[0].target;
-    babylonEvents.onResizeSketchContainer.notifyObservers([sketchContainer.clientWidth, sketchContainer.clientHeight]);
+    babylonEvents.onResizeSketchContainer.notifyObservers([
+      sketchContainer.clientWidth,
+      sketchContainer.clientHeight,
+    ]);
   });
-  sketchResizeObserver.observe(document.getElementById('sketch-container'));
+  sketchResizeObserver.observe(document.getElementById("sketch-container"));
 
   return {
     init: init,
