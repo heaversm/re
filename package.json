@@ -30,7 +30,6 @@
     "eslint": "^7.16.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-nuke-dist": "^1.0.1",
-    "parcel-plugin-static-files-copy": "^2.5.0",
     "parcel-plugin-structurize": "^2.3.2",
     "rimraf": "^2.7.1",
     "sass": "^1.30.0"
@@ -52,16 +51,11 @@
       {
         "match": "*.{ttf,otf}",
         "folder": "assets/fonts"
+      },
+      {
+        "match": "*.babylon",
+        "folder": "assets/models"
       }
     ]
-  },
-  "staticFiles": {
-    "staticPath": [
-      {
-        "staticPath": "src/assets/models",
-        "staticOutDir": "assets/models"
-      }
-    ],
-    "watcherGlob": "**"
   }
 }

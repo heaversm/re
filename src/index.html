@@ -138,7 +138,7 @@
                   <p>Drawing upon the history of minimalist painting and op-art, the works in this show are rooted in a series of optical illusions highlighting the intensities and occlusions that puncture our awareness.  Within the flat color and flickering surface lies a portrait of an anxious society pushing at the boundary of its own teetering attention.
                   </p>
                   <p>Go to <a href="https://www.tttelematiccc.com/" target="_blank">tttelematiccc.com</a> to see the online event schedule and to arrange an IRL viewing.</p>
-                
+
                 </div>
                 <div class="square-grid__exhibit-content-fill"></div>
               </div>
@@ -178,7 +178,7 @@
           <!--ONLINE MODAL-->
           <div id="modal-2" class="modal" aria-hidden="true">
               <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-2-title">
-                <div class="modal__images">
+                <div id="sketch-container" class="modal__images">
                   <div id="sketch"></div>
                   <!--TODO: OREN - BABYLON CHARACTER TO BE INSERTED HERE-->
                   <canvas id="sketch-canvas" touch-action="none"></canvas>
@@ -197,6 +197,11 @@
     <div class="modal__overlay" >
       <div class="modal__bg" data-modal-close="modal-1"></div>
       <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+        <div class="modal__close-container" data-modal-close="modal-1">
+          <div class="modal__close-inner">
+            <div class="modal__close"><span class="modal__close-text">X</span></div>
+          </div>
+        </div>
         <div class="modal__image-container" data-modal-close="modal-1">
           <img class="modal__image irl__image active" src="assets/images/irl/ab01.jpg" alt="AB">
         </div>
@@ -259,6 +264,18 @@
             <p>TECHNICAL DIRECTION<br/>BY MIKE HEAVERS AND OREN SHOHAM</p>
             <p>BROUGHT TO YOU<br/>BY THE HEADLANDS CENTER FOR THE ARTS<br/>AND TELEMATIC MEDIA ARTS</p>
             <p>COPYRIGHT 2021</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="modal-4" class="modal" aria-hidden="true" >
+    <div class="modal__overlay" data-modal-close="modal-4">
+      <div class="modal__bg"></div>
+      <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-4-title">
+        <div class="modal__content">
+          <div class="modal__strobe-text">
+            <p>LOADING LOADING LOADING</p>
           </div>
         </div>
       </div>

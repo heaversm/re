@@ -27,10 +27,11 @@ export default async function (overlayCanvas, characterCanvas, models, events) {
 
     characterEngine = new Engine(characterCanvas, false, engineOptions, true);
     characterEngine.hideLoadingUI();
+    characterEngine.resize(true);
   }
 
   const overlayScene = await createOverlayScene(overlayEngine, models, events);
-  const characterScene = await createCharacterScene(characterEngine, models);
+  const characterScene = await createCharacterScene(characterEngine, models, events);
 
   if (useMultipleEngines) {
     overlayEngine.runRenderLoop(function() {
@@ -66,6 +67,12 @@ export default async function (overlayCanvas, characterCanvas, models, events) {
     }
   });
 
+  events.onResizeSketchContainer.add(() => {
+    if (useMultipleEngines) {
+      characterEngine.resize(true);
+    }
+  })
+
   // allow mouse interaction with both the 3D overlay and the underlying HTML
   // by setting pointer-events: false on the render canvas
   // when the pixel at the current mouse location has an alpha value of 0
@@ -85,6 +92,10 @@ export default async function (overlayCanvas, characterCanvas, models, events) {
       } else {
         overlayCanvas.style.pointerEvents = 'auto';
       }
+      events.onMouseMove.notifyObservers({
+        x: x / overlayEngine.getHardwareScalingLevel() / overlayEngine.getRenderWidth(),
+        y: y / overlayEngine.getHardwareScalingLevel() / overlayEngine.getRenderHeight(),
+      });
     });
   }
 }
