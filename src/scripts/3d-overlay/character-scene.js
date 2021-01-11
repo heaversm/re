@@ -104,6 +104,16 @@ export default async function createScene(engine, models, events) {
     const rightHandImpostor = ragdoll.impostors[rightHandIndex];
     const rightHandTransform = rightHandImpostor.object;
 
+    const leftFootIndex = ragdoll.boneNames.indexOf('mixamorig_LeftFoot');
+    const leftFootImpostor = ragdoll.impostors[leftFootIndex];
+    const leftFootTransform = leftFootImpostor.object;
+    leftFootImpostor.physicsBody.isKinematic = true;
+
+    const rightFootIndex = ragdoll.boneNames.indexOf('mixamorig_RightFoot');
+    const rightFootImpostor = ragdoll.impostors[rightFootIndex];
+    const rightFootTransform = rightFootImpostor.object;
+    rightFootImpostor.physicsBody.isKinematic = true;
+
     // doesn't seem to be working...
     character.mouseObserver = events.onMouseMove.add(({ x, y }) => {
       if (x > 0.5) {
