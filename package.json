@@ -52,16 +52,11 @@
       {
         "match": "*.{ttf,otf}",
         "folder": "assets/fonts"
+      },
+      {
+        "match": "*.babylon",
+        "folder": "assets/models"
       }
     ]
-  },
-  "staticFiles": {
-    "staticPath": [
-      {
-        "staticPath": "src/assets/models",
-        "staticOutDir": "assets/models"
-      }
-    ],
-    "watcherGlob": "**"
   }
 }
