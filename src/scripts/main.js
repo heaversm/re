@@ -322,7 +322,7 @@ const re = (function () {
     switch (id) {
       case "irl":
         $body.dataset.page = "irl";
-        //babylonEvents.onNavigateIRL.notifyObservers();
+        events.onNavigateIRL.notifyObservers();
         deactivateOnlineItems();
         break;
       case "online":
@@ -354,12 +354,12 @@ const re = (function () {
         }
 
         $body.dataset.page = "online";
-        //babylonEvents.onNavigateOnline.notifyObservers();
+        events.onNavigateOnline.notifyObservers();
         deactivateIRLItems();
         break;
       default:
         $body.dataset.page = "home";
-        //babylonEvents.onNavigateIRL.notifyObservers(); //TODO: Oren - confirm this should be
+        events.onNavigateIRL.notifyObservers(); //TODO: Oren - confirm this should be
         deactivateIRLItems();
         deactivateOnlineItems();
         break;
