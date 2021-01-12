@@ -1,7 +1,7 @@
 import p5 from "p5";
 
 export class RE2 {
-  constructor(onResizeObserver) {
+  constructor(onResizeObserver, onMouseMoveObserver) {
     //will hold references to each sketch
     this.p1 = null;
     this.p2 = null;
@@ -14,14 +14,28 @@ export class RE2 {
         this.p2.resizeCanvas(containerWidth, containerHeight);
       }
     });
+    onMouseMoveObserver.add(({ x, y }) => {
+      if (this.p1) {
+        this.p1.handleMouseMove(x, y);
+      }
+
+      if (this.p2) {
+        this.p2.handleMouseMove(x, y);
+      }
+    });
   }
 
   re2 = () => {
     /* eslint-disable no-undef, no-unused-vars */
-    const barSize = 2;
+    let barSize = 2;
     let squareSize;
     let numBars;
-    const squareAdjust = 10;
+    let squareAdjust = 10;
+    const minAdjust = 5;
+    const maxAdjust = 20;
+
+    const minBarSize = 1;
+    const maxBarSize = 3;
 
     let sketchRenderer;
     let sketch2Renderer;
@@ -29,6 +43,14 @@ export class RE2 {
     let windowWidth = $modal2.offsetWidth;
     let windowHeight = $modal2.offsetHeight;
     const frameRate = 30;
+
+    let minFramehold = 1;
+    let frameHold = 2;
+    let maxFramehold = 3;
+
+    const mapRange = function (value, low1, high1, low2, high2) {
+      return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
+    };
 
     const s1 = function (sketch) {
       sketch.setup = function () {
@@ -46,6 +68,12 @@ export class RE2 {
 
       sketch.handleSizeCalcs = function () {
         squareSize = windowHeight / 2;
+        numBars = Math.ceil(windowHeight / barSize);
+      };
+
+      sketch.handleMouseMove = function (x, y) {
+        barSize = mapRange(y, 0, 1, minBarSize, maxBarSize);
+        squareAdjust = mapRange(y, 0, 1, minAdjust, maxAdjust);
         numBars = Math.ceil(windowHeight / barSize);
       };
 
@@ -80,10 +108,13 @@ export class RE2 {
         sketch.frameRate(frameRate);
       };
 
+      sketch.handleMouseMove = function (x, y) {
+        frameHold = mapRange(x, 0, 1, minFramehold, maxFramehold);
+      };
+
       sketch.draw = function () {
         sketch.clear();
         let xAdjust;
-        let frameHold = 2;
 
         if (sketch.frameCount % frameHold < frameHold / 2) {
           xAdjust = -squareAdjust;
