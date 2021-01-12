@@ -248,6 +248,7 @@ const re = (function () {
 
   const onCollectionLinkClick = (e) => {
     e.preventDefault();
+
     const $thisLink = e.target;
     const thisID = $thisLink.dataset.collection;
     $collectionLinks.forEach(($collectionLink) => {
@@ -270,6 +271,11 @@ const re = (function () {
           hideModal("modal-2");
         }
         $body.dataset.page = newPage;
+      }
+      if (newPage === "irl") {
+        hideModal("modal-5"); //MH - TODO: check if active first?
+      } else if (newPage === "online") {
+        hideModal("modal-6");
       }
     }
 
@@ -323,7 +329,10 @@ const re = (function () {
       case "irl":
         $body.dataset.page = "irl";
         events.onNavigateIRL.notifyObservers();
+        deactivateIRLItems();
         deactivateOnlineItems();
+        closeAllModals();
+        showModal("modal-5", false);
         break;
       case "online":
         // don't initialize 3D content on mobile
@@ -331,9 +340,11 @@ const re = (function () {
           // show loading modal
           showModal("modal-4", false);
 
-          const modelBlobs = await Promise.all(Object.values(modelFiles).map((modelURL) =>
-            window.fetch(modelURL).then((r) => r.blob())
-          ));
+          const modelBlobs = await Promise.all(
+            Object.values(modelFiles).map((modelURL) =>
+              window.fetch(modelURL).then((r) => r.blob())
+            )
+          );
           const models = Object.keys(modelFiles).reduce(
             (acc, modelFile, i) => ({
               ...acc,
@@ -348,21 +359,25 @@ const re = (function () {
           isBabylonInitialized = true;
 
           // hide loading modal
-          closeAllModals();
+          //closeAllModals();
+          hideModal("modal-4");
         }
 
         $body.dataset.page = "online";
         events.onNavigateOnline.notifyObservers();
         deactivateIRLItems();
+        deactivateOnlineItems();
+        closeAllModals();
+        showModal("modal-6");
         break;
       default:
         $body.dataset.page = "home";
         events.onNavigateIRL.notifyObservers(); //TODO: Oren - confirm this should be
         deactivateIRLItems();
         deactivateOnlineItems();
+        closeAllModals();
         break;
     }
-    closeAllModals();
   };
 
   const deactivateOnlineItems = function () {
@@ -372,6 +387,8 @@ const re = (function () {
     if (activeOnlineItem) {
       activeOnlineItem.classList.toggle("active", false);
     }
+    hideModal("modal-6"); //online intro content
+    hideModal("modal-4"); //online loading
   };
 
   const deactivateIRLItems = function () {
@@ -390,6 +407,7 @@ const re = (function () {
       });
     }
     deactivateIRLContent();
+    hideModal("modal-5");
   };
 
   const deactivateIRLContent = function () {
