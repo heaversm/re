@@ -60,7 +60,7 @@ export class RE1 {
       };
 
       sketch.handleSizeCalcs = function () {
-        squareSize = windowHeight / startSquareSize;
+        squareSize = windowHeight * startSquareSize;
         numBars = Math.ceil(windowHeight / barSize);
       };
 
