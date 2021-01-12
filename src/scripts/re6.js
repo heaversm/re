@@ -1,7 +1,7 @@
 import p5 from "p5";
 
 export class RE6 {
-  constructor(onResizeObserver) {
+  constructor(onResizeObserver, onMouseMoveObserver) {
     //will hold references to each sketch
     this.p1 = null;
     this.p2 = null;
@@ -15,6 +15,15 @@ export class RE6 {
         this.p2.handleResizeCanvas(containerWidth, containerHeight);
       }
     });
+    onMouseMoveObserver.add(({ x, y }) => {
+      if (this.p1) {
+        this.p1.handleMouseMove(x, y);
+      }
+
+      if (this.p2) {
+        this.p2.handleMouseMove(x, y);
+      }
+    });
   }
 
   re6 = () => {
@@ -23,15 +32,33 @@ export class RE6 {
     let windowHeight = $modal2.offsetHeight;
     let sketchRenderer;
     let sketch2Renderer;
-    let squareSize;
     const frameRate = 30;
 
+    let minRotIncrement = -5;
+    let maxRotIncrement = 5;
+    let squareRotIncrement = 0.5;
+
+    let squareSize;
+    let initialSquareSize;
+    let minSquareAdjust = 0.8;
+    let maxSquareAdjust = 1.2;
+
+    const mapRange = function (value, low1, high1, low2, high2) {
+      return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
+    }; //MH TODO: make this a global
+
     const s1 = function (sketch) {
+      let squareColor, startColor, endColor;
+
       sketch.setup = function () {
         sketchRenderer = sketch.createCanvas(windowWidth, windowHeight);
         sketchRenderer.parent("sketch");
         sketch.frameRate(frameRate);
         sketch.handleSizeCalcs();
+        sketch.colorMode(sketch.RGB);
+        squareColor = sketch.color(0, 0, 255);
+        startColor = sketch.color(0, 0, 255);
+        endColor = sketch.color(255, 0, 0);
       };
 
       sketch.handleResizeCanvas = function (cw, ch) {
@@ -40,8 +67,19 @@ export class RE6 {
         sketch.handleSizeCalcs();
       };
 
+      sketch.handleMouseMove = function (x, y) {
+        squareSize = mapRange(
+          y,
+          0,
+          1,
+          initialSquareSize * minSquareAdjust,
+          initialSquareSize * maxSquareAdjust
+        );
+        squareColor = sketch.lerpColor(startColor, endColor, y);
+      };
+
       sketch.handleSizeCalcs = function () {
-        squareSize = windowHeight / 2;
+        initialSquareSize = squareSize = windowHeight / 2;
       };
 
       sketch.draw = function () {
@@ -59,7 +97,7 @@ export class RE6 {
           windowHeight,
           windowHeight
         );
-        sketch.fill("blue");
+        sketch.fill(squareColor);
         sketch.rect(
           windowWidth / 2 - squareSize / 2,
           windowHeight / 2 - squareSize / 2,
@@ -70,7 +108,6 @@ export class RE6 {
     };
 
     const s2 = function (sketch) {
-      const squareRotIncrement = 0.5;
       const numRows = 3;
       const numCols = 3;
       const numSquares = numRows * numCols;
@@ -90,6 +127,16 @@ export class RE6 {
         windowWidth = cw;
         windowHeight = ch;
         sketch.handleSizeCalcs();
+      };
+
+      sketch.handleMouseMove = function (x, y) {
+        squareRotIncrement = mapRange(
+          x,
+          0,
+          1,
+          minRotIncrement,
+          maxRotIncrement
+        );
       };
 
       sketch.handleSizeCalcs = function () {
