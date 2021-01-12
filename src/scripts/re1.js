@@ -8,6 +8,7 @@ export class RE1 {
     onResizeObserver.add(([containerWidth, containerHeight]) => {
       if (this.p1) {
         this.p1.resizeCanvas(containerWidth, containerHeight);
+        this.p1.handleResizeCanvas(containerWidth, containerHeight);
       }
       if (this.p2) {
         this.p2.resizeCanvas(containerWidth, containerHeight);
@@ -15,7 +16,7 @@ export class RE1 {
     });
   }
 
-  re1 = () => {
+  re1 = (events) => {
     /* eslint-disable no-undef, no-unused-vars */
     const barSize = 5;
     let squareSize;
@@ -24,19 +25,23 @@ export class RE1 {
     let sketchRenderer;
     let sketch2Renderer;
     const $modal2 = document.getElementById("modal-2");
-    const windowWidth = $modal2.offsetWidth;
-    const windowHeight = $modal2.offsetHeight;
+    let windowWidth = $modal2.offsetWidth;
+    let windowHeight = $modal2.offsetHeight;
     const frameRate = 30;
 
     //let p1, p2; //p5 instances of each sketch
 
     const s1 = function (sketch) {
       sketch.setup = function () {
-        squareSize = windowHeight / 2;
         sketchRenderer = sketch.createCanvas(windowWidth, windowHeight);
         sketchRenderer.parent("sketch");
-        numBars = Math.ceil(windowHeight / barSize);
         sketch.frameRate(frameRate);
+        sketch.handleSizeCalcs();
+      };
+
+      sketch.handleSizeCalcs = function () {
+        squareSize = windowHeight / 2;
+        numBars = Math.ceil(windowHeight / barSize);
       };
 
       sketch.draw = function () {
@@ -56,6 +61,12 @@ export class RE1 {
             barSize
           );
         }
+      };
+
+      sketch.handleResizeCanvas = function (cw, ch) {
+        windowWidth = cw;
+        windowHeight = ch;
+        sketch.handleSizeCalcs();
       };
 
       return;
