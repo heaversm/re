@@ -8,20 +8,22 @@ export class RE6 {
     onResizeObserver.add(([containerWidth, containerHeight]) => {
       if (this.p1) {
         this.p1.resizeCanvas(containerWidth, containerHeight);
+        this.p1.handleResizeCanvas(containerWidth, containerHeight);
       }
       if (this.p2) {
         this.p2.resizeCanvas(containerWidth, containerHeight);
+        this.p2.handleResizeCanvas(containerWidth, containerHeight);
       }
     });
   }
 
   re6 = () => {
     const $modal2 = document.getElementById("modal-2");
-    const windowWidth = $modal2.offsetWidth;
-    const windowHeight = $modal2.offsetHeight;
+    let windowWidth = $modal2.offsetWidth;
+    let windowHeight = $modal2.offsetHeight;
     let sketchRenderer;
     let sketch2Renderer;
-    const squareSize = windowHeight / 2;
+    let squareSize;
     const frameRate = 30;
 
     const s1 = function (sketch) {
@@ -29,6 +31,17 @@ export class RE6 {
         sketchRenderer = sketch.createCanvas(windowWidth, windowHeight);
         sketchRenderer.parent("sketch");
         sketch.frameRate(frameRate);
+        sketch.handleSizeCalcs();
+      };
+
+      sketch.handleResizeCanvas = function (cw, ch) {
+        windowWidth = cw;
+        windowHeight = ch;
+        sketch.handleSizeCalcs();
+      };
+
+      sketch.handleSizeCalcs = function () {
+        squareSize = windowHeight / 2;
       };
 
       sketch.draw = function () {
@@ -62,14 +75,26 @@ export class RE6 {
       const numCols = 3;
       const numSquares = numRows * numCols;
       let squareRot = 0;
-      let squareHyp = windowHeight / 3;
-      let squareSize = Math.sqrt(Math.pow(squareHyp, 2) / 2);
+      let squareHyp;
+      let squareSize;
 
       sketch.setup = function () {
         sketch2Renderer = sketch.createCanvas(windowWidth, windowHeight);
         sketch2Renderer.parent("sketch2"); //p5 won't let you do multiple canvases, but this doesn't work either
         sketch.frameRate(frameRate);
         sketch.angleMode(sketch.DEGREES);
+        sketch.handleSizeCalcs();
+      };
+
+      sketch.handleResizeCanvas = function (cw, ch) {
+        windowWidth = cw;
+        windowHeight = ch;
+        sketch.handleSizeCalcs();
+      };
+
+      sketch.handleSizeCalcs = function () {
+        squareHyp = windowHeight / 3;
+        squareSize = Math.sqrt(Math.pow(squareHyp, 2) / 2);
       };
 
       sketch.draw = function () {
