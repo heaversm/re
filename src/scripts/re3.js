@@ -1,16 +1,26 @@
 import p5 from "p5";
 
 export class RE3 {
-  constructor(onResizeObserver) {
+  constructor(onResizeObserver, onMouseMoveObserver) {
     //will hold references to each sketch
     this.p1 = null;
     this.p2 = null;
     onResizeObserver.add(([containerWidth, containerHeight]) => {
       if (this.p1) {
         this.p1.resizeCanvas(containerWidth, containerHeight);
+        this.p1.handleResizeCanvas(containerWidth, containerHeight);
       }
       if (this.p2) {
         this.p2.resizeCanvas(containerWidth, containerHeight);
+      }
+    });
+    onMouseMoveObserver.add(({ x, y }) => {
+      if (this.p1) {
+        this.p1.handleMouseMove(x, y);
+      }
+
+      if (this.p2) {
+        this.p2.handleMouseMove(x, y);
       }
     });
   }
@@ -23,28 +33,55 @@ export class RE3 {
     let sketchRenderer;
     let sketch2Renderer;
     const $modal2 = document.getElementById("modal-2");
-    const windowWidth = $modal2.offsetWidth;
-    const windowHeight = $modal2.offsetHeight;
+    let windowWidth = $modal2.offsetWidth;
+    let windowHeight = $modal2.offsetHeight;
 
-    const colorSize = 2;
-    const gapSize = 8;
+    let colorSize = 2;
+    let minColorSize = 1;
+    let maxColorSize = 8;
+    let minGapSize = 5;
+    let maxGapSize = 10;
+    let gapSize = 8;
     const frameRate = 30;
 
     let barSize;
 
     let adjustDistance = 1; //distance to move rectangles each frame
+    let minAdjustDistance = 0;
+    let maxAdjustDistance = 3;
     let isForward = true; //handles alternating directions
     let xAdjust = 0; //distance at which square is drawn
 
+    let fillColor1 = "blue";
+    let fillColor2 = "red";
+
+    const mapRange = function (value, low1, high1, low2, high2) {
+      return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
+    };
+
     const s1 = function (sketch) {
       sketch.setup = function () {
-        squareSize = windowHeight / 2;
         sketchRenderer = sketch.createCanvas(windowWidth, windowHeight);
         sketchRenderer.parent("sketch");
-        numBars = Math.ceil(windowHeight / barSize);
         sketch.frameRate(frameRate);
-
         sketch.clear();
+        sketch.handleSizeCalcs();
+      };
+
+      sketch.handleResizeCanvas = function (cw, ch) {
+        windowWidth = cw;
+        windowHeight = ch;
+        sketch.handleSizeCalcs();
+      };
+
+      sketch.handleSizeCalcs = function () {
+        squareSize = windowHeight / 2;
+        numBars = Math.ceil(windowHeight / barSize);
+      };
+
+      sketch.handleMouseMove = function (x, y) {
+        colorSize = mapRange(x, 0, 1, minColorSize, maxColorSize);
+        gapSize = mapRange(y, 0, 1, minGapSize, maxGapSize);
       };
 
       sketch.draw = function () {
@@ -82,7 +119,7 @@ export class RE3 {
           }
         }
 
-        sketch.fill("blue");
+        sketch.fill(fillColor1);
         sketch.rect(
           windowWidth / 2 - squareSize / 2 - xAdjust,
           windowHeight / 2 - squareSize / 2,
@@ -98,12 +135,28 @@ export class RE3 {
         sketch2Renderer.parent("sketch2"); //p5 won't let you do multiple canvases, but this doesn't work either
         sketch.frameRate(frameRate);
       };
+      sketch.handleMouseMove = function (x, y) {
+        adjustDistance = mapRange(
+          x,
+          0,
+          1,
+          minAdjustDistance,
+          maxAdjustDistance
+        );
+        if (y > 0.5) {
+          fillColor1 = "red";
+          fillColor2 = "blue";
+        } else {
+          fillColor2 = "red";
+          fillColor1 = "blue";
+        }
+      };
 
       sketch.draw = function () {
         sketch.clear();
 
         sketch.noStroke();
-        sketch.fill("red");
+        sketch.fill(fillColor2);
         sketch.rect(
           windowWidth / 2 - squareSize / 2 + xAdjust,
           windowHeight / 2 - squareSize / 2,

@@ -23,12 +23,12 @@ const events = {
   onMouseMove: new Observable(),
 };
 
-const re1 = new RE1(events.onResizeSketchContainer);
-const re2 = new RE2(events.onResizeSketchContainer);
-const re3 = new RE3(events.onResizeSketchContainer);
-const re4 = new RE4(events.onResizeSketchContainer);
-const re5 = new RE5(events.onResizeSketchContainer);
-const re6 = new RE6(events.onResizeSketchContainer);
+const re1 = new RE1(events.onResizeSketchContainer, events.onMouseMove);
+const re2 = new RE2(events.onResizeSketchContainer, events.onMouseMove);
+const re3 = new RE3(events.onResizeSketchContainer, events.onMouseMove);
+const re4 = new RE4(events.onResizeSketchContainer, events.onMouseMove);
+const re5 = new RE5(events.onResizeSketchContainer, events.onMouseMove);
+const re6 = new RE6(events.onResizeSketchContainer, events.onMouseMove);
 
 const re = (function () {
   //DOM REFERENCES

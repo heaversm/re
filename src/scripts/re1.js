@@ -1,42 +1,67 @@
 import p5 from "p5";
 
 export class RE1 {
-  constructor(onResizeObserver) {
+  constructor(onResizeObserver, onMouseMoveObserver) {
     //will hold references to each sketch
     this.p1 = null;
     this.p2 = null;
     onResizeObserver.add(([containerWidth, containerHeight]) => {
       if (this.p1) {
         this.p1.resizeCanvas(containerWidth, containerHeight);
+        this.p1.handleResizeCanvas(containerWidth, containerHeight);
       }
       if (this.p2) {
         this.p2.resizeCanvas(containerWidth, containerHeight);
       }
     });
+    onMouseMoveObserver.add(({ x, y }) => {
+      if (this.p1) {
+        this.p1.handleMouseMove(x, y);
+      }
+
+      if (this.p2) {
+        this.p2.handleMouseMove(x, y);
+      }
+    });
   }
 
-  re1 = () => {
+  re1 = (events) => {
     /* eslint-disable no-undef, no-unused-vars */
-    const barSize = 5;
+    let barSize = 5;
     let squareSize;
     let numBars;
 
     let sketchRenderer;
     let sketch2Renderer;
     const $modal2 = document.getElementById("modal-2");
-    const windowWidth = $modal2.offsetWidth;
-    const windowHeight = $modal2.offsetHeight;
+    let windowWidth = $modal2.offsetWidth;
+    let windowHeight = $modal2.offsetHeight;
     const frameRate = 30;
+
+    const maxBarSize = 20;
+    const minBarSize = 1;
+
+    const startSquareSize = 0.5;
+    const minSquareSize = 0.3;
+    const maxSquareSize = 0.7;
+
+    const mapRange = function (value, low1, high1, low2, high2) {
+      return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
+    };
 
     //let p1, p2; //p5 instances of each sketch
 
     const s1 = function (sketch) {
       sketch.setup = function () {
-        squareSize = windowHeight / 2;
         sketchRenderer = sketch.createCanvas(windowWidth, windowHeight);
         sketchRenderer.parent("sketch");
-        numBars = Math.ceil(windowHeight / barSize);
         sketch.frameRate(frameRate);
+        sketch.handleSizeCalcs();
+      };
+
+      sketch.handleSizeCalcs = function () {
+        squareSize = windowHeight * startSquareSize;
+        numBars = Math.ceil(windowHeight / barSize);
       };
 
       sketch.draw = function () {
@@ -56,6 +81,17 @@ export class RE1 {
             barSize
           );
         }
+      };
+
+      sketch.handleMouseMove = function (x, y) {
+        barSize = mapRange(y, 0, 1, minBarSize, maxBarSize);
+        numBars = Math.ceil(windowHeight / barSize);
+      };
+
+      sketch.handleResizeCanvas = function (cw, ch) {
+        windowWidth = cw;
+        windowHeight = ch;
+        sketch.handleSizeCalcs();
       };
 
       return;
@@ -78,6 +114,11 @@ export class RE1 {
           squareSize,
           squareSize
         );
+      };
+
+      sketch.handleMouseMove = function (x, y) {
+        const squareRatio = mapRange(x, 0, 1, minSquareSize, maxSquareSize);
+        squareSize = windowHeight * squareRatio;
       };
     };
 

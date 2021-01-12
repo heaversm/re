@@ -1,26 +1,38 @@
 import p5 from "p5";
 
 export class RE4 {
-  constructor(onResizeObserver) {
+  constructor(onResizeObserver, onMouseMoveObserver) {
     //will hold references to each sketch
     this.p1 = null;
     this.p2 = null;
     onResizeObserver.add(([containerWidth, containerHeight]) => {
       if (this.p1) {
         this.p1.resizeCanvas(containerWidth, containerHeight);
+        this.p1.handleResizeCanvas(containerWidth, containerHeight);
       }
       if (this.p2) {
         this.p2.resizeCanvas(containerWidth, containerHeight);
+      }
+    });
+    onMouseMoveObserver.add(({ x, y }) => {
+      if (this.p1) {
+        this.p1.handleMouseMove(x, y);
+      }
+
+      if (this.p2) {
+        this.p2.handleMouseMove(x, y);
       }
     });
   }
 
   re4 = () => {
     const $modal2 = document.getElementById("modal-2");
-    const windowWidth = $modal2.offsetWidth;
-    const windowHeight = $modal2.offsetHeight;
+    let windowWidth = $modal2.offsetWidth;
+    let windowHeight = $modal2.offsetHeight;
 
-    const barSize = 5;
+    let barSize = 5;
+    let minBarSize = 3;
+    let maxBarSize = 8;
     let squareSize;
     let numBars;
 
@@ -29,13 +41,49 @@ export class RE4 {
 
     const frameRate = 30;
 
+    let squareRotIncrement = 0.5;
+    let minRotIncrement = -5;
+    let maxRotIncrement = 5;
+
+    let fillColors = [
+      ["red", "black", "green"],
+      ["green", "black", "red"],
+      ["black", "green", "red"],
+    ];
+
+    let fillIndex = 0;
+
+    const mapRange = function (value, low1, high1, low2, high2) {
+      return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
+    };
+
+    const randomInt = function (min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    };
+
     const s1 = function (sketch) {
       sketch.setup = function () {
-        squareSize = windowHeight / 2;
         sketchRenderer = sketch.createCanvas(windowWidth, windowHeight);
         sketchRenderer.parent("sketch");
-        numBars = Math.ceil(windowWidth / barSize);
         sketch.frameRate(frameRate);
+        sketch.handleSizeCalcs();
+      };
+
+      sketch.handleResizeCanvas = function (cw, ch) {
+        windowWidth = cw;
+        windowHeight = ch;
+        sketch.handleSizeCalcs();
+      };
+
+      sketch.handleSizeCalcs = function () {
+        squareSize = windowHeight / 2;
+        numBars = Math.ceil(windowWidth / barSize);
+      };
+
+      sketch.handleMouseMove = function (x, y) {
+        fillIndex = randomInt(0, fillColors.length - 1);
+        barSize = mapRange(y, 0, 1, minBarSize, maxBarSize);
+        numBars = Math.ceil(windowWidth / barSize);
       };
 
       sketch.draw = function () {
@@ -44,11 +92,11 @@ export class RE4 {
 
         for (let i = 0; i < numBars; i++) {
           if (i % 4 === 0) {
-            sketch.fill("red");
+            sketch.fill(fillColors[fillIndex][0]);
           } else if (i % 4 === 2) {
-            sketch.fill("green");
+            sketch.fill(fillColors[fillIndex][2]);
           } else {
-            sketch.fill(0);
+            sketch.fill(fillColors[fillIndex][1]);
           }
           sketch.rect(barSize * i, 0, barSize, windowHeight);
         }
@@ -56,7 +104,6 @@ export class RE4 {
     };
 
     const s2 = function (sketch) {
-      const squareRotIncrement = 0.5;
       let squareRot = 0;
 
       sketch.setup = function () {
@@ -64,6 +111,16 @@ export class RE4 {
         sketch2Renderer.parent("sketch2"); //p5 won't let you do multiple canvases, but this doesn't work either
         sketch.frameRate(frameRate);
         sketch.angleMode(sketch.DEGREES);
+      };
+
+      sketch.handleMouseMove = function (x, y) {
+        squareRotIncrement = mapRange(
+          x,
+          0,
+          1,
+          minRotIncrement,
+          maxRotIncrement
+        );
       };
 
       sketch.draw = function () {
