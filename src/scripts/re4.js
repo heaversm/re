@@ -8,6 +8,7 @@ export class RE4 {
     onResizeObserver.add(([containerWidth, containerHeight]) => {
       if (this.p1) {
         this.p1.resizeCanvas(containerWidth, containerHeight);
+        this.p1.handleResizeCanvas(containerWidth, containerHeight);
       }
       if (this.p2) {
         this.p2.resizeCanvas(containerWidth, containerHeight);
@@ -17,8 +18,8 @@ export class RE4 {
 
   re4 = () => {
     const $modal2 = document.getElementById("modal-2");
-    const windowWidth = $modal2.offsetWidth;
-    const windowHeight = $modal2.offsetHeight;
+    let windowWidth = $modal2.offsetWidth;
+    let windowHeight = $modal2.offsetHeight;
 
     const barSize = 5;
     let squareSize;
@@ -31,11 +32,21 @@ export class RE4 {
 
     const s1 = function (sketch) {
       sketch.setup = function () {
-        squareSize = windowHeight / 2;
         sketchRenderer = sketch.createCanvas(windowWidth, windowHeight);
         sketchRenderer.parent("sketch");
-        numBars = Math.ceil(windowWidth / barSize);
         sketch.frameRate(frameRate);
+        sketch.handleSizeCalcs();
+      };
+
+      sketch.handleResizeCanvas = function (cw, ch) {
+        windowWidth = cw;
+        windowHeight = ch;
+        sketch.handleSizeCalcs();
+      };
+
+      sketch.handleSizeCalcs = function () {
+        squareSize = windowHeight / 2;
+        numBars = Math.ceil(windowWidth / barSize);
       };
 
       sketch.draw = function () {
