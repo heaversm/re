@@ -46,9 +46,9 @@ export class RE4 {
     let maxRotIncrement = 5;
 
     let fillColors = [
-      ["red", "black", "green"],
-      ["green", "black", "red"],
-      ["black", "green", "red"],
+      [255, 0, 0, 0, 0, 0, 0, 255, 0],
+      [0, 255, 0, 0, 0, 0, 255, 0, 0],
+      [0, 0, 0, 0, 255, 0, 255, 0, 0],
     ];
 
     let fillIndex = 0;
@@ -126,7 +126,7 @@ export class RE4 {
       sketch.draw = function () {
         sketch.clear();
         sketch.noStroke();
-        sketch.fill("red");
+        sketch.fill(255, 0, 0);
         sketch.translate(windowWidth / 2, windowHeight / 2);
         sketch.rotate(squareRot);
         sketch.rect(-squareSize / 2, -squareSize / 2, squareSize, squareSize);

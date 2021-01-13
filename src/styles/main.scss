@@ -17,7 +17,9 @@ body {
   font-smooth: never;
   -webkit-font-smoothing: none;
   margin: 0;
-  overflow: hidden;
+  @include breakpoint(tablet) {
+    overflow: hidden; //can't remember why I did this; maybe remove?
+  }
   @include breakpoint(desktop) {
     font-size: $scaling-font--std;
   }

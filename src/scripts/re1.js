@@ -70,7 +70,7 @@ export class RE1 {
 
         for (let i = 0; i < numBars; i++) {
           if (i % 2 === 0) {
-            sketch.fill(234, 62, 246);
+            sketch.fill(255, 0, 255);
           } else {
             sketch.fill(0);
           }
@@ -107,7 +107,7 @@ export class RE1 {
       sketch.draw = function () {
         sketch.clear();
         sketch.noStroke();
-        sketch.fill("red");
+        sketch.fill(255, 0, 0);
         sketch.rect(
           windowWidth / 2 - squareSize / 2,
           windowHeight / 2 - squareSize / 2 - (sketch.frameCount % barSize),

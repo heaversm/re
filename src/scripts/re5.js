@@ -91,13 +91,13 @@ export class RE5 {
 
         for (let i = 0; i < numBars; i++) {
           if (i % 2 === 0) {
-            sketch.fill("white");
+            sketch.fill(255, 255, 255);
           } else {
-            sketch.fill("black");
+            sketch.fill(0, 0, 0);
           }
           sketch.rect(barSize * i, 0, barSize, windowHeight);
         }
-        sketch.fill("black");
+        sketch.fill(0, 0, 0);
         if (!insideBox) {
           sketch.rect(
             startSquareX + frameAdjust,
@@ -105,7 +105,7 @@ export class RE5 {
             windowHeight,
             windowHeight
           );
-          sketch.fill(234, 62, 246);
+          sketch.fill(255, 0, 255);
         } else {
           sketch.rect(frameAdjust, 0, startSquareX, windowHeight);
 
@@ -115,7 +115,7 @@ export class RE5 {
             availableSpace / 2,
             windowHeight
           );
-          sketch.fill("yellow");
+          sketch.fill(255, 255, 0);
         }
 
         sketch.rect(
@@ -150,9 +150,9 @@ export class RE5 {
         }
 
         if (insideBox) {
-          sketch.fill(234, 62, 246);
+          sketch.fill(255, 0, 255);
         } else {
-          sketch.fill("yellow");
+          sketch.fill(255, 255, 0);
         }
 
         sketch.rect(

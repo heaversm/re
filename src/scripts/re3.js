@@ -52,8 +52,8 @@ export class RE3 {
     let isForward = true; //handles alternating directions
     let xAdjust = 0; //distance at which square is drawn
 
-    let fillColor1 = "blue";
-    let fillColor2 = "red";
+    let fillColor1;
+    let fillColor2;
 
     const mapRange = function (value, low1, high1, low2, high2) {
       return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
@@ -66,6 +66,8 @@ export class RE3 {
         sketch.frameRate(frameRate);
         sketch.clear();
         sketch.handleSizeCalcs();
+        fillColor1 = sketch.color(0, 0, 255);
+        fillColor2 = sketch.color(255, 0, 0);
       };
 
       sketch.handleResizeCanvas = function (cw, ch) {
@@ -144,11 +146,11 @@ export class RE3 {
           maxAdjustDistance
         );
         if (y > 0.5) {
-          fillColor1 = "red";
-          fillColor2 = "blue";
+          fillColor1 = sketch.color(255, 0, 0);
+          fillColor2 = sketch.color(0, 0, 255);
         } else {
-          fillColor2 = "red";
-          fillColor1 = "blue";
+          fillColor2 = sketch.color(255, 0, 0);
+          fillColor1 = sketch.color(0, 0, 255);
         }
       };
 

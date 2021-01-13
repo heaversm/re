@@ -86,10 +86,10 @@ export class RE6 {
         sketch.clear();
         sketch.noStroke();
         if (sketch.frameCount % 2 === 0) {
-          sketch.fill("white");
+          sketch.fill(255, 255, 255);
         } else {
-          //sketch.fill("white");
-          sketch.fill("cyan");
+          //sketch.fill(255,255,255);
+          sketch.fill(0, 255, 255);
         }
         sketch.rect(
           windowWidth / 2 - windowHeight / 2,
@@ -148,9 +148,9 @@ export class RE6 {
         sketch.clear();
         sketch.noStroke();
         if (sketch.frameCount % 2 === 0) {
-          sketch.fill("cyan");
+          sketch.fill(0, 255, 255);
         } else {
-          sketch.fill("white");
+          sketch.fill(255, 255, 255);
         }
 
         sketch.translate(windowWidth / 2 - windowHeight / 2, 0);
