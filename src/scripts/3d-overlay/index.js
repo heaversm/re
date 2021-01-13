@@ -3,7 +3,7 @@ import { Engine } from '@babylonjs/core/Engines/engine';
 import createOverlayScene from './overlay-scene';
 import createCharacterScene from './character-scene';
 
-export default async function (overlayCanvas, characterCanvas, models, events) {
+export default async function (overlayCanvas, characterCanvas, models, events, isMobile) {
   // Babylon.js views rely on canvas.drawImage() which has bad performance on Firefox
   // see https://bugzilla.mozilla.org/show_bug.cgi?id=1602299
   const useMultipleEngines = true;
@@ -30,7 +30,7 @@ export default async function (overlayCanvas, characterCanvas, models, events) {
     characterEngine.resize(true);
   }
 
-  const overlayScene = await createOverlayScene(overlayEngine, models, events);
+  const overlayScene = await createOverlayScene(overlayEngine, models, events, isMobile);
   const characterScene = await createCharacterScene(characterEngine, models, events);
 
   if (useMultipleEngines) {
@@ -83,7 +83,7 @@ export default async function (overlayCanvas, characterCanvas, models, events) {
     return alpha;
   }
 
-  if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+  if (!isMobile) {
     window.addEventListener('mousemove', async e => {
       const { x, y } = e;
       const alpha = await readAlpha(x, y);

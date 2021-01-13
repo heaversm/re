@@ -27,7 +27,7 @@ import { AgentPool } from './agent';
 import { viewportToWorldPoint, randomItem } from './utils';
 import { GROUND, WALLS, RAGDOLLS } from './collision-groups';
 
-export default async function createScene(engine, models, events) {
+export default async function createScene(engine, models, events, isMobile) {
   const scene = new Scene(engine);
 
   // parameters
@@ -73,6 +73,29 @@ export default async function createScene(engine, models, events) {
   floorMaterial.disableLighting = true;
   floorMaterial.emissiveColor = new Color3(floorColor, floorColor, floorColor);
   floor.material = floorMaterial;
+
+  const $footer = document.getElementById('footer');
+
+  function pinGroundPlaneToFooter() {
+    const footerRect = $footer.getBoundingClientRect();
+    const floorBoundingBox = floor.getBoundingInfo().boundingBox;
+    // find the world-space location of the top center of the footer element
+    // at the Z position of the far edge of the ground plane
+    const targetFooterTopCenterWorld = viewportToWorldPoint(
+      (((footerRect.right - footerRect.left) / 2) / engine.getRenderWidth()) / engine.getHardwareScalingLevel(),
+      (footerRect.top / engine.getRenderHeight()) / engine.getHardwareScalingLevel(),
+      floorBoundingBox.maximumWorld.z,
+      camera
+    );
+    camera.position.y -= targetFooterTopCenterWorld.y;
+  }
+  pinGroundPlaneToFooter();
+  scene.onBeforeRenderObservable.add(pinGroundPlaneToFooter);
+
+  if (isMobile) {
+    floor.isVisible = true;
+    return scene;
+  }
 
   // door
 
@@ -181,7 +204,6 @@ export default async function createScene(engine, models, events) {
 
   // window resizing camera logic
 
-  const $footer = document.getElementById('footer');
   $footer.addEventListener('transitionend', () => {
     const footerTransform = window.getComputedStyle($footer).getPropertyValue('transform');
     if (footerTransform === 'none')  { // visible
@@ -198,22 +220,6 @@ export default async function createScene(engine, models, events) {
       }
     }
   });
-
-  function pinGroundPlaneToFooter() {
-    const footerRect = $footer.getBoundingClientRect();
-    const floorBoundingBox = floor.getBoundingInfo().boundingBox;
-    // find the world-space location of the top center of the footer element
-    // at the Z position of the far edge of the ground plane
-    const targetFooterTopCenterWorld = viewportToWorldPoint(
-      (((footerRect.right - footerRect.left) / 2) / engine.getRenderWidth()) / engine.getHardwareScalingLevel(),
-      (footerRect.top / engine.getRenderHeight()) / engine.getHardwareScalingLevel(),
-      floorBoundingBox.maximumWorld.z,
-      camera
-    );
-    camera.position.y -= targetFooterTopCenterWorld.y;
-  }
-  pinGroundPlaneToFooter();
-  scene.onBeforeRenderObservable.add(pinGroundPlaneToFooter);
 
   // event handling
 
