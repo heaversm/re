@@ -137,10 +137,9 @@ export class AgentPool {
   static navigationPlugin = null;
 
   static defaultCrowdAgentParameters = {
-    radius: 0.1,
     maxAcceleration: 200.0,
     maxSpeed: 0.9,
-    collisionQueryRange: 1,
+    collisionQueryRange: 2,
     pathOptimizationRange: 0.0,
     separationWeight: 1.0
   };
@@ -148,7 +147,8 @@ export class AgentPool {
   static async initializeAgentPools(models, navigationPlugin, scene, maxAgents = 100) {
     this.navigationPlugin = navigationPlugin;
     if (this.navigationPlugin) {
-      this.crowd = navigationPlugin.createCrowd(maxAgents, 1, scene);
+      const maxAgentRadius = 0.3;
+      this.crowd = navigationPlugin.createCrowd(maxAgents, maxAgentRadius, scene);
     }
 
     const assetsManager = new AssetsManager(scene);
@@ -177,6 +177,8 @@ export class AgentPool {
     const [mesh] = meshes;
     const [skeleton] = skeletons;
 
+    const size = mesh.getBoundingInfo().boundingBox.extendSizeWorld;
+
     mesh.position = position;
     mesh.rotation = rotation;
     mesh.scaling = scaling;
@@ -191,11 +193,12 @@ export class AgentPool {
     const ragdoll = new Ragdoll(skeleton, mesh, config, jointCollisions, showBoxes, mainPivotSphereSize, disableBoxBoneSync);
 
     let crowdAgentIndex = null;
-    const size = mesh.getBoundingInfo().boundingBox.extendSizeWorld;
     if (this.constructor.crowd) {
+      const radius = Math.max(size.x, size.y) * 0.5 * 0.01
       const crowdAgentParameters = {
         ...this.constructor.defaultCrowdAgentParameters,
-        height: size.y
+        height: size.z * 0.01,
+        radius: radius
       };
       crowdAgentIndex = this.constructor.crowd.addAgent(position, crowdAgentParameters, new TransformNode());
     }
@@ -210,6 +213,9 @@ const NOOP = () => {};
 
 export class Agent {
   static arrivalDistanceThreshold = 0.01;
+
+  static minSpeedThreshold = 0.05;
+  static maxFramesBelowMinSpeed = 3;
 
   static freezeVelocityThreshold = 0.001;
   static consecutiveFramesBeforeFreeze = 60;
@@ -374,6 +380,7 @@ export class Agent {
     this.destination = null;
     this.onArrival = NOOP;
     this.onArrivalDistanceOffset = 0;
+    this.framesBelowMinSpeed = 0;
     this.isMoving = false;
     this.freezeObservable = null;
     this.onFreeze = NOOP;
@@ -395,6 +402,7 @@ export class Agent {
       return;
     }
     this.isMoving = true;
+    this.framesBelowMinSpeed = 0;
 
     this.destination = AgentPool.navigationPlugin.getClosestPoint(targetPosition);
     AgentPool.crowd.agentGoto(this.crowdAgentIndex, this.destination);
@@ -482,7 +490,11 @@ export class Agent {
       this.onArrivalDistanceOffset = 0;
     }
 
-    if (distance <= this.constructor.arrivalDistanceThreshold) {
+    if (speed <= this.constructor.minSpeedThreshold) {
+      this.framesBelowMinSpeed++;
+    }
+
+    if (distance <= this.constructor.arrivalDistanceThreshold || this.framesBelowMinSpeed >= this.constructor.maxFramesBelowMinSpeed) {
       this.skeleton.beginAnimation(AgentPool.agentAnimationNames[this.agentEnum].idle, true);
       this.mesh.onBeforeRenderObservable.clear();
       this.destination = null;

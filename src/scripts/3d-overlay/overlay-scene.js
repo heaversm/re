@@ -195,7 +195,7 @@ export default async function createScene(engine, models, events, isMobile) {
     );
     agentsByMesh.set(newAgent.mesh, newAgent);
     const agentDestination = new Vector3(
-      Scalar.RandomRange(-7, 7),
+      Scalar.RandomRange(-6.75, 6),
       0,
       Scalar.RandomRange(6, 8.9)
     );
