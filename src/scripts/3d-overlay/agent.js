@@ -1,6 +1,5 @@
-import { Animation } from '@babylonjs/core/Animations/animation';
-import { EasingFunction, CubicEase } from '@babylonjs/core/Animations/easing';
-import { Color3, Vector3, Quaternion, Axis, Angle } from '@babylonjs/core/Maths/math';
+import { EasingFunction } from '@babylonjs/core/Animations/easing';
+import { Vector3, Quaternion, Axis, Angle } from '@babylonjs/core/Maths/math';
 import { Scalar } from '@babylonjs/core/Maths/math.scalar';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
 import { MultiMaterial } from '@babylonjs/core/Materials/multiMaterial';
@@ -13,17 +12,19 @@ import '@babylonjs/loaders';
 
 import Ragdoll from './ragdoll';
 import { randomItem } from './utils';
+import {
+  black,
+  darkGray,
+  mediumGray,
+  lightGray,
+  red,
+  green,
+  blue,
+  yellow,
+  magenta,
+  cyan
+} from './colors';
 
-const black = new Color3(0, 0, 0);
-const darkGray = new Color3(0.2, 0.2, 0.2);
-const mediumGray = new Color3(0.4, 0.4, 0.4);
-const lightGray = new Color3(0.6, 0.6, 0.6);
-const red = new Color3(1, 0, 0);
-const green = new Color3(0, 1, 0);
-const blue = new Color3(0, 0, 1);
-const yellow = new Color3(1, 1, 0);
-const magenta = new Color3(1, 0, 1);
-const cyan = new Color3(0, 1, 1);
 const grays = [darkGray, mediumGray, lightGray];
 const colors = [red, green, blue, yellow, magenta, cyan];
 const colorPairs = pairs(colors);
@@ -214,7 +215,7 @@ const NOOP = () => {};
 export class Agent {
   static arrivalDistanceThreshold = 0.01;
 
-  static minSpeedThreshold = 0.05;
+  static minSpeedThreshold = 0.1;
   static maxFramesBelowMinSpeed = 3;
 
   static freezeVelocityThreshold = 0.001;
