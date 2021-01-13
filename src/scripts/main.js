@@ -134,8 +134,16 @@ const re = (function () {
     showModal("modal-1");
   };
 
-  const handleModal2 = function (e) {
+  const handleModal2 = async function (e) {
+    const $triggerEl = e.currentTarget;
+    const id = $triggerEl.dataset.id;
+
+    if (isMobile) {
+      await initBabylon();
+    }
+
     showModal("modal-2", false);
+
     //IRL
     if (!curSketch) {
       if (isMobile) {
@@ -148,8 +156,6 @@ const re = (function () {
       curSketch.removeSketch();
       //TODO: Oren - dispose of any previous character related processes
     }
-    const $triggerEl = e.currentTarget;
-    const id = $triggerEl.dataset.id;
     switch (id) {
       case "online1":
         curSketch = re1;
@@ -246,7 +252,7 @@ const re = (function () {
     handleModal1(e);
   };
 
-  const onCollectionLinkClick = (e) => {
+  const onCollectionLinkClick = async (e) => {
     e.preventDefault();
 
     const $thisLink = e.target;
@@ -297,7 +303,7 @@ const re = (function () {
       );
       $collectionContent.classList.toggle("active", true);
     } else if (newPage === "online") {
-      handleModal2(e);
+      await handleModal2(e);
     }
     if (isMobile) {
       setTimeout(hideMobileNav, DISABLE_CLICK_DURATION);
@@ -319,6 +325,36 @@ const re = (function () {
     $body.dataset.mobileNavActive = `${mobileNavActive}`;
   };
 
+  const initBabylon = async function() {
+    if (isBabylonInitialized) {
+      return;
+    }
+    // show loading modal
+    showModal("modal-4", false);
+
+    const modelBlobs = await Promise.all(
+      Object.values(modelFiles).map((modelURL) =>
+        window.fetch(modelURL).then((r) => r.blob())
+      )
+    );
+    const models = Object.keys(modelFiles).reduce(
+      (acc, modelFile, i) => ({
+        ...acc,
+        [modelFile]: URL.createObjectURL(modelBlobs[i]),
+      }),
+      {}
+    );
+
+    const $overlayCanvas = document.getElementById("render-canvas");
+    const $characterCanvas = document.getElementById("sketch-canvas");
+    await init3DOverlay($overlayCanvas, $characterCanvas, models, events, isMobile);
+    isBabylonInitialized = true;
+
+    // hide loading modal
+    //closeAllModals();
+    hideModal("modal-4");
+  }
+
   const onMainNavClick = async function (e) {
     e.preventDefault();
     const id = e.currentTarget.dataset.id;
@@ -335,33 +371,7 @@ const re = (function () {
         showModal("modal-5", false);
         break;
       case "online":
-        // don't initialize 3D content on mobile
-        if (!isMobile && !isBabylonInitialized) {
-          // show loading modal
-          showModal("modal-4", false);
-
-          const modelBlobs = await Promise.all(
-            Object.values(modelFiles).map((modelURL) =>
-              window.fetch(modelURL).then((r) => r.blob())
-            )
-          );
-          const models = Object.keys(modelFiles).reduce(
-            (acc, modelFile, i) => ({
-              ...acc,
-              [modelFile]: URL.createObjectURL(modelBlobs[i]),
-            }),
-            {}
-          );
-
-          const $overlayCanvas = document.getElementById("render-canvas");
-          const $characterCanvas = document.getElementById("sketch-canvas");
-          await init3DOverlay($overlayCanvas, $characterCanvas, models, events);
-          isBabylonInitialized = true;
-
-          // hide loading modal
-          //closeAllModals();
-          hideModal("modal-4");
-        }
+        await initBabylon();
 
         $body.dataset.page = "online";
         events.onNavigateOnline.notifyObservers();
@@ -437,7 +447,7 @@ const re = (function () {
       const sketchContainer = entries[0].target;
       events.onResizeSketchContainer.notifyObservers([
         sketchContainer.clientWidth,
-        sketchContainer.clientHeight,
+        sketchContainer.clientHeight
       ]);
     });
     sketchResizeObserver.observe(document.getElementById("sketch-container"));
