@@ -92,11 +92,6 @@ export default async function createScene(engine, models, events, isMobile) {
   pinGroundPlaneToFooter();
   scene.onBeforeRenderObservable.add(pinGroundPlaneToFooter);
 
-  if (isMobile) {
-    floor.isVisible = true;
-    return scene;
-  }
-
   // door
 
   const doorHeight = 2;
@@ -187,19 +182,19 @@ export default async function createScene(engine, models, events, isMobile) {
   const agentPools = await AgentPool.initializeAgentPools(models, navigationPlugin, scene);
   const agentsByMesh = new Map();
 
-  function addAgent() {
+  function addAgent(agentDestination) {
     const newAgent = randomItem(agentPools).instantiate(
       new Vector3(9, 0, 8.9),
       new Vector3(Angle.FromDegrees(-90).radians(), Angle.FromDegrees(90).radians(), 0),
       new Vector3(0.01, 0.01, 0.01)
     );
     agentsByMesh.set(newAgent.mesh, newAgent);
-    const agentDestination = new Vector3(
+    const destination = agentDestination || new Vector3(
       Scalar.RandomRange(-6.75, 6),
       0,
       Scalar.RandomRange(6, 8.9)
     );
-    newAgent.moveTo(agentDestination, () => newAgent.rotateTo(Angle.FromDegrees(180).radians(), null), 0);
+    newAgent.moveTo(destination, () => newAgent.rotateTo(Angle.FromDegrees(180).radians(), null), 0);
   }
 
   // window resizing camera logic
@@ -207,7 +202,9 @@ export default async function createScene(engine, models, events, isMobile) {
   $footer.addEventListener('transitionend', () => {
     const footerTransform = window.getComputedStyle($footer).getPropertyValue('transform');
     if (footerTransform === 'none')  { // visible
-      addAgent();
+      if (!isMobile) {
+        addAgent();
+      }
     } else { // not visible
       floor.isVisible = false;
       door.isVisible = false;
@@ -233,7 +230,13 @@ export default async function createScene(engine, models, events, isMobile) {
   });
 
   events.onViewOnlineArtwork.add(() => {
-    addAgent();
+    if (isMobile) {
+      if (agentsByMesh.size === 0) {
+        addAgent(new Vector3(0, 0, 8.9));
+      }
+    } else {
+      addAgent();
+    }
   });
 
   scene.onPointerObservable.add(pointerInfo => {
