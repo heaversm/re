@@ -45,11 +45,7 @@ export class RE4 {
     let minRotIncrement = -5;
     let maxRotIncrement = 5;
 
-    let fillColors = [
-      [255, 0, 0, 0, 0, 0, 0, 255, 0],
-      [0, 255, 0, 0, 0, 0, 255, 0, 0],
-      [0, 0, 0, 0, 255, 0, 255, 0, 0],
-    ];
+    let fillColors;
 
     let fillIndex = 0;
 
@@ -67,6 +63,23 @@ export class RE4 {
         sketchRenderer.parent("sketch");
         sketch.frameRate(frameRate);
         sketch.handleSizeCalcs();
+        fillColors = [
+          [
+            sketch.color(255, 0, 0),
+            sketch.color(0, 0, 0),
+            sketch.color(0, 255, 0),
+          ],
+          [
+            sketch.color(255, 0, 0),
+            sketch.color(0, 255, 0),
+            sketch.color(0, 0, 0),
+          ],
+          [
+            sketch.color(0, 0, 0),
+            sketch.color(0, 255, 0),
+            sketch.color(255, 0, 0),
+          ],
+        ];
       };
 
       sketch.handleResizeCanvas = function (cw, ch) {
