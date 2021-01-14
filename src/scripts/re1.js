@@ -45,6 +45,9 @@ export class RE1 {
     const minSquareSize = 0.3;
     const maxSquareSize = 0.7;
 
+    let barColor1, barColor2, squareColor;
+    let clickToggle = false;
+
     const mapRange = function (value, low1, high1, low2, high2) {
       return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
     };
@@ -57,6 +60,13 @@ export class RE1 {
         sketchRenderer.parent("sketch");
         sketch.frameRate(frameRate);
         sketch.handleSizeCalcs();
+        sketch.assignColors();
+      };
+
+      sketch.assignColors = function () {
+        barColor1 = sketch.color(255, 0, 255);
+        barColor2 = sketch.color(0);
+        squareColor = sketch.color(255, 0, 0);
       };
 
       sketch.handleSizeCalcs = function () {
@@ -70,9 +80,13 @@ export class RE1 {
 
         for (let i = 0; i < numBars; i++) {
           if (i % 2 === 0) {
-            sketch.fill(255, 0, 255);
+            if (clickToggle) {
+              sketch.fill(barColor1);
+            } else {
+              sketch.fill(squareColor);
+            }
           } else {
-            sketch.fill(0);
+            sketch.fill(barColor2);
           }
           sketch.rect(
             windowWidth / 2 - windowHeight / 2,
@@ -81,6 +95,17 @@ export class RE1 {
             barSize
           );
         }
+      };
+
+      sketch.mouseClicked = function () {
+        // console.log(
+        //   "click",
+        //   sketch.mouseX,
+        //   sketch.mouseY,
+        //   windowWidth,
+        //   windowHeight
+        // );
+        clickToggle = !clickToggle;
       };
 
       sketch.handleMouseMove = function (x, y) {
@@ -107,7 +132,11 @@ export class RE1 {
       sketch.draw = function () {
         sketch.clear();
         sketch.noStroke();
-        sketch.fill(255, 0, 0);
+        if (clickToggle) {
+          sketch.fill(squareColor);
+        } else {
+          sketch.fill(barColor1);
+        }
         sketch.rect(
           windowWidth / 2 - squareSize / 2,
           windowHeight / 2 - squareSize / 2 - (sketch.frameCount % barSize),
