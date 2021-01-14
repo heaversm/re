@@ -3,6 +3,14 @@ import { Observable } from "@babylonjs/core/Misc/observable";
 import "regenerator-runtime";
 
 import init3DOverlay from "./3d-overlay";
+import {
+  red,
+  green,
+  blue,
+  yellow,
+  magenta,
+  cyan
+} from "./3d-overlay/colors";
 
 import irlImages from "../assets/images/irl/*.jpg";
 
@@ -156,38 +164,53 @@ const re = (function () {
       curSketch.removeSketch();
       //TODO: Oren - dispose of any previous character related processes
     }
+    const palette = {};
     switch (id) {
       case "online1":
         curSketch = re1;
         re1.init();
+        palette.shirtColor = red;
+        palette.pantsColor = magenta;
         //TODO: Oren - initialize the babylon layer / dispose of existing babylon layers
         break;
       case "online2":
         curSketch = re2;
         re2.init();
+        palette.shirtColor = cyan;
+        palette.pantsColor = red;
         break;
       case "online3":
         curSketch = re3;
         re3.init();
+        palette.shirtColor = red;
+        palette.pantsColor = blue;
         break;
       case "online4":
         curSketch = re4;
         re4.init();
+        palette.shirtColor = green;
+        palette.pantsColor = red;
         break;
       case "online5":
         curSketch = re5;
         re5.init();
+        palette.shirtColor = yellow;
+        palette.pantsColor = magenta;
         break;
       case "online6":
         curSketch = re6;
         re6.init();
+        palette.shirtColor = blue;
+        palette.pantsColor = cyan;
         break;
       default:
         curSketch = re1;
         re1.init();
+        palette.shirtColor = red;
+        palette.pantsColor = magenta;
         break;
     }
-    events.onViewOnlineArtwork.notifyObservers();
+    events.onViewOnlineArtwork.notifyObservers(palette);
   };
 
   const onModalCloseClick = function (e) {

@@ -123,7 +123,7 @@ export class RE2 {
         }
 
         sketch.noStroke();
-        sketch.fill(0, 255, 255);
+        sketch.fill(255, 0, 0);
         sketch.rect(
           windowWidth / 2 -
             squareSize / 2 +
@@ -133,7 +133,7 @@ export class RE2 {
           squareSize
         );
 
-        sketch.fill(255, 0, 0);
+        sketch.fill(0, 255, 255);
         sketch.rect(
           windowWidth / 2 - squareSize / 2,
           windowHeight / 2 - squareSize / 2 - (sketch.frameCount % barSize),
