@@ -40,6 +40,8 @@ export class RE5 {
 
     let insideBox = false;
 
+    let mouseToggle = true; //this value gets flipped on load...
+
     const mapRange = function (value, low1, high1, low2, high2) {
       return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
     };
@@ -67,6 +69,10 @@ export class RE5 {
         numBars = Math.ceil(windowWidth / barSize);
       };
 
+      sketch.mouseClicked = function () {
+        mouseToggle = !mouseToggle;
+      };
+
       sketch.handleMouseMove = function (x, y) {
         adjustAmount = mapRange(x, 0, 1, minAdjust, maxAdjust);
         if (x > 0.3 && x < 0.7) {
@@ -91,13 +97,22 @@ export class RE5 {
 
         for (let i = 0; i < numBars; i++) {
           if (i % 2 === 0) {
-            sketch.fill(255, 255, 255);
+            if (mouseToggle) {
+              sketch.fill(255, 0, 255); //magenta
+            } else {
+              sketch.fill(255, 255, 255); //white
+            }
           } else {
             sketch.fill(0, 0, 0);
           }
           sketch.rect(barSize * i, 0, barSize, windowHeight);
         }
-        sketch.fill(0, 0, 0);
+        if (mouseToggle) {
+          sketch.fill(255, 255, 0);
+        } else {
+          sketch.fill(0, 0, 0);
+        }
+
         if (!insideBox) {
           sketch.rect(
             startSquareX + frameAdjust,

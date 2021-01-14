@@ -17,6 +17,7 @@ body {
   font-smooth: never;
   -webkit-font-smoothing: none;
   margin: 0;
+  touch-action: pan-y; // disable pinch-zoom
   @include breakpoint(tablet) {
     overflow: hidden; //can't remember why I did this; maybe remove?
   }

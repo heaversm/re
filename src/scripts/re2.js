@@ -48,6 +48,10 @@ export class RE2 {
     let frameHold = 2;
     let maxFramehold = 3;
 
+    let clickState = -1; //registers a click on menu selection...
+
+    let barColors, squareColors, edgeColors;
+
     const mapRange = function (value, low1, high1, low2, high2) {
       return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
     };
@@ -58,6 +62,27 @@ export class RE2 {
         sketchRenderer.parent("sketch");
         sketch.frameRate(frameRate);
         sketch.handleSizeCalcs();
+        sketch.assignColors();
+      };
+
+      sketch.assignColors = function () {
+        barColors = [
+          sketch.color(255), //white
+          sketch.color(0, 255, 255), //cyan
+          sketch.color(255, 0, 0), //red
+        ];
+
+        squareColors = [
+          sketch.color(255, 0, 0),
+          sketch.color(255),
+          sketch.color(0, 255, 255),
+        ];
+
+        edgeColors = [
+          sketch.color(0, 255, 255),
+          sketch.color(255, 0, 0),
+          sketch.color(255),
+        ];
       };
 
       sketch.handleResizeCanvas = function (cw, ch) {
@@ -77,13 +102,21 @@ export class RE2 {
         numBars = Math.ceil(windowHeight / barSize);
       };
 
+      sketch.mouseClicked = function () {
+        if (clickState < 2) {
+          clickState++;
+        } else {
+          clickState = 0;
+        }
+      };
+
       sketch.draw = function () {
         sketch.clear();
         sketch.noStroke();
 
         for (let i = 0; i < numBars; i++) {
           if (i % 2 === 0) {
-            sketch.fill(255);
+            sketch.fill(barColors[clickState]);
           } else {
             sketch.fill(0);
           }
@@ -123,7 +156,8 @@ export class RE2 {
         }
 
         sketch.noStroke();
-        sketch.fill(0, 255, 255);
+
+        sketch.fill(edgeColors[clickState]);
         sketch.rect(
           windowWidth / 2 -
             squareSize / 2 +
@@ -133,7 +167,7 @@ export class RE2 {
           squareSize
         );
 
-        sketch.fill(255, 0, 0);
+        sketch.fill(squareColors[clickState]);
         sketch.rect(
           windowWidth / 2 - squareSize / 2,
           windowHeight / 2 - squareSize / 2 - (sketch.frameCount % barSize),

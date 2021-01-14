@@ -30,7 +30,8 @@ export class RE4 {
     let windowWidth = $modal2.offsetWidth;
     let windowHeight = $modal2.offsetHeight;
 
-    let barSize = 5;
+    const startBarSize = 5;
+    let barSize = startBarSize;
     let minBarSize = 3;
     let maxBarSize = 8;
     let squareSize;
@@ -45,13 +46,11 @@ export class RE4 {
     let minRotIncrement = -5;
     let maxRotIncrement = 5;
 
-    let fillColors = [
-      [255, 0, 0, 0, 0, 0, 0, 255, 0],
-      [0, 255, 0, 0, 0, 0, 255, 0, 0],
-      [0, 0, 0, 0, 255, 0, 255, 0, 0],
-    ];
+    let fillColors;
 
     let fillIndex = 0;
+
+    let mouseDown = false;
 
     const mapRange = function (value, low1, high1, low2, high2) {
       return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
@@ -67,6 +66,23 @@ export class RE4 {
         sketchRenderer.parent("sketch");
         sketch.frameRate(frameRate);
         sketch.handleSizeCalcs();
+        fillColors = [
+          [
+            sketch.color(255, 0, 0),
+            sketch.color(0, 0, 0),
+            sketch.color(0, 255, 0),
+          ],
+          [
+            sketch.color(255, 0, 0),
+            sketch.color(0, 255, 0),
+            sketch.color(0, 0, 0),
+          ],
+          [
+            sketch.color(0, 0, 0),
+            sketch.color(0, 255, 0),
+            sketch.color(255, 0, 0),
+          ],
+        ];
       };
 
       sketch.handleResizeCanvas = function (cw, ch) {
@@ -80,7 +96,20 @@ export class RE4 {
         numBars = Math.ceil(windowWidth / barSize);
       };
 
+      sketch.mousePressed = function () {
+        mouseDown = true;
+      };
+
+      sketch.mouseReleased = function () {
+        mouseDown = false;
+        barSize = startBarSize;
+        numBars = Math.ceil(windowWidth / barSize);
+      };
+
       sketch.handleMouseMove = function (x, y) {
+        if (mouseDown) {
+          return;
+        }
         fillIndex = randomInt(0, fillColors.length - 1);
         barSize = mapRange(y, 0, 1, minBarSize, maxBarSize);
         numBars = Math.ceil(windowWidth / barSize);
@@ -89,6 +118,10 @@ export class RE4 {
       sketch.draw = function () {
         sketch.clear();
         sketch.noStroke();
+
+        if (mouseDown) {
+          barSize++;
+        }
 
         for (let i = 0; i < numBars; i++) {
           if (i % 4 === 0) {

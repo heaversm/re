@@ -55,6 +55,8 @@ export class RE3 {
     let fillColor1;
     let fillColor2;
 
+    let mousePressed = false;
+
     const mapRange = function (value, low1, high1, low2, high2) {
       return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
     };
@@ -81,6 +83,14 @@ export class RE3 {
         numBars = Math.ceil(windowHeight / barSize);
       };
 
+      sketch.mousePressed = function () {
+        mousePressed = true;
+      };
+
+      sketch.mouseReleased = function () {
+        mousePressed = false;
+      };
+
       sketch.handleMouseMove = function (x, y) {
         colorSize = mapRange(x, 0, 1, minColorSize, maxColorSize);
         gapSize = mapRange(y, 0, 1, minGapSize, maxGapSize);
@@ -91,6 +101,20 @@ export class RE3 {
         sketch.noStroke();
         let totalHeight = 0;
         let i = 0;
+
+        if (mousePressed) {
+          if (xAdjust > 0) {
+            sketch.fill(fillColor2);
+            sketch.rect(0, 0, windowWidth / 2, windowHeight);
+            sketch.fill(fillColor1);
+            sketch.rect(windowWidth / 2, 0, windowWidth / 2, windowHeight);
+          } else {
+            sketch.fill(fillColor1);
+            sketch.rect(0, 0, windowWidth / 2, windowHeight);
+            sketch.fill(fillColor2);
+            sketch.rect(windowWidth / 2, 0, windowWidth / 2, windowHeight);
+          }
+        }
 
         while (totalHeight < windowHeight) {
           if (i % 2 === 0) {
