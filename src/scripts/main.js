@@ -3,14 +3,7 @@ import { Observable } from "@babylonjs/core/Misc/observable";
 import "regenerator-runtime";
 
 import init3DOverlay from "./3d-overlay";
-import {
-  red,
-  green,
-  blue,
-  yellow,
-  magenta,
-  cyan
-} from "./3d-overlay/colors";
+import { red, green, blue, yellow, magenta, cyan } from "./3d-overlay/colors";
 
 import irlImages from "../assets/images/irl/*.jpg";
 
@@ -112,6 +105,7 @@ const re = (function () {
 
   const initModal = function () {
     showModal("modal-3", false);
+    $irlImage.src = `${irlImages["_"]}`; //empty black image for modal when not viewing a particular exhibit image to deal with image changeover for uncached images.
   };
 
   const handleModal1 = function (e) {
@@ -226,6 +220,9 @@ const re = (function () {
     setTimeout(() => {
       $body.classList.toggle("modal-active", false);
     }, DISABLE_CLICK_DURATION);
+    if (modalID === "modal-1") {
+      $irlImage.src = `${irlImages["_"]}`; //empty black image for modal when not viewing a particular exhibit image to deal with image changeover for uncached images.
+    }
   };
 
   const showModal = function (modalID, doDelay = true) {
@@ -348,7 +345,7 @@ const re = (function () {
     $body.dataset.mobileNavActive = `${mobileNavActive}`;
   };
 
-  const initBabylon = async function() {
+  const initBabylon = async function () {
     if (isBabylonInitialized) {
       return;
     }
@@ -370,13 +367,19 @@ const re = (function () {
 
     const $overlayCanvas = document.getElementById("render-canvas");
     const $characterCanvas = document.getElementById("sketch-canvas");
-    await init3DOverlay($overlayCanvas, $characterCanvas, models, events, isMobile);
+    await init3DOverlay(
+      $overlayCanvas,
+      $characterCanvas,
+      models,
+      events,
+      isMobile
+    );
     isBabylonInitialized = true;
 
     // hide loading modal
     //closeAllModals();
     hideModal("modal-4");
-  }
+  };
 
   const onMainNavClick = async function (e) {
     e.preventDefault();
@@ -405,7 +408,7 @@ const re = (function () {
         break;
       default:
         $body.dataset.page = "home";
-        events.onNavigateIRL.notifyObservers(); //TODO: Oren - confirm this should be
+        events.onNavigateIRL.notifyObservers();
         deactivateIRLItems();
         deactivateOnlineItems();
         closeAllModals();
@@ -470,7 +473,7 @@ const re = (function () {
       const sketchContainer = entries[0].target;
       events.onResizeSketchContainer.notifyObservers([
         sketchContainer.clientWidth,
-        sketchContainer.clientHeight
+        sketchContainer.clientHeight,
       ]);
     });
     sketchResizeObserver.observe(document.getElementById("sketch-container"));
