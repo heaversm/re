@@ -43,6 +43,9 @@ export class RE6 {
     let minSquareAdjust = 0.8;
     let maxSquareAdjust = 1.2;
 
+    let mouseToggle = false;
+    let mouseDown = false;
+
     const mapRange = function (value, low1, high1, low2, high2) {
       return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
     }; //MH TODO: make this a global
@@ -57,8 +60,8 @@ export class RE6 {
         sketch.handleSizeCalcs();
         sketch.colorMode(sketch.RGB);
         squareColor = sketch.color(0, 0, 255);
-        startColor = sketch.color(0, 0, 255);
-        endColor = sketch.color(255, 0, 0);
+        startColor = sketch.color(0, 0, 255); //blue
+        endColor = sketch.color(255, 0, 0); //red
       };
 
       sketch.handleResizeCanvas = function (cw, ch) {
@@ -67,7 +70,30 @@ export class RE6 {
         sketch.handleSizeCalcs();
       };
 
+      sketch.mousePressed = function () {
+        mouseDown = true;
+      };
+
+      sketch.mouseReleased = function () {
+        mouseDown = false;
+      };
+
       sketch.handleMouseMove = function (x, y) {
+        mouseToggle = !mouseToggle;
+        if (mouseDown) {
+          if (sketch.frameCount % 2 === 0) {
+            squareColor = startColor;
+          } else {
+            squareColor = endColor;
+          }
+        } else {
+          if (mouseToggle) {
+            squareColor = startColor;
+          } else {
+            squareColor = endColor;
+          }
+        }
+
         squareSize = mapRange(
           y,
           0,
@@ -75,7 +101,7 @@ export class RE6 {
           initialSquareSize * minSquareAdjust,
           initialSquareSize * maxSquareAdjust
         );
-        squareColor = sketch.lerpColor(startColor, endColor, y);
+        //squareColor = sketch.lerpColor(startColor, endColor, y);
       };
 
       sketch.handleSizeCalcs = function () {
