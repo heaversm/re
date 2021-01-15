@@ -858,6 +858,10 @@ body[data-page="online"] {
   height: 100%;
 }
 
+#sketch2:hover {
+  cursor: pointer;
+}
+
 @keyframes strobe {
   0% {
     color: $c-black;
