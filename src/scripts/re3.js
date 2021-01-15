@@ -144,8 +144,11 @@ export class RE3 {
             xAdjust += adjustDistance;
           }
         }
-
-        sketch.fill(fillColor1);
+        if (mousePressed) {
+          sketch.fill(0);
+        } else {
+          sketch.fill(fillColor1);
+        }
         sketch.rect(
           windowWidth / 2 - squareSize / 2 - xAdjust,
           windowHeight / 2 - squareSize / 2,
@@ -169,6 +172,7 @@ export class RE3 {
           minAdjustDistance,
           maxAdjustDistance
         );
+
         if (y > 0.5) {
           fillColor1 = sketch.color(255, 0, 0);
           fillColor2 = sketch.color(0, 0, 255);
@@ -182,7 +186,11 @@ export class RE3 {
         sketch.clear();
 
         sketch.noStroke();
-        sketch.fill(fillColor2);
+        if (mousePressed) {
+          sketch.fill(0);
+        } else {
+          sketch.fill(fillColor2);
+        }
         sketch.rect(
           windowWidth / 2 - squareSize / 2 + xAdjust,
           windowHeight / 2 - squareSize / 2,

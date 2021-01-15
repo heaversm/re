@@ -456,7 +456,7 @@ h6 {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 900;
+    z-index: $z-modal-overlay;
     &:active {
       .modal__container {
         background-color: $c-red;
@@ -799,6 +799,27 @@ body[data-page="online"] {
         display: flex;
       }
     }
+  }
+}
+
+.landscape-warning {
+  display: none;
+  position: fixed;
+  z-index: $z-landscape;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $c-white;
+  justify-content: center;
+  align-items: center;
+  color: $c-black;
+  padding: $space-std;
+  border: $space-std solid $c-gray;
+  text-align: center;
+
+  @media screen and (orientation: landscape) and (max-width: $bp-landscape) {
+    display: flex;
   }
 }
 
