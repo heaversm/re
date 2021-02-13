@@ -1,185 +1,670 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Responsive Eye: Peter Burr</title>
-  <link rel="stylesheet" href="styles/main.scss">
-</head>
-<body id="home" data-page="home" data-mobile-nav-active="false" data-initial-load="true">
-  <div class="container">
-    <section class="content">
-      <header class="header-main">
-        <div class="header-main__square">
-          <div class="header-main__burger">
-            <div class="header-main__burger-bar"></div>
-            <div class="header-main__burger-bar"></div>
-            <div class="header-main__burger-bar"></div>
-          </div>
-        </div>
-        <div class="header-main__content">
-          <nav class="nav-main">
-            <ul class="nav-main__items">
-              <li class="nav-main__item" data-id="irl">
-                <a href="#" class="nav-main__link" role="button" data-id="irl">The IRL Show</a>
-              </li>
-              <li class="nav-main__item" data-id="online">
-                <a href="#" class="nav-main__link" role="button" data-id="online">The Online Show</a>
-              </li>
-            </ul>
-          </nav>
-          <div class="header-main__title-container">
-            <a class="header-main__title-link" href="#" role="button" data-id="home">
-              <h1 class="header-main__title">Responsive Eye</h1>
-            </a>
-          </div>
-        </div>
-      </header>
-      <main class="main">
-        <div class="main__col left">
-          <div class="intro">
-            <nav class="collection__nav" data-id="home">
-              <div class="collection__fill"></div>
-            </nav>
-            <p class="mobile-only collection__title">IRL SHOW</p>
-            <nav class="collection__nav" data-id="irl">
-              <ul class="collection__list">
-                <li class="collection__item">
-                  <a class="collection__link" href="#" data-page="irl" data-collection="walkthru">Walkthru</a>
-                </li>
-                <li class="collection__item">
-                  <a class="collection__link" href="#" data-page="irl" data-collection="ab_body">A B Body</a>
-                </li>
-                <li class="collection__item">
-                  <a class="collection__link" href="#" data-page="irl" data-collection="people">People</a>
-                </li>
-                <li class="collection__item">
-                  <a class="collection__link" href="#" data-page="irl" data-collection="kid_games">Kid Games</a>
-                </li>
-                <li class="collection__item">
-                  <a class="collection__link" href="#" data-page="irl" data-collection="black_square">Black Square</a>
-                </li>
-                <li class="collection__item">
-                  <a class="collection__link" href="#" data-page="irl" data-collection="a_gathering_of_two">A Gathering of Two</a>
-                </li>
-              </ul>
-              <div class="collection__fill"></div>
-            </nav>
-            <p class="mobile-only collection__title">ONLINE SHOW</p>
-            <nav class="collection__nav" data-id="online">
-              <ul class="collection__list">
-                <li class="collection__item">
-                  <a href="#" class="collection__link" data-page="online" data-id="online1">Black Program</a>
-                </li>
-                <li class="collection__item">
-                  <a href="#" class="collection__link" data-page="online" data-id="online2">Blue Program</a>
-                </li>
-                <li class="collection__item">
-                  <a href="#" class="collection__link" data-page="online" data-id="online3">Red Program</a>
-                </li>
-                <li class="collection__item">
-                  <a href="#" class="collection__link" data-page="online" data-id="online4">Green Program</a>
-                </li>
-                <li class="collection__item">
-                  <a href="#" class="collection__link" data-page="online" data-id="online5">Yellow Program</a>
-                </li>
-                <li class="collection__item">
-                  <a href="#" class="collection__link" data-page="online" data-id="online6">White Program</a>
-                </li>
-              </ul>
-              <div class="collection__fill"></div>
-            </nav>
-          </div>
-        </div>
-        <div class="main__col right">
-          <div class="square-grid__red-square"></div>
-          <div class="main__col-container">
-            <div class="square-grid">
-              <div class="square-grid__inner">
-                <div class="square-grid__square">
-                  <img src="assets/images/irl/wall01_thumb.jpg" alt="Walkthru 1" class="square-grid__image" data-page="irl" data-collection="walkthru" data-id="wall01">
-                  <img src="assets/images/irl/ab01_thumb.jpg" alt="A B BODY 1" class="square-grid__image" data-page="irl" data-collection="ab_body" data-id="ab01">
-                  <img src="assets/images/irl/people01_thumb.jpg" alt="PEOPLE" class="square-grid__image" data-page="irl" data-collection="people" data-id="people01">
-                  <img src="assets/images/irl/kidgames01_thumb.jpg" alt="KID GAMES (detail)" class="square-grid__image" data-page="irl" data-collection="kid_games" data-id="kidgames01">
-                  <img src="assets/images/irl/blacksquare01_thumb.jpg" alt="BLACK SQUARE" class="square-grid__image" data-page="irl" data-collection="black_square" data-id="blacksquare01">
-                  <img src="assets/images/irl/gathering01_thumb.jpg" alt="A GATHERING OF TWO" class="square-grid__image" data-page="irl" data-collection="a_gathering_of_two" data-id="gathering01">
-                </div>
-                <div class="square-grid__square">
-                  <img src="assets/images/irl/wall02_thumb.jpg" alt="Walkthru 1" class="square-grid__image" data-page="irl" data-collection="walkthru" data-id="wall02">
-                  <img src="assets/images/irl/ab02_thumb.jpg" alt="A B BODY 2" class="square-grid__image" data-page="irl" data-collection="ab_body" data-id="ab02">
-                  <img src="assets/images/irl/people02_thumb.jpg" alt="PEOPLE (detail)" class="square-grid__image" data-page="irl" data-collection="people" data-id="people02">
-                  <img src="assets/images/irl/kidgames02_thumb.jpg" alt="KID GAMES (detail)" class="square-grid__image" data-page="irl" data-collection="kid_games" data-id="kidgames02">
-                  <img src="assets/images/irl/blacksquare02_thumb.jpg" alt="BLACK SQUARE" class="square-grid__image" data-page="irl" data-collection="black_square" data-id="blacksquare02">
-                  <img src="assets/images/irl/gathering02_thumb.jpg" alt="A GATHERING OF TWO (detail)" class="square-grid__image" data-page="irl" data-collection="a_gathering_of_two" data-id="gathering02">
-                </div>
-                <div class="square-grid__square">
-                  <img src="assets/images/irl/wall03_thumb.jpg" alt="Walkthru 1" class="square-grid__image" data-page="irl" data-collection="walkthru" data-id="wall03">
-                  <img src="assets/images/irl/ab03_thumb.jpg" alt="A B BODY 3" class="square-grid__image" data-page="irl" data-collection="ab_body" data-id="ab03">
-                  <img src="assets/images/irl/people03_thumb.jpg" alt="PEOPLE (detail)" class="square-grid__image" data-page="irl" data-collection="people" data-id="people03">
-                  <img src="assets/images/irl/kidgames03_thumb.jpg" alt="KID GAMES (detail)" class="square-grid__image" data-page="irl" data-collection="kid_games" data-id="kidgames03">
-                  <img src="assets/images/irl/blacksquare03_thumb.jpg" alt="BLACK SQUARE" class="square-grid__image" data-page="irl" data-collection="black_square" data-id="blacksquare03">
-                  <img src="assets/images/irl/gathering03_thumb.jpg" alt="A GATHERING OF TWO (detail)" class="square-grid__image" data-page="irl" data-collection="a_gathering_of_two" data-id="gathering03">
-                </div>
-                <div class="square-grid__square">
-                  <img src="assets/images/irl/wall04_thumb.jpg" alt="Walkthru 1" class="square-grid__image" data-page="irl" data-collection="walkthru" data-id="wall04">
-                  <img src="assets/images/irl/ab04_thumb.jpg" alt="A B BODY 4" class="square-grid__image" data-page="irl" data-collection="ab_body" data-id="ab04">
-                  <img src="assets/images/irl/people04_thumb.jpg" alt="PEOPLE (detail)" class="square-grid__image" data-page="irl" data-collection="people" data-id="people04">
-                  <img src="assets/images/irl/kidgames04_thumb.jpg" alt="KID GAMES (detail)" class="square-grid__image" data-page="irl" data-collection="kid_games" data-id="kidgames04">
-                  <img src="assets/images/irl/blacksquare04_thumb.jpg" alt="BLACK SQUARE" class="square-grid__image" data-page="irl" data-collection="black_square" data-id="blacksquare04">
-                  <img src="assets/images/irl/gathering04_thumb.jpg" alt="A GATHERING OF TWO (detail)" class="square-grid__image" data-page="irl" data-collection="a_gathering_of_two" data-id="gathering04">
-                </div>
-              </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Eye: Peter Burr</title>
+    <link rel="stylesheet" href="styles/main.scss" />
+  </head>
+  <body
+    id="home"
+    data-page="home"
+    data-mobile-nav-active="false"
+    data-initial-load="true"
+  >
+    <div class="container">
+      <section class="content">
+        <header class="header-main">
+          <div class="header-main__square">
+            <div class="header-main__burger">
+              <div class="header-main__burger-bar"></div>
+              <div class="header-main__burger-bar"></div>
+              <div class="header-main__burger-bar"></div>
             </div>
-            <div class="square-grid__text-container">
-              <div class="square-grid__exhibit-content active" data-page="home">
-                <div class="square-grid__exhibit-content-inner">
-					<p>“<i>I saw that the basis of color was its instability.</i>” (Bridget Riley, 1967)</p>
-                  <p>This is RESPONSIVE EYE - a multimedia exhibition by <a href="http://peterburr.org" target="_blank">Peter Burr</a> presented by Telematic Media Arts. The works in this show play with a number of perceptual illusions that highlight uncertainties and gaps in our awareness. It comprises three concurrent installations: PEOPLE, KID GAMES, AND THE INFINITE IRL at Telematic's San Francisco gallery; BLACK SQUARE IRL at Minnesota Street Project’s black box gallery; and the online-only exhibit THE SHAPE OF EMPTY SPACE presented here.</p>
-                  <p>Go to <a href="https://www.tttelematiccc.com/" target="_blank">tttelematiccc.com</a> to see the online event schedule and to arrange an IRL viewing while the exhibition is live from January 15, 2021 to March 27, 2021.</p>
+          </div>
+          <div class="header-main__content">
+            <nav class="nav-main">
+              <ul class="nav-main__items">
+                <li class="nav-main__item" data-id="irl">
+                  <a href="#" class="nav-main__link" role="button" data-id="irl"
+                    >The IRL Show</a
+                  >
+                </li>
+                <li class="nav-main__item" data-id="online">
+                  <a
+                    href="#"
+                    class="nav-main__link"
+                    role="button"
+                    data-id="online"
+                    >The Online Show</a
+                  >
+                </li>
+              </ul>
+            </nav>
+            <div class="header-main__title-container">
+              <a
+                class="header-main__title-link"
+                href="#"
+                role="button"
+                data-id="home"
+              >
+                <h1 class="header-main__title">Responsive Eye</h1>
+              </a>
+            </div>
+          </div>
+        </header>
+        <main class="main">
+          <div class="main__col left">
+            <div class="intro">
+              <nav class="collection__nav" data-id="home">
+                <div class="collection__fill"></div>
+              </nav>
+              <p class="mobile-only collection__title">IRL SHOW</p>
+              <nav class="collection__nav" data-id="irl">
+                <ul class="collection__list">
+                  <li class="collection__item">
+                    <a
+                      class="collection__link"
+                      href="#"
+                      data-page="irl"
+                      data-collection="walkthru"
+                      >Walkthru</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      class="collection__link"
+                      href="#"
+                      data-page="irl"
+                      data-collection="ab_body"
+                      >A B Body</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      class="collection__link"
+                      href="#"
+                      data-page="irl"
+                      data-collection="people"
+                      >People</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      class="collection__link"
+                      href="#"
+                      data-page="irl"
+                      data-collection="kid_games"
+                      >Kid Games</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      class="collection__link"
+                      href="#"
+                      data-page="irl"
+                      data-collection="black_square"
+                      >Black Square</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      class="collection__link"
+                      href="#"
+                      data-page="irl"
+                      data-collection="a_gathering_of_two"
+                      >A Gathering of Two</a
+                    >
+                  </li>
+                </ul>
+                <div class="collection__fill"></div>
+              </nav>
+              <p class="mobile-only collection__title">ONLINE SHOW</p>
+              <nav class="collection__nav" data-id="online">
+                <ul class="collection__list">
+                  <li class="collection__item">
+                    <a
+                      href="#"
+                      class="collection__link"
+                      data-page="online"
+                      data-id="online1"
+                      >Black Program</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      href="#"
+                      class="collection__link"
+                      data-page="online"
+                      data-id="online2"
+                      >Blue Program</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      href="#"
+                      class="collection__link"
+                      data-page="online"
+                      data-id="online3"
+                      >Red Program</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      href="#"
+                      class="collection__link"
+                      data-page="online"
+                      data-id="online4"
+                      >Green Program</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      href="#"
+                      class="collection__link"
+                      data-page="online"
+                      data-id="online5"
+                      >Yellow Program</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      href="#"
+                      class="collection__link"
+                      data-page="online"
+                      data-id="online6"
+                      >White Program</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      href="#"
+                      class="collection__link"
+                      data-page="online"
+                      data-id="online7"
+                      >Pink Program</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      href="#"
+                      class="collection__link"
+                      data-page="online"
+                      data-id="online8"
+                      >Cyan Program</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      href="#"
+                      class="collection__link"
+                      data-page="online"
+                      data-id="online9"
+                      >Alpha Program</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      href="#"
+                      class="collection__link"
+                      data-page="online"
+                      data-id="online10"
+                      >Beta Program</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      href="#"
+                      class="collection__link"
+                      data-page="online"
+                      data-id="online12"
+                      >Gamma Program</a
+                    >
+                  </li>
+                  <li class="collection__item">
+                    <a
+                      href="#"
+                      class="collection__link"
+                      data-page="online"
+                      data-id="online11"
+                      >Delta Program</a
+                    >
+                  </li>
+                </ul>
+                <div class="collection__fill"></div>
+              </nav>
+            </div>
+          </div>
+          <div class="main__col right">
+            <div class="square-grid__red-square"></div>
+            <div class="main__col-container">
+              <div class="square-grid">
+                <div class="square-grid__inner">
+                  <div class="square-grid__square">
+                    <img
+                      src="assets/images/irl/wall01_thumb.jpg"
+                      alt="Walkthru 1"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="walkthru"
+                      data-id="wall01"
+                    />
+                    <img
+                      src="assets/images/irl/ab01_thumb.jpg"
+                      alt="A B BODY 1"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="ab_body"
+                      data-id="ab01"
+                    />
+                    <img
+                      src="assets/images/irl/people01_thumb.jpg"
+                      alt="PEOPLE"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="people"
+                      data-id="people01"
+                    />
+                    <img
+                      src="assets/images/irl/kidgames01_thumb.jpg"
+                      alt="KID GAMES (detail)"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="kid_games"
+                      data-id="kidgames01"
+                    />
+                    <img
+                      src="assets/images/irl/blacksquare01_thumb.jpg"
+                      alt="BLACK SQUARE"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="black_square"
+                      data-id="blacksquare01"
+                    />
+                    <img
+                      src="assets/images/irl/gathering01_thumb.jpg"
+                      alt="A GATHERING OF TWO"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="a_gathering_of_two"
+                      data-id="gathering01"
+                    />
+                  </div>
+                  <div class="square-grid__square">
+                    <img
+                      src="assets/images/irl/wall02_thumb.jpg"
+                      alt="Walkthru 1"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="walkthru"
+                      data-id="wall02"
+                    />
+                    <img
+                      src="assets/images/irl/ab02_thumb.jpg"
+                      alt="A B BODY 2"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="ab_body"
+                      data-id="ab02"
+                    />
+                    <img
+                      src="assets/images/irl/people02_thumb.jpg"
+                      alt="PEOPLE (detail)"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="people"
+                      data-id="people02"
+                    />
+                    <img
+                      src="assets/images/irl/kidgames02_thumb.jpg"
+                      alt="KID GAMES (detail)"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="kid_games"
+                      data-id="kidgames02"
+                    />
+                    <img
+                      src="assets/images/irl/blacksquare02_thumb.jpg"
+                      alt="BLACK SQUARE"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="black_square"
+                      data-id="blacksquare02"
+                    />
+                    <img
+                      src="assets/images/irl/gathering02_thumb.jpg"
+                      alt="A GATHERING OF TWO (detail)"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="a_gathering_of_two"
+                      data-id="gathering02"
+                    />
+                  </div>
+                  <div class="square-grid__square">
+                    <img
+                      src="assets/images/irl/wall03_thumb.jpg"
+                      alt="Walkthru 1"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="walkthru"
+                      data-id="wall03"
+                    />
+                    <img
+                      src="assets/images/irl/ab03_thumb.jpg"
+                      alt="A B BODY 3"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="ab_body"
+                      data-id="ab03"
+                    />
+                    <img
+                      src="assets/images/irl/people03_thumb.jpg"
+                      alt="PEOPLE (detail)"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="people"
+                      data-id="people03"
+                    />
+                    <img
+                      src="assets/images/irl/kidgames03_thumb.jpg"
+                      alt="KID GAMES (detail)"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="kid_games"
+                      data-id="kidgames03"
+                    />
+                    <img
+                      src="assets/images/irl/blacksquare03_thumb.jpg"
+                      alt="BLACK SQUARE"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="black_square"
+                      data-id="blacksquare03"
+                    />
+                    <img
+                      src="assets/images/irl/gathering03_thumb.jpg"
+                      alt="A GATHERING OF TWO (detail)"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="a_gathering_of_two"
+                      data-id="gathering03"
+                    />
+                  </div>
+                  <div class="square-grid__square">
+                    <img
+                      src="assets/images/irl/wall04_thumb.jpg"
+                      alt="Walkthru 1"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="walkthru"
+                      data-id="wall04"
+                    />
+                    <img
+                      src="assets/images/irl/ab04_thumb.jpg"
+                      alt="A B BODY 4"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="ab_body"
+                      data-id="ab04"
+                    />
+                    <img
+                      src="assets/images/irl/people04_thumb.jpg"
+                      alt="PEOPLE (detail)"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="people"
+                      data-id="people04"
+                    />
+                    <img
+                      src="assets/images/irl/kidgames04_thumb.jpg"
+                      alt="KID GAMES (detail)"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="kid_games"
+                      data-id="kidgames04"
+                    />
+                    <img
+                      src="assets/images/irl/blacksquare04_thumb.jpg"
+                      alt="BLACK SQUARE"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="black_square"
+                      data-id="blacksquare04"
+                    />
+                    <img
+                      src="assets/images/irl/gathering04_thumb.jpg"
+                      alt="A GATHERING OF TWO (detail)"
+                      class="square-grid__image"
+                      data-page="irl"
+                      data-collection="a_gathering_of_two"
+                      data-id="gathering04"
+                    />
+                  </div>
                 </div>
-                <div class="square-grid__exhibit-content-fill"></div>
               </div>
-              <div class="square-grid__exhibit-content --default" data-page="irl">
-                <div class="square-grid__exhibit-content-inner">
-
-                  <p>This work was built for real space, three-dimensional and unstable. Here, that space recedes into a flat surface for your touch. Click around.
+              <div class="square-grid__text-container">
+                <div
+                  class="square-grid__exhibit-content active"
+                  data-page="home"
+                >
+                  <div class="square-grid__exhibit-content-inner">
+                    <p>
+                      “<i>I saw that the basis of color was its instability.</i
+                      >” (Bridget Riley, 1967)
+                    </p>
+                    <p>
+                      This is RESPONSIVE EYE - a multimedia exhibition by
+                      <a href="http://peterburr.org" target="_blank"
+                        >Peter Burr</a
+                      >
+                      presented by Telematic Media Arts. The works in this show
+                      play with a number of perceptual illusions that highlight
+                      uncertainties and gaps in our awareness. It comprises
+                      three concurrent installations: PEOPLE, KID GAMES, AND THE
+                      INFINITE IRL at Telematic's San Francisco gallery; BLACK
+                      SQUARE IRL at Minnesota Street Project’s black box
+                      gallery; and the online-only exhibit THE SHAPE OF EMPTY
+                      SPACE presented here.
+                    </p>
+                    <p>
+                      Go to
+                      <a href="https://www.tttelematiccc.com/" target="_blank"
+                        >tttelematiccc.com</a
+                      >
+                      to see the online event schedule and to arrange an IRL
+                      viewing while the exhibition is live from January 15, 2021
+                      to March 27, 2021.
+                    </p>
+                  </div>
+                  <div class="square-grid__exhibit-content-fill"></div>
+                </div>
+                <div
+                  class="square-grid__exhibit-content --default"
+                  data-page="irl"
+                >
+                  <div class="square-grid__exhibit-content-inner">
+                    <p>
+                      This work was built for real space, three-dimensional and
+                      unstable. Here, that space recedes into a flat surface for
+                      your touch. Click around.
+                    </p>
+                    <p>
+                      If you are in the Bay Area, go to
+                      <a href="https://www.tttelematiccc.com/" target="_blank"
+                        >tttelematiccc.com</a
+                      >
+                      to arrange an IRL viewing.
+                    </p>
+                  </div>
+                  <div class="square-grid__exhibit-content-fill"></div>
+                </div>
+                <div
+                  class="square-grid__exhibit-content"
+                  data-page="irl"
+                  data-collection="walkthru"
+                >
+                  <p>
+                    WALKTHRU is a visualization of PEOPLE, KID GAMES, AND THE
+                    INFINITE installed as part of the RESPONSIVE EYE exhibition
+                    at Telematic Media Arts in San Francisco running from
+                    January 15 to February 20, 2021. To view the full animated
+                    walkthru click
+                    <a
+                      href="https://archive.org/details/responsive_eye"
+                      target="_blank"
+                      >here</a
+                    >.
                   </p>
-                  <p>If you are in the Bay Area, go to <a href="https://www.tttelematiccc.com/" target="_blank">tttelematiccc.com</a> to arrange an IRL viewing.</p>
-
-                </div>
-                <div class="square-grid__exhibit-content-fill"></div>
-              </div>
-              <div class="square-grid__exhibit-content" data-page="irl" data-collection="walkthru">
-                <p>WALKTHRU is a visualization of PEOPLE, KID GAMES, AND THE INFINITE installed as part of the RESPONSIVE EYE exhibition at Telematic Media Arts in San Francisco running from January 15 to February 20, 2021. To view the full animated walkthru click <a href="https://archive.org/details/responsive_eye" target="_blank">here</a>.</p><p>To view the full installation in person go to <a href="https://www.tttelematiccc.com/" target="_blank">tttelematiccc.com</a> and schedule an appointment.</p>
-                <div class="square-grid__exhibit-content-fill"></div>
-              </div>
-              <div class="square-grid__exhibit-content" data-page="irl" data-collection="ab_body">
                   <p>
-                    A B BODY is a collection of screen-based portraits assembled in a three-by-three matrix.  Brightly-hued avatars contort at the bounds of their bodies' abilities in endless loops. This dance is bisected by a pair of opposing boxes, restraining the actors in recursive black and white lines. The title refers to the Attentional Blink (AB) phenomena - a threshold where humans fail to perceive rapid-fire visual information.</p> <p>To view the full installation go to <a href="https://www.tttelematiccc.com/" target="_blank">tttelematiccc.com</a> and schedule an appointment.</p><p>Technical direction by Oren Shoham with support from Infinite Objects.</p>
+                    To view the full installation in person go to
+                    <a href="https://www.tttelematiccc.com/" target="_blank"
+                      >tttelematiccc.com</a
+                    >
+                    and schedule an appointment.
+                  </p>
                   <div class="square-grid__exhibit-content-fill"></div>
                 </div>
-                <div class="square-grid__exhibit-content" data-page="irl" data-collection="people">
+                <div
+                  class="square-grid__exhibit-content"
+                  data-page="irl"
+                  data-collection="ab_body"
+                >
                   <p>
-					 PEOPLE is a computational artwork that runs for the duration of a day. In this iteration, a building-sized projection fills a single wall and 2.1-channel generative audio permeates the exhibition interior. The work pictoralizes a vacant landscape slowly filling with a mob of multi-colored avatars. This performance, invoking the lemmings concept, grows a speckled stalagmite of digital bodies over the course of its 6 hours.</p><p>To view the full installation go to <a href="https://www.tttelematiccc.com/" target="_blank">tttelematiccc.com</a> and schedule an appointment.</p><p>Technical direction by Oren Shoham with sound design by Stefan Alexandrej Cvitanic.</p>
+                    A B BODY is a collection of screen-based portraits assembled
+                    in a three-by-three matrix. Brightly-hued avatars contort at
+                    the bounds of their bodies' abilities in endless loops. This
+                    dance is bisected by a pair of opposing boxes, restraining
+                    the actors in recursive black and white lines. The title
+                    refers to the Attentional Blink (AB) phenomena - a threshold
+                    where humans fail to perceive rapid-fire visual information.
+                  </p>
+                  <p>
+                    To view the full installation go to
+                    <a href="https://www.tttelematiccc.com/" target="_blank"
+                      >tttelematiccc.com</a
+                    >
+                    and schedule an appointment.
+                  </p>
+                  <p>
+                    Technical direction by Oren Shoham with support from
+                    Infinite Objects.
+                  </p>
                   <div class="square-grid__exhibit-content-fill"></div>
                 </div>
-                <div class="square-grid__exhibit-content" data-page="irl" data-collection="kid_games">
-                  <p>KID GAMES is an augmented reality work inside the gridded corner of a room with an arrangement of white tiles reminiscent of the abstract strategy game GO. Through the lens of a portable tablet, a three-dimensional reconstruction of Pieter Bruegel the Elder's painting “Kinderspiele” surfaces. In this sixteenth century tableaux, hundreds of adult-looking children absorb themselves in many foolish games. On the outskirts of this historical reconstruction, a solitary figure listlessly explores the area beyond its bounds.</p><p>To view the full installation go to <a href="https://www.tttelematiccc.com/" target="_blank">tttelematiccc.com</a> and schedule an appointment.</p><p>Technical Direction by Amay Kataria.</p>
+                <div
+                  class="square-grid__exhibit-content"
+                  data-page="irl"
+                  data-collection="people"
+                >
+                  <p>
+                    PEOPLE is a computational artwork that runs for the duration
+                    of a day. In this iteration, a building-sized projection
+                    fills a single wall and 2.1-channel generative audio
+                    permeates the exhibition interior. The work pictoralizes a
+                    vacant landscape slowly filling with a mob of multi-colored
+                    avatars. This performance, invoking the lemmings concept,
+                    grows a speckled stalagmite of digital bodies over the
+                    course of its 6 hours.
+                  </p>
+                  <p>
+                    To view the full installation go to
+                    <a href="https://www.tttelematiccc.com/" target="_blank"
+                      >tttelematiccc.com</a
+                    >
+                    and schedule an appointment.
+                  </p>
+                  <p>
+                    Technical direction by Oren Shoham with sound design by
+                    Stefan Alexandrej Cvitanic.
+                  </p>
                   <div class="square-grid__exhibit-content-fill"></div>
                 </div>
-                <div class="square-grid__exhibit-content" data-page="irl" data-collection="black_square">
-                  <p>BLACK SQUARE is a short film playing every ten minutes in a black box satellite gallery at Minnesota Street Project. The film animates a philosophy of perception through an assault of optical illusions, highlighting limitations of your body and mind.  An assembly of human figures writhe and squares strobe in rhythm to audio sampled from the opening of the 1965 Op Art exhibition "The Responsive Eye". Through the friction of this contrast, a portrait emerges of an anxious divided society pushing at the boundaries of our teetering attention.</p><p>To view the full installation go to <a href="https://www.tttelematiccc.com/" target="_blank">tttelematiccc.com</a> and schedule an appointment.</p><p>Technical Direction by Oren Shoham.</p>
+                <div
+                  class="square-grid__exhibit-content"
+                  data-page="irl"
+                  data-collection="kid_games"
+                >
+                  <p>
+                    KID GAMES is an augmented reality work inside the gridded
+                    corner of a room with an arrangement of white tiles
+                    reminiscent of the abstract strategy game GO. Through the
+                    lens of a portable tablet, a three-dimensional
+                    reconstruction of Pieter Bruegel the Elder's painting
+                    “Kinderspiele” surfaces. In this sixteenth century tableaux,
+                    hundreds of adult-looking children absorb themselves in many
+                    foolish games. On the outskirts of this historical
+                    reconstruction, a solitary figure listlessly explores the
+                    area beyond its bounds.
+                  </p>
+                  <p>
+                    To view the full installation go to
+                    <a href="https://www.tttelematiccc.com/" target="_blank"
+                      >tttelematiccc.com</a
+                    >
+                    and schedule an appointment.
+                  </p>
+                  <p>Technical Direction by Amay Kataria.</p>
                   <div class="square-grid__exhibit-content-fill"></div>
                 </div>
-                <div class="square-grid__exhibit-content" data-page="irl" data-collection="a_gathering_of_two">
-                   <p> A GATHERING OF TWO is a multimedia artwork exploring tonal psychophysics. The work comprises a three-color screenprint with film positive overlays, framed and wall-mounted. The tableaux manifests phenomena explored in BLACK SQUARE through this print material, highlighting the flatness and opacity of its mechanically fabricated features.</p><p>To view the full installation go to <a href="https://www.tttelematiccc.com/" target="_blank">tttelematiccc.com</a> and schedule an appointment.</p>
+                <div
+                  class="square-grid__exhibit-content"
+                  data-page="irl"
+                  data-collection="black_square"
+                >
+                  <p>
+                    BLACK SQUARE is a short film playing every ten minutes in a
+                    black box satellite gallery at Minnesota Street Project. The
+                    film animates a philosophy of perception through an assault
+                    of optical illusions, highlighting limitations of your body
+                    and mind. An assembly of human figures writhe and squares
+                    strobe in rhythm to audio sampled from the opening of the
+                    1965 Op Art exhibition "The Responsive Eye". Through the
+                    friction of this contrast, a portrait emerges of an anxious
+                    divided society pushing at the boundaries of our teetering
+                    attention.
+                  </p>
+                  <p>
+                    To view the full installation go to
+                    <a href="https://www.tttelematiccc.com/" target="_blank"
+                      >tttelematiccc.com</a
+                    >
+                    and schedule an appointment.
+                  </p>
+                  <p>Technical Direction by Oren Shoham.</p>
                   <div class="square-grid__exhibit-content-fill"></div>
                 </div>
+                <div
+                  class="square-grid__exhibit-content"
+                  data-page="irl"
+                  data-collection="a_gathering_of_two"
+                >
+                  <p>
+                    A GATHERING OF TWO is a multimedia artwork exploring tonal
+                    psychophysics. The work comprises a three-color screenprint
+                    with film positive overlays, framed and wall-mounted. The
+                    tableaux manifests phenomena explored in BLACK SQUARE
+                    through this print material, highlighting the flatness and
+                    opacity of its mechanically fabricated features.
+                  </p>
+                  <p>
+                    To view the full installation go to
+                    <a href="https://www.tttelematiccc.com/" target="_blank"
+                      >tttelematiccc.com</a
+                    >
+                    and schedule an appointment.
+                  </p>
+                  <div class="square-grid__exhibit-content-fill"></div>
+                </div>
+              </div>
             </div>
-          </div>
-          <!--ONLINE MODAL-->
-          <div id="modal-2" class="modal" aria-hidden="true">
-              <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-2-title">
+            <!--ONLINE MODAL-->
+            <div id="modal-2" class="modal" aria-hidden="true">
+              <div
+                class="modal__container"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modal-2-title"
+              >
                 <div id="sketch-container" class="modal__images">
                   <div id="sketch"></div>
                   <!--TODO: OREN - BABYLON CHARACTER TO BE INSERTED HERE-->
@@ -187,147 +672,213 @@
                   <div id="sketch2"></div>
                 </div>
               </div>
-          </div>
-          <!--IRL INITIAL MODAL-->
-          <div id="modal-5" class="modal" aria-hidden="true" >
-            <div class="modal__overlay">
-              <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-5-title">
-                <div class="modal__content">
-                <p>This work was built for real space, three-dimensional and unstable. Here, that space recedes in a flat surface for your touch. Click around.
-                  </p>
-                  <p>If you are in the Bay Area, go to <a href="https://www.tttelematiccc.com/" target="_blank">tttelematiccc.com</a> to arrange an IRL viewing of this work.</p>
+            </div>
+            <!--IRL INITIAL MODAL-->
+            <div id="modal-5" class="modal" aria-hidden="true">
+              <div class="modal__overlay">
+                <div
+                  class="modal__container"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="modal-5-title"
+                >
+                  <div class="modal__content">
+                    <p>
+                      This work was built for real space, three-dimensional and
+                      unstable. Here, that space recedes in a flat surface for
+                      your touch. Click around.
+                    </p>
+                    <p>
+                      If you are in the Bay Area, go to
+                      <a href="https://www.tttelematiccc.com/" target="_blank"
+                        >tttelematiccc.com</a
+                      >
+                      to arrange an IRL viewing of this work.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--ONLINE INITIAL MODAL-->
+            <div id="modal-6" class="modal" aria-hidden="true">
+              <div class="modal__overlay">
+                <div
+                  class="modal__container"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="modal-5-title"
+                >
+                  <div class="modal__content">
+                    <p>
+                      This work was built for your screen, flat and interactive.
+                      Click around and please be kind.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <!--ONLINE INITIAL MODAL-->
-          <div id="modal-6" class="modal" aria-hidden="true" >
-            <div class="modal__overlay">
-              <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-5-title">
-                <div class="modal__content">
-                  <p>This work was built for your screen, flat and interactive. Click around and please be kind.</p>
-                </div>
+        </main>
+      </section>
+      <section class="sidebar"></section>
+    </div>
+    <footer id="footer" class="footer"></footer>
+    <!--IRL CONTENT-->
+    <div id="modal-1" class="modal" aria-hidden="true">
+      <div class="modal__overlay">
+        <div class="modal__bg" data-modal-close="modal-1"></div>
+        <div
+          class="modal__container"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-1-title"
+        >
+          <div class="modal__close-container" data-modal-close="modal-1">
+            <div class="modal__close-inner">
+              <div class="modal__close">
+                <span class="modal__close-text">X</span>
               </div>
             </div>
           </div>
-        </div>
-      </main>
-    </section>
-    <section class="sidebar"></section>
-  </div>
-  <footer id="footer" class="footer"></footer>
-  <!--IRL CONTENT-->
-  <div id="modal-1" class="modal" aria-hidden="true">
-    <div class="modal__overlay" >
-      <div class="modal__bg" data-modal-close="modal-1"></div>
-      <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
-        <div class="modal__close-container" data-modal-close="modal-1">
-          <div class="modal__close-inner">
-            <div class="modal__close"><span class="modal__close-text">X</span></div>
+          <div class="modal__image-container" data-modal-close="modal-1">
+            <img class="modal__image irl__image active" src="data:," alt="AB" />
           </div>
-        </div>
-        <div class="modal__image-container" data-modal-close="modal-1">
-          <img class="modal__image irl__image active" src="data:," alt="AB">
-        </div>
-        <div class="modal__content">
-          
-          <div class="modal__content-item" data-collection="walkthru">
-            <p>
-              To view the full animated walkthru go to <a href="https://archive.org/details/responsive_eye" target="_blank">archive.org</a>
+          <div class="modal__content">
+            <div class="modal__content-item" data-collection="walkthru">
+              <p>
+                To view the full animated walkthru go to
+                <a
+                  href="https://archive.org/details/responsive_eye"
+                  target="_blank"
+                  >archive.org</a
+                >
               </p>
-          </div>
-          <div class="modal__content-item" data-collection="ab_body">
-            <p>
-              <span class="modal__content-title">AB Body 1</span><br/>
-              single channel video (color, no sound) for screen<br/>
-              75:28 portrait orientation<br/>
-              05:00 loop
+            </div>
+            <div class="modal__content-item" data-collection="ab_body">
+              <p>
+                <span class="modal__content-title">AB Body 1</span><br />
+                single channel video (color, no sound) for screen<br />
+                75:28 portrait orientation<br />
+                05:00 loop
               </p>
-          </div>
-          <div class="modal__content-item" data-collection="people">
-            <p>
-              <span class="modal__content-title">PEOPLE</span><br/>
-              software (color, sound) for screen or projector<br/>
-              16:9 landscape orientation<br/>
-              infinite duration
+            </div>
+            <div class="modal__content-item" data-collection="people">
+              <p>
+                <span class="modal__content-title">PEOPLE</span><br />
+                software (color, sound) for screen or projector<br />
+                16:9 landscape orientation<br />
+                infinite duration
               </p>
-          </div>
-          <div class="modal__content-item" data-collection="kid_games">
-            <p>
-              <span class="modal__content-title">KID GAMES</span><br/>
-              software (color, no sound) for tablet<br/>
-              16:9 landscape orientation
-            </p>
-          </div>
-          <div class="modal__content-item" data-collection="black_square">
-            <p>
-              <span class="modal__content-title">
-                BLACK SQUARE</span><br/>
-              single channel video (color, sound) for screen or projector<br/>
-              16:9 portrait orientation<br/>
-              06:30
-            </p>
-          </div>
-          <div class="modal__content-item" data-collection="a_gathering_of_two">
-            <p>
-              <span class="modal__content-title">A GATHERING OF TWO</span><br/>
-              screenprint with film positive overlay<br/>
-              24” x 36”
-            </p>
+            </div>
+            <div class="modal__content-item" data-collection="kid_games">
+              <p>
+                <span class="modal__content-title">KID GAMES</span><br />
+                software (color, no sound) for tablet<br />
+                16:9 landscape orientation
+              </p>
+            </div>
+            <div class="modal__content-item" data-collection="black_square">
+              <p>
+                <span class="modal__content-title"> BLACK SQUARE</span><br />
+                single channel video (color, sound) for screen or projector<br />
+                16:9 portrait orientation<br />
+                06:30
+              </p>
+            </div>
+            <div
+              class="modal__content-item"
+              data-collection="a_gathering_of_two"
+            >
+              <p>
+                <span class="modal__content-title">A GATHERING OF TWO</span
+                ><br />
+                screenprint with film positive overlay<br />
+                24” x 36”
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="modal__strobe-trigger" data-micromodal-trigger="modal-3"></div>
-  <!--INITIAL MODAL -->
-  <div id="modal-3" class="modal" aria-hidden="true" >
-    <div class="modal__overlay" data-modal-close="modal-3">
-      <div class="modal__bg"></div>
-      <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-2-title">
-        <div class="modal__content">
-          <div class="modal__strobe-text">
-            <p>
-              <span class="no-mobile">STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING </span>
-              <span class="no-mobile">STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING</span>
-              <span class="mobile-only">STROBE WARNING </span>
-            </p>
-          </div>
-          <div class="modal__event-info">
-            <p>BROUGHT TO YOU<br/>BY THE HEADLANDS CENTER FOR THE ARTS<br/>AND TELEMATIC MEDIA ARTS</p>
-			      <p>TECHNICAL DIRECTION<br/>BY MIKE HEAVERS<br/>AND OREN SHOHAM</p>
-            <p>COPYRIGHT 2021</p>
+    <div class="modal__strobe-trigger" data-micromodal-trigger="modal-3"></div>
+    <!--INITIAL MODAL -->
+    <div id="modal-3" class="modal" aria-hidden="true">
+      <div class="modal__overlay" data-modal-close="modal-3">
+        <div class="modal__bg"></div>
+        <div
+          class="modal__container"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-2-title"
+        >
+          <div class="modal__content">
+            <div class="modal__strobe-text">
+              <p>
+                <span class="no-mobile"
+                  >STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING
+                  STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING
+                  STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING
+                  STROBE WARNING STROBE WARNING STROBE WARNING
+                </span>
+                <span class="no-mobile"
+                  >STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING
+                  STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING
+                  STROBE WARNING STROBE WARNING STROBE WARNING STROBE WARNING
+                  STROBE WARNING STROBE WARNING</span
+                >
+                <span class="mobile-only">STROBE WARNING </span>
+              </p>
+            </div>
+            <div class="modal__event-info">
+              <p>
+                BROUGHT TO YOU<br />BY THE HEADLANDS CENTER FOR THE ARTS<br />AND
+                TELEMATIC MEDIA ARTS
+              </p>
+              <p>
+                TECHNICAL DIRECTION<br />BY MIKE HEAVERS<br />AND OREN SHOHAM
+              </p>
+              <p>COPYRIGHT 2021</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div id="modal-4" class="modal" aria-hidden="true" >
-    <div class="modal__overlay" data-modal-close="modal-4">
-      <div class="modal__bg"></div>
-      <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-4-title">
-        <div class="modal__content">
-          <div class="modal__strobe-text">
-            <p>LOADING LOADING LOADING</p>
+    <div id="modal-4" class="modal" aria-hidden="true">
+      <div class="modal__overlay" data-modal-close="modal-4">
+        <div class="modal__bg"></div>
+        <div
+          class="modal__container"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-4-title"
+        >
+          <div class="modal__content">
+            <div class="modal__strobe-text">
+              <p>LOADING LOADING LOADING</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <canvas id="render-canvas" touch-action="none"></canvas>
-  <div class="landscape-warning">
-    THIS SITE ONLY WORKS IN PORTRAIT MODE.<br/>
-    PLEASE TURN YOUR PHONE.
-  </div>
-  <script src="scripts/main.js"></script>
+    <canvas id="render-canvas" touch-action="none"></canvas>
+    <div class="landscape-warning">
+      THIS SITE ONLY WORKS IN PORTRAIT MODE.<br />
+      PLEASE TURN YOUR PHONE.
+    </div>
+    <script src="scripts/main.js"></script>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2S50LTD75L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-2S50LTD75L"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-  gtag('config', 'G-2S50LTD75L');
-</script>
-</body>
+      gtag("config", "G-2S50LTD75L");
+    </script>
+  </body>
 </html>

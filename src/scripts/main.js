@@ -15,6 +15,12 @@ import { RE3 } from "./re3";
 import { RE4 } from "./re4";
 import { RE5 } from "./re5";
 import { RE6 } from "./re6";
+import { RE7 } from "./re7";
+import { RE8 } from "./re8";
+import { RE9 } from "./re9";
+import { RE10 } from "./re10";
+import { RE11 } from "./re11";
+import { RE12 } from "./re12";
 
 const events = {
   onNavigateOnline: new Observable(),
@@ -30,6 +36,12 @@ const re3 = new RE3(events.onResizeSketchContainer, events.onMouseMove);
 const re4 = new RE4(events.onResizeSketchContainer, events.onMouseMove);
 const re5 = new RE5(events.onResizeSketchContainer, events.onMouseMove);
 const re6 = new RE6(events.onResizeSketchContainer, events.onMouseMove);
+const re7 = new RE7(events.onResizeSketchContainer, events.onMouseMove);
+const re8 = new RE8(events.onResizeSketchContainer, events.onMouseMove);
+const re9 = new RE9(events.onResizeSketchContainer, events.onMouseMove);
+const re10 = new RE10(events.onResizeSketchContainer, events.onMouseMove);
+const re11 = new RE11(events.onResizeSketchContainer, events.onMouseMove);
+const re12 = new RE12(events.onResizeSketchContainer, events.onMouseMove);
 
 const re = (function () {
   //DOM REFERENCES
@@ -196,6 +208,42 @@ const re = (function () {
         re6.init();
         palette.shirtColor = blue;
         palette.pantsColor = cyan;
+        break;
+      case "online7":
+        curSketch = re7;
+        re7.init();
+        palette.shirtColor = green;
+        palette.pantsColor = yellow;
+        break;
+      case "online8":
+        curSketch = re8;
+        re8.init();
+        palette.shirtColor = green;
+        palette.pantsColor = red;
+        break;
+      case "online9":
+        curSketch = re9;
+        re9.init();
+        palette.shirtColor = red;
+        palette.pantsColor = blue;
+        break;
+      case "online10":
+        curSketch = re10;
+        re10.init();
+        palette.shirtColor = red;
+        palette.pantsColor = blue;
+        break;
+      case "online11":
+        curSketch = re11;
+        re11.init();
+        palette.shirtColor = red;
+        palette.pantsColor = blue;
+        break;
+      case "online12":
+        curSketch = re11;
+        re12.init();
+        palette.shirtColor = blue;
+        palette.pantsColor = magenta;
         break;
       default:
         curSketch = re1;
