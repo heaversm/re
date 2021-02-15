@@ -49,6 +49,9 @@ export class RE10 {
     };
 
     const s1 = function (sketch) {
+      let adjustX = 0;
+      let adjustY = 0;
+      let maxAdjust = 20;
       sketch.setup = function () {
         sketchRenderer = sketch.createCanvas(windowWidth, windowHeight);
         sketchRenderer.parent("sketch");
@@ -82,18 +85,40 @@ export class RE10 {
         if (mouseDown) {
           return;
         }
+        adjustX = mapRange(x, 0, 1, -maxAdjust, maxAdjust);
+        adjustY = mapRange(y, 0, 1, -maxAdjust, maxAdjust);
       };
 
       sketch.draw = function () {
         const frameMod = sketch.frameCount % 2;
         sketch.clear();
-        sketch.background(0, 0, 255);
+
+        if (mouseDown) {
+          if (frameMod === 0) {
+            sketch.background(0, 0, 255);
+          } else {
+            sketch.background(255);
+          }
+        } else {
+          sketch.background(0, 0, 255);
+        }
         sketch.noStroke();
 
-        sketch.fill(255);
-        sketch.translate(windowWidth / 2, windowHeight / 2);
+        if (mouseDown) {
+          if (frameMod === 0) {
+            sketch.fill(255);
+          } else {
+            sketch.fill(0, 0, 255);
+          }
+        } else {
+          sketch.fill(255);
+        }
+        sketch.translate(windowWidth / 2 + adjustX, windowHeight / 2 + adjustY);
         sketch.rotate(45);
         sketch.rect(0, 0, squareSize, squareSize);
+        sketch.rotate(-45);
+        sketch.translate(-adjustX * 2, -adjustY * 2);
+        sketch.rotate(45);
         sketch.fill(0, 0, 255);
         sketch.rect(0, 0, squareSize2, squareSize2);
       };
@@ -125,7 +150,6 @@ export class RE10 {
       sketch.handleSizeCalcs = function () {
         squareSize = windowHeight * (2 / 3);
         squareHyp = Math.hypot(squareSize, squareSize);
-        console.log(squareSize, squareHyp);
       };
 
       sketch.draw = function () {
@@ -136,13 +160,13 @@ export class RE10 {
         sketch.fill(255, 0, 0);
         if (frameMod === 0) {
           sketch.push();
-          sketch.translate(windowWidth/2 - squareHyp / 2, windowHeight / 2);
+          sketch.translate(windowWidth / 2 - squareHyp / 2, windowHeight / 2);
           sketch.rotate(45);
           sketch.rect(0, 0, squareSize, squareSize);
           sketch.pop();
         } else {
           sketch.push();
-          sketch.translate(windowWidth/2 + squareHyp / 2, windowHeight / 2);
+          sketch.translate(windowWidth / 2 + squareHyp / 2, windowHeight / 2);
           sketch.rotate(45);
           sketch.rect(0, 0, squareSize, squareSize);
           sketch.pop();

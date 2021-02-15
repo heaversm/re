@@ -29,7 +29,6 @@ export class RE8 {
     const $modal2 = document.getElementById("modal-2");
     let windowWidth = $modal2.offsetWidth;
     let windowHeight = $modal2.offsetHeight;
-    
 
     let squareSize;
 
@@ -41,7 +40,6 @@ export class RE8 {
     let squareRotIncrement = 0.5;
     let minRotIncrement = -5;
     let maxRotIncrement = 5;
-
 
     let mouseDown = false;
 
@@ -68,7 +66,7 @@ export class RE8 {
       };
 
       sketch.handleSizeCalcs = function () {
-        squareSize = windowHeight * 2 / 3;
+        squareSize = (windowHeight * 2) / 3;
       };
 
       sketch.mousePressed = function () {
@@ -80,20 +78,28 @@ export class RE8 {
       };
 
       sketch.handleMouseMove = function (x, y) {
-        if (mouseDown) {
-          return;
-        }
+        // if (mouseDown) {
+        //   return;
+        // }
       };
 
       sketch.draw = function () {
         const frameMod = sketch.frameCount % 2;
+        const frameMod2 = sketch.frameCount % 4;
         sketch.clear();
         sketch.noStroke();
-        sketch.fill(255,255, 255);
+        sketch.fill(255, 255, 255);
         sketch.translate(windowWidth / 2, windowHeight / 2);
-        
+
         if (frameMod === 0) {
-            sketch.rotate(45);
+          sketch.rotate(45);
+        }
+        if (mouseDown) {
+          if (frameMod2 === 0 || frameMod2 === 1) {
+            sketch.fill(0, 0, 255);
+          } else if (frameMod2 === 2 || frameMod2 === 3) {
+            sketch.fill(255, 255, 255);
+          }
         }
         sketch.rect(-squareSize / 2, -squareSize / 2, squareSize, squareSize);
       };
@@ -116,14 +122,31 @@ export class RE8 {
       sketch.draw = function () {
         const frameMod = sketch.frameCount % 2;
         sketch.clear();
+        sketch.noStroke();
 
-        if (frameMod === 0) {
-            sketch.noStroke();
+        if (mouseDown) {
+          if (frameMod === 0) {
+            sketch.fill(0, 0, 255);
+          } else {
+            sketch.fill(255, 255, 255);
+          }
+          sketch.translate(windowWidth / 2, windowHeight / 2);
+          sketch.rotate(squareRot);
+          sketch.rect(-squareSize / 2, -squareSize / 2, squareSize, squareSize);
+          squareRot -= squareRotIncrement;
+        } else {
+          if (frameMod === 0) {
             sketch.fill(0, 0, 255);
             sketch.translate(windowWidth / 2, windowHeight / 2);
             sketch.rotate(squareRot);
-            sketch.rect(-squareSize / 2, -squareSize / 2, squareSize, squareSize);
+            sketch.rect(
+              -squareSize / 2,
+              -squareSize / 2,
+              squareSize,
+              squareSize
+            );
             squareRot += squareRotIncrement;
+          }
         }
       };
     };

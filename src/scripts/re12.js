@@ -36,6 +36,8 @@ export class RE12 {
     const frameRate = 30;
 
     let mouseDown = false;
+    let maxAdjust = 50;
+    let adjustAmount = 0;
 
     const mapRange = function (value, low1, high1, low2, high2) {
       return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
@@ -46,18 +48,28 @@ export class RE12 {
     };
 
     const s1 = function (sketch) {
-      let squareSize;
-      let flipColors = false;
-
       sketch.setup = function () {
         sketchRenderer = sketch.createCanvas(windowWidth, windowHeight);
         sketchRenderer.parent("sketch");
         sketch.frameRate(frameRate);
-        sketch.background(51, 51, 51);
       };
 
       sketch.draw = function () {
         sketch.clear();
+        sketch.background(51, 51, 51);
+      };
+
+      sketch.handleResizeCanvas = function (cw, ch) {
+        windowWidth = cw;
+        windowHeight = ch;
+        sketch.resizeCanvas(windowWidth, windowHeight);
+      };
+
+      sketch.handleMouseMove = function (x, y) {
+        if (mouseDown) {
+          return;
+        }
+        adjustAmount = mapRange(y, 0, 1, -maxAdjust, maxAdjust);
       };
     };
 
@@ -65,8 +77,8 @@ export class RE12 {
       let squareSize;
 
       sketch.setup = function () {
-        sketchRenderer = sketch.createCanvas(windowWidth, windowHeight);
-        sketchRenderer.parent("sketch");
+        sketch2Renderer = sketch.createCanvas(windowWidth, windowHeight);
+        sketch2Renderer.parent("sketch2");
         sketch.frameRate(frameRate);
         sketch.handleSizeCalcs();
         sketch.rectMode(sketch.CENTER);
@@ -74,9 +86,6 @@ export class RE12 {
       };
 
       sketch.handleResizeCanvas = function (cw, ch) {
-        windowWidth = cw;
-        windowHeight = ch;
-        sketch.resizeCanvas(windowWidth, windowHeight);
         sketch.handleSizeCalcs();
       };
 
@@ -99,15 +108,79 @@ export class RE12 {
       };
 
       sketch.draw = function () {
-        console.log("draw");
         const frameMod = sketch.frameCount % 2;
+        const frameMod2 = sketch.frameCount % 3;
         sketch.clear();
-        sketch.background(51, 51, 51);
         sketch.noStroke();
 
         sketch.fill(51, 51, 51);
-        sketch.fill(255, 0, 0);
-        sketch.rect(windowWidth / 2, windowHeight / 2, squareSize, squareSize);
+
+        if (!mouseDown) {
+          sketch.rect(
+            windowWidth / 2,
+            windowHeight / 2,
+            squareSize,
+            squareSize
+          );
+        } else {
+          if (frameMod2 === 0) {
+            sketch.rect(
+              windowWidth / 2,
+              windowHeight / 2 + adjustAmount,
+              squareSize,
+              squareSize
+            );
+          } else if (frameMod2 === 2) {
+            sketch.rect(
+              windowWidth / 2,
+              windowHeight / 2 - adjustAmount,
+              squareSize,
+              squareSize
+            );
+          } else {
+            sketch.rect(
+              windowWidth / 2,
+              windowHeight / 2,
+              squareSize,
+              squareSize
+            );
+          }
+        }
+
+        sketch.fill(0, 0, 255);
+
+        if (frameMod === 0) {
+          sketch.rect(
+            windowWidth / 2 + squareSize,
+            windowHeight / 2 + adjustAmount,
+            squareSize,
+            squareSize
+          );
+        } else {
+          sketch.rect(
+            windowWidth * (2 / 3) + squareSize / 2,
+            windowHeight / 2,
+            squareSize,
+            squareSize
+          );
+        }
+
+        sketch.fill(255, 0, 255);
+        if (frameMod === 0) {
+          sketch.rect(
+            windowWidth / 2 - squareSize,
+            windowHeight / 2,
+            squareSize,
+            squareSize
+          );
+        } else {
+          sketch.rect(
+            windowWidth * (1 / 3) - squareSize / 2,
+            windowHeight / 2 - adjustAmount,
+            squareSize,
+            squareSize
+          );
+        }
       };
     };
 
@@ -123,7 +196,7 @@ export class RE12 {
     return this.re12();
   }
   removeSketch() {
-    // this.p1.remove();
+    this.p1.remove();
     this.p2.remove();
   }
 }

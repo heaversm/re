@@ -29,7 +29,6 @@ export class RE9 {
     const $modal2 = document.getElementById("modal-2");
     let windowWidth = $modal2.offsetWidth;
     let windowHeight = $modal2.offsetHeight;
-    
 
     let squareSize;
     let squareSizeFront;
@@ -40,6 +39,7 @@ export class RE9 {
     const frameRate = 30;
 
     let mouseDown = false;
+    let isLoaded = false;
 
     const mapRange = function (value, low1, high1, low2, high2) {
       return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
@@ -50,11 +50,14 @@ export class RE9 {
     };
 
     const s1 = function (sketch) {
+      let $ragdoll = document.getElementById("sketch-canvas");
+
       sketch.setup = function () {
         sketchRenderer = sketch.createCanvas(windowWidth, windowHeight);
         sketchRenderer.parent("sketch");
         sketch.frameRate(frameRate);
         sketch.handleSizeCalcs();
+        isLoaded = true;
       };
 
       sketch.handleResizeCanvas = function (cw, ch) {
@@ -65,7 +68,7 @@ export class RE9 {
 
       sketch.handleSizeCalcs = function () {
         squareSize = windowHeight;
-        squareSizeFront = windowHeight * (2/3);
+        squareSizeFront = windowHeight * (2 / 3);
       };
 
       sketch.mousePressed = function () {
@@ -76,30 +79,43 @@ export class RE9 {
         mouseDown = false;
       };
 
+      sketch.unset = function () {
+        isLoaded = false;
+      };
+
       sketch.handleMouseMove = function (x, y) {
-        if (mouseDown) {
+        if (!isLoaded) {
           return;
         }
+        const rotAngle = mapRange(x, 0, 1, 0, 360);
+        $ragdoll.style.transform = `rotate(${rotAngle}deg)`;
       };
 
       sketch.draw = function () {
         const frameMod = sketch.frameCount % 2;
+        const frameMod2 = sketch.frameCount % 4;
         sketch.clear();
         sketch.background(255);
         sketch.noStroke();
-        sketch.fill(0,0, 255);
-        
-        
-        if (frameMod === 0) {
-            sketch.rect(0, 0, squareSize, squareSize);
+        if (mouseDown) {
+          if (frameMod2 === 0) {
+            sketch.fill(255, 0, 0);
+          } else {
+            sketch.fill(0, 0, 255);
+          }
         } else {
-            sketch.rect(windowWidth - squareSize, 0, squareSize, squareSize);
+          sketch.fill(0, 0, 255);
+        }
+
+        if (frameMod === 0) {
+          sketch.rect(0, 0, squareSize, squareSize);
+        } else {
+          sketch.rect(windowWidth - squareSize, 0, squareSize, squareSize);
         }
       };
     };
 
     const s2 = function (sketch) {
-
       sketch.setup = function () {
         sketch2Renderer = sketch.createCanvas(windowWidth, windowHeight);
         sketch2Renderer.parent("sketch2"); //p5 won't let you do multiple canvases, but this doesn't work either
@@ -116,8 +132,17 @@ export class RE9 {
         const frameMod = sketch.frameCount % 2;
         sketch.clear();
         sketch.translate(windowWidth / 2, windowHeight / 2);
-        sketch.fill(255,0, 0);
-        sketch.rect(-squareSizeFront / 2, -squareSizeFront / 2, squareSizeFront, squareSizeFront);
+        if (mouseDown) {
+          sketch.fill(0, 0, 255);
+        } else {
+          sketch.fill(255, 0, 0);
+        }
+        sketch.rect(
+          -squareSizeFront / 2,
+          -squareSizeFront / 2,
+          squareSizeFront,
+          squareSizeFront
+        );
       };
     };
 
@@ -133,6 +158,7 @@ export class RE9 {
     return this.re9();
   }
   removeSketch() {
+    this.p1.unset();
     this.p1.remove();
     this.p2.remove();
   }

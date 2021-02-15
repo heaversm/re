@@ -36,6 +36,7 @@ export class RE11 {
     const frameRate = 30;
 
     let mouseDown = false;
+    let colorMode = 0;
 
     const mapRange = function (value, low1, high1, low2, high2) {
       return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
@@ -48,6 +49,8 @@ export class RE11 {
     const s1 = function (sketch) {
       let squareSize;
       let squareHyp;
+      let isLoaded = false;
+      let $ragdoll = document.getElementById("sketch-canvas");
 
       sketch.setup = function () {
         sketchRenderer = sketch.createCanvas(windowWidth, windowHeight);
@@ -56,6 +59,7 @@ export class RE11 {
         sketch.handleSizeCalcs();
         sketch.rectMode(sketch.CENTER);
         sketch.angleMode(sketch.DEGREES);
+        isLoaded = true;
       };
 
       sketch.handleResizeCanvas = function (cw, ch) {
@@ -79,18 +83,46 @@ export class RE11 {
       };
 
       sketch.handleMouseMove = function (x, y) {
-        if (mouseDown) {
+        if (!isLoaded) {
           return;
         }
+        let rotAngle;
+        if (x < 0.5 && y < 0.5) {
+          rotAngle = 0;
+          colorMode = 0;
+        } else if (x > 0.5 && y < 0.5) {
+          rotAngle = 90;
+          colorMode = 1;
+        } else if (x > 0.5 && y > 0.5) {
+          rotAngle = 180;
+          colorMode = 2;
+        } else if (x < 0.5 && y > 0.5) {
+          colorMode = 3;
+          rotAngle = 270;
+        }
+        $ragdoll.style.transform = `rotate(${rotAngle}deg)`;
+      };
+
+      sketch.unset = function () {
+        isLoaded = false;
       };
 
       sketch.draw = function () {
         const frameMod = sketch.frameCount % 4;
         sketch.clear();
-        sketch.background(0, 0, 255);
+        if (colorMode === 0 || colorMode === 2) {
+          sketch.background(0, 0, 255);
+        } else {
+          sketch.background(255, 0, 0);
+        }
         sketch.noStroke();
 
-        sketch.fill(255, 0, 0);
+        if (colorMode === 0 || colorMode === 2) {
+          sketch.fill(255, 0, 0);
+        } else {
+          sketch.fill(0, 0, 255);
+        }
+
         sketch.rect(
           windowWidth / 2 + squareSize / 2,
           windowHeight / 2,
@@ -98,7 +130,11 @@ export class RE11 {
           squareSize
         );
 
-        sketch.fill(255);
+        if (colorMode === 0 || colorMode === 2) {
+          sketch.fill(255);
+        } else {
+          sketch.fill(0);
+        }
 
         if (frameMod === 0) {
           sketch.push();
@@ -152,7 +188,11 @@ export class RE11 {
       sketch.draw = function () {
         sketch.clear();
         const frameMod = sketch.frameCount % 2;
-        sketch.fill(0);
+        if (colorMode === 0 || colorMode === 2) {
+          sketch.fill(0);
+        } else {
+          sketch.fill(255);
+        }
 
         if (frameMod === 0) {
           sketch.push();
@@ -180,6 +220,7 @@ export class RE11 {
     return this.re11();
   }
   removeSketch() {
+    this.p1.unset();
     this.p1.remove();
     this.p2.remove();
   }

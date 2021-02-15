@@ -240,7 +240,7 @@ const re = (function () {
         palette.pantsColor = blue;
         break;
       case "online12":
-        curSketch = re11;
+        curSketch = re12;
         re12.init();
         palette.shirtColor = blue;
         palette.pantsColor = magenta;

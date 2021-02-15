@@ -98,13 +98,6 @@ export class RE1 {
       };
 
       sketch.mouseClicked = function () {
-        // console.log(
-        //   "click",
-        //   sketch.mouseX,
-        //   sketch.mouseY,
-        //   windowWidth,
-        //   windowHeight
-        // );
         clickToggle = !clickToggle;
       };
 
