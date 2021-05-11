@@ -140,7 +140,8 @@ h6 {
     background-color: $c-black;
     &:hover {
       .header-main__title {
-        color: $c-red;
+        cursor: default;
+        //color: $c-red; //MH - disabled for post-event
       }
     }
   }
@@ -182,6 +183,11 @@ h6 {
     display: flex;
     align-items: center;
     height: 50%;
+    &[data-id="irl"],
+    &[data-id="online"] {
+      //MH - disabled for post-event
+      display: none;
+    }
   }
   &__link {
     color: $c-black;
@@ -197,6 +203,13 @@ h6 {
     @include breakpoint(tablet) {
       font-size: 1.4vw;
       height: 100%;
+    }
+    &[data-id="about"] {
+      color: white;
+      &:hover {
+        color: white;
+        background-color: white;
+      }
     }
   }
 }
@@ -391,11 +404,18 @@ h6 {
     margin: 0;
     padding: $space-std;
     font-size: 14px;
+    &[data-id="irl"] {
+      display: none; //MH - disabled for post-event
+    }
   }
   &__nav {
     background-color: $c-white;
     padding: $space-std * 2;
     flex-direction: column;
+
+    &[data-id="irl"] {
+      display: none; //MH - disabled for post-event
+    }
 
     @include breakpoint(tablet) {
       display: none;

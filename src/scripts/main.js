@@ -76,7 +76,7 @@ const re = (function () {
       $collectionLink.addEventListener("click", onCollectionLinkClick);
     });
 
-    $pageTitle.addEventListener("click", onMainNavClick);
+    $pageTitle.addEventListener("click", onMainNavClick); //MH - disabled for post-event
 
     addModalListeners();
   };
@@ -429,6 +429,28 @@ const re = (function () {
     hideModal("modal-4");
   };
 
+  //MH - added for post-event
+  const onInit = async function (e) {
+    await initBabylon();
+
+    $body.dataset.page = "online";
+    events.onNavigateOnline.notifyObservers();
+    deactivateIRLItems();
+    deactivateOnlineItems();
+    closeAllModals();
+    if (isMobile) {
+      onInitMobile();
+    } else {
+      showModal("modal-6");
+    }
+  };
+
+  const onInitMobile = function () {
+    document.querySelector('.collection__link[data-id="online1"]').click();
+  };
+  //MH - end added for post-event
+
+  /* //MH - disable for post-event
   const onMainNavClick = async function (e) {
     e.preventDefault();
     const id = e.currentTarget.dataset.id;
@@ -454,6 +476,9 @@ const re = (function () {
         closeAllModals();
         showModal("modal-6");
         break;
+      case "about":
+        showModal("modal-7");
+        break;
       default:
         $body.dataset.page = "home";
         events.onNavigateIRL.notifyObservers();
@@ -463,6 +488,15 @@ const re = (function () {
         break;
     }
   };
+
+  */
+
+  //MH - add for post-event
+  const onMainNavClick = function () {
+    showModal("modal-7");
+  };
+
+  //END add for post-event
 
   const deactivateOnlineItems = function () {
     const activeOnlineItem = document.querySelector(
@@ -529,9 +563,11 @@ const re = (function () {
 
   const init = async function () {
     checkMobile();
-    initModal();
+
+    //initModal(); //MH - changes for post-event
     addListeners();
     addResizeObservers();
+    onInit();
   };
 
   return {
