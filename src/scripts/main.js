@@ -443,6 +443,10 @@ const re = (function () {
     } else {
       showModal("modal-6");
     }
+    const palette = {}; //this is random for the small characters(?)
+    palette.shirtColor = red;
+    palette.pantsColor = magenta;
+    events.onViewOnlineArtwork.notifyObservers(palette);
   };
 
   const onInitMobile = function () {
